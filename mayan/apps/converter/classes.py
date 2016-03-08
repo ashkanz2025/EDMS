@@ -26,6 +26,28 @@ CHUNK_SIZE = 1024
 logger = logging.getLogger(__name__)
 
 try:
+    SSCONVERT = sh.Command(
+        '/usr/bin/ssconvert'
+    )
+except sh.CommandNotFound:
+    SSCONVERT = None
+
+SSCONVERT_FILE_MIMETYPES = (
+    'application/msexcel',
+    'application/vnd.ms-excel',
+    'application/vnd.ms-excel.addin.macroEnabled.12',
+    'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+    'application/vnd.oasis.opendocument.spreadsheet',
+    'application/vnd.oasis.opendocument.spreadsheet-template',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.ms-office',
+    'application/zip',
+    'application/CDFV2-unknown',
+)
+
+try:
     LIBREOFFICE = sh.Command(
         setting_libreoffice_path.value
     ).bake('--headless', '--convert-to', 'pdf')
@@ -91,6 +113,8 @@ class ConverterBase(object):
         self.soffice_file = None
 
     def to_pdf(self):
+        if SSCONVERT is not None and self.mime_type in SSCONVERT_FILE_MIMETYPES:
+            return self.goffice()
         if self.mime_type in CONVERTER_OFFICE_FILE_MIMETYPES:
             return self.soffice()
         else:
@@ -108,6 +132,50 @@ class ConverterBase(object):
         else:
             self.image.seek(page_number)
             self.image.load()
+
+    def goffice(self):
+        """
+        Executes Gnumeric as a subprocess
+        """
+        new_file_object, input_filepath = tempfile.mkstemp()
+        self.file_object.seek(0)
+        os.write(new_file_object, self.file_object.read())
+        self.file_object.seek(0)
+        os.lseek(new_file_object, 0, os.SEEK_SET)
+        os.close(new_file_object)
+
+        filename, extension = os.path.splitext(
+            os.path.basename(input_filepath)
+        )
+
+        logger.debug('filename: %s', filename)
+        logger.debug('extension: %s', extension)
+
+        converted_output = os.path.join(
+            setting_temporary_directory.value, os.path.extsep.join(
+                (filename, 'pdf')
+            )
+        )
+
+        logger.debug('converted_output: %s', converted_output)
+
+        args = (input_filepath, converted_output)
+        kwargs = {'_env': {'HOME': setting_temporary_directory.value}}
+        try:
+            SSCONVERT(*args, **kwargs)
+        except sh.ErrorReturnCode as exception:
+            raise OfficeConversionError(exception)
+        finally:
+             fs_cleanup(input_filepath)
+
+        with open(converted_output) as converted_file_object:
+            while True:
+                data = converted_file_object.read(CHUNK_SIZE)
+                if not data:
+                    break
+                yield data
+
+        fs_cleanup(input_filepath)
 
     def soffice(self):
         """
