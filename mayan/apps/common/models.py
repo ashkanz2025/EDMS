@@ -16,6 +16,16 @@ def upload_to(instance, filename):
     return 'shared-file-{}'.format(uuid.uuid4().hex)
 
 
+def getKey(item):
+    return item[1]
+
+
+def ordered_languages():
+    tuple_languages = settings.LANGUAGES
+    languages = sorted(tuple_languages, key=getKey)
+    return languages
+
+
 @python_2_unicode_compatible
 class SharedUploadedFile(models.Model):
     file = models.FileField(
@@ -57,7 +67,7 @@ class UserLocaleProfile(models.Model):
         verbose_name=_('Timezone')
     )
     language = models.CharField(
-        choices=settings.LANGUAGES, max_length=8, verbose_name=_('Language')
+        choices=ordered_languages(), max_length=8, verbose_name=_('Language')
     )
 
     def __str__(self):
