@@ -84,8 +84,8 @@
     <div id="row">
         <div class="col-xs-12">
             <div class="panel panel-default">
-                <div class="panel-body">
-                    {% trans 'Copyright &copy; 2011-2015 Roberto Rosario.' %}
+                <div class="panel-body">{% now 'Y' as this_year %}
+                    {% blocktrans %}Copyright &copy; 2011-{{ this_year }} Roberto Rosario.{% endblocktrans %}
                 </div>
             </div>
         </div>
