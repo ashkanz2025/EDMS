@@ -358,3 +358,14 @@ else:
 # ----- Debug -----
 
 DEBUG = env.bool('MAYAN_DEBUG', default=False)
+
+# ----- Email -----
+
+DEFAULT_FROM_EMAIL = os.environ.get('MAYAN_DEFAULT_FROM_EMAIL')
+SERVER_EMAIL = os.environ.get('MAYAN_SERVER_EMAIL')
+EMAIL_HOST = os.environ.get('MAYAN_EMAIL_HOST')
+EMAIL_PORT = os.environ.get('MAYAN_EMAIL_PORT')
+EMAIL_HOST_USER = os.environ.get('MAYAN_EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('MAYAN_EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = env.bool('MAYAN_EMAIL_USE_TLS', default=True)
+
