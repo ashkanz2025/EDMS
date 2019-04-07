@@ -73,6 +73,7 @@ start() {
 os_package_installs() {
     echo "mayan: os_package_installs()"
     if [ "${MAYAN_APT_INSTALLS}" ]; then
+        apt-get update
         apt-get-install $MAYAN_APT_INSTALLS
     fi
 }
