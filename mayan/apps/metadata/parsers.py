@@ -24,7 +24,7 @@ class MetadataParser(object):
     def get_import_paths(cls):
         return [validator.get_import_path() for validator in cls.get_all()]
 
-    def execute(self, input_data):
+    def execute(self, input_data):ddddddd
         raise NotImplementedError
 
     def parse(self, input_data):
