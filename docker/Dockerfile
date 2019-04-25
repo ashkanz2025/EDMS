@@ -150,15 +150,4 @@ ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 8000
 CMD ["mayan"]
 
-RUN rm /root/.cache -R
-RUN rm -rf /tmp/*
-
-RUN apt-get -y autoremove --purge && apt-get -y autoclean && apt-get -y clean
-
-RUN rm -rf /usr/share/man/*
-RUN rm -rf /usr/share/doc/*
-
-RUN find /var/lib/apt -type f | xargs rm -f
-RUN find /var/cache -type f -exec rm -rf {} \;
-
 RUN find /var/log -type f | while read f; do echo -ne '' > $f; done;
