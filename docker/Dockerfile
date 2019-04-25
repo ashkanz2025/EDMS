@@ -19,8 +19,8 @@ ARG APT_PROXY
 RUN if [ "${APT_PROXY}" ]; then echo "Acquire::http { Proxy \"http://${APT_PROXY}\"; };" > /etc/apt/apt.conf.d/01proxy; fi
 
 # Install base Ubuntu libraries
-RUN apt-get update && \
-apt-get install -y --no-install-recommends \
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
         default-libmysqlclient-dev \
         g++ \
         gcc \
@@ -48,11 +48,10 @@ apt-get install -y --no-install-recommends \
         supervisor \
         tesseract-ocr \
         zlib1g-dev \
-&& \
-apt-get clean autoclean && \
-apt-get autoremove --purge -y && \
-rm -rf /var/lib/apt/lists/* && \
-rm -f /var/cache/apt/archives/*.deb
+ && apt-get clean autoclean \
+ && apt-get autoremove --purge -y \
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -f /var/cache/apt/archives/*.deb
 
 # Install apt-get-install
 ADD https://raw.githubusercontent.com/guilhem/apt-get-install/master/apt-get-install /usr/bin/
@@ -62,15 +61,15 @@ RUN adduser mayan --disabled-password --disabled-login --no-create-home --gecos 
 
 # Pillow can't find zlib or libjpeg on aarch64 (ODROID C2)
 RUN if [ "$(uname -m)" = "aarch64" ]; then \
-ln -s /usr/lib/aarch64-linux-gnu/libz.so /usr/lib/ && \
-ln -s /usr/lib/aarch64-linux-gnu/libjpeg.so /usr/lib/ \
-; fi
+         ln -s /usr/lib/aarch64-linux-gnu/libz.so /usr/lib/ \
+      && ln -s /usr/lib/aarch64-linux-gnu/libjpeg.so /usr/lib/ \
+    ; fi
 
 # Pillow can't find zlib or libjpeg on armv7l (ODROID HC1)
 RUN if [ "$(uname -m)" = "armv7l" ]; then \
-ln -s /usr/lib/arm-linux-gnueabihf/libz.so /usr/lib/ && \
-ln -s /usr/lib/arm-linux-gnueabihf/libjpeg.so /usr/lib/ \
-; fi
+         ln -s /usr/lib/arm-linux-gnueabihf/libz.so /usr/lib/ \
+      && ln -s /usr/lib/arm-linux-gnueabihf/libjpeg.so /usr/lib/ \
+    ; fi
 
 # Discard data when Redis runs out of memory
 RUN echo "maxmemory-policy allkeys-lru" >> /etc/redis/redis.conf
@@ -95,7 +94,8 @@ WORKDIR /code
 
 COPY . /code
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update \
+ && apt-get install -y \
       make \
       python-dev \
       python-pip
@@ -134,8 +134,8 @@ COPY --from=BUILDER_IMAGE /code/docker/version .
 RUN chown -R mayan:mayan $PROJECT_INSTALL_DIR
 
 # Install build Mayan EDMS
-RUN sudo -u mayan $PYTHON_PIP install --no-cache-dir --no-use-pep517 *.whl && \
-rm *.whl
+RUN sudo -u mayan $PYTHON_PIP install --no-cache-dir --no-use-pep517 *.whl \
+ && rm *.whl
 
 # Install Python clients for librabbitmq, MySQL, PostgreSQL, REDIS
 RUN sudo -u mayan $PYTHON_PIP install --no-cache-dir --no-use-pep517 \
