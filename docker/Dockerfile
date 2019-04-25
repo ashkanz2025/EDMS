@@ -21,20 +21,21 @@ RUN if [ "${APT_PROXY}" ]; then echo "Acquire::http { Proxy \"http://${APT_PROXY
 # Install base Ubuntu libraries
 RUN apt-get update && \
 apt-get install -y --no-install-recommends \
+        default-libmysqlclient-dev \
         g++ \
         gcc \
         ghostscript \
-        gpgv \
         gnupg1 \
+        gpgv \
         graphviz \
         libffi-dev \
         libfuse2 \
         libjpeg-dev \
         libmagic1 \
-        default-libmysqlclient-dev \
         libpng-dev \
         libpq-dev \
         libreoffice \
+        libssl-dev \
         libtiff-dev \
         poppler-utils \
         python-dev \
@@ -47,7 +48,6 @@ apt-get install -y --no-install-recommends \
         supervisor \
         tesseract-ocr \
         zlib1g-dev \
-        libssl-dev \
 && \
 apt-get clean autoclean && \
 apt-get autoremove --purge -y && \
@@ -95,7 +95,10 @@ WORKDIR /code
 
 COPY . /code
 
-RUN apt-get update && apt-get install make python-dev python-pip -y
+RUN apt-get update && apt-get install -y \
+      make \
+      python-dev \
+      python-pip
 
 RUN pip install -r requirements/build.txt
 
@@ -135,7 +138,11 @@ RUN sudo -u mayan $PYTHON_PIP install --no-cache-dir --no-use-pep517 *.whl && \
 rm *.whl
 
 # Install Python clients for librabbitmq, MySQL, PostgreSQL, REDIS
-RUN sudo -u mayan $PYTHON_PIP install --no-cache-dir --no-use-pep517 librabbitmq==1.6.1 mysql-python==1.2.5 psycopg2==2.7.3.2 redis==2.10.6
+RUN sudo -u mayan $PYTHON_PIP install --no-cache-dir --no-use-pep517 \
+      librabbitmq==1.6.1 \
+      mysql-python==1.2.5 \
+      psycopg2==2.7.3.2 \
+      redis==2.10.6
 
 # Setup supervisor
 COPY docker/etc/supervisor/mayan.conf /etc/supervisor/conf.d
