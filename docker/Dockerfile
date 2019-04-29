@@ -6,16 +6,16 @@
 
 FROM debian:9.4-slim as BASE_IMAGE
 
-MAINTAINER Roberto Rosario "roberto.rosario@mayan-edms.com"
+LABEL maintainer="Roberto Rosario roberto.rosario@mayan-edms.com"
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV PYTHONUNBUFFERED 1
-ENV LC_ALL C.UTF-8
-ENV PROJECT_INSTALL_DIR=/opt/mayan-edms
-ENV PYTHON_PIP=${PROJECT_INSTALL_DIR}/bin/pip
+ENV PYTHONUNBUFFERED=1 \
+    LC_ALL=C.UTF-8 \
+    PROJECT_INSTALL_DIR=/opt/mayan-edms \
+    PYTHON_PIP=/opt/mayan-edms/bin/pip
 
 # Install base Ubuntu libraries
-RUN apt-get update \
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && apt-get update \
  && apt-get install -y --no-install-recommends \
         default-libmysqlclient-dev \
         g++ \
@@ -78,19 +78,20 @@ RUN echo "databases 1" >> /etc/redis/redis.conf
 
 FROM debian:9.4-slim as BUILDER_IMAGE
 
+ENV LC_ALL=C.UTF-8
+
 WORKDIR /code
 
 COPY . /code
 
-RUN apt-get update \
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && apt-get update \
  && apt-get install -y \
       make \
       python-dev \
       python-pip
 
 RUN pip install -r requirements/build.txt
-
-ENV LC_ALL C.UTF-8
 
 RUN touch docker/Makefile
 
