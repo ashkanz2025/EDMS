@@ -49,28 +49,27 @@ RUN export DEBIAN_FRONTEND=noninteractive \
  && rm -rf /var/lib/apt/lists/* \
  && rm -f /var/cache/apt/archives/*.deb
 
-RUN adduser mayan --disabled-password --disabled-login --no-create-home --gecos ""
-
+RUN adduser mayan \
+      --disabled-login \
+      --disabled-password \
+      --gecos "" \
+      --no-create-home \
 # Pillow can't find zlib or libjpeg on aarch64 (ODROID C2)
-RUN if [ "$(uname -m)" = "aarch64" ]; then \
+ && if [ "$(uname -m)" = "aarch64" ]; then \
          ln -s /usr/lib/aarch64-linux-gnu/libz.so /usr/lib/ \
       && ln -s /usr/lib/aarch64-linux-gnu/libjpeg.so /usr/lib/ \
-    ; fi
-
+    ; fi \
 # Pillow can't find zlib or libjpeg on armv7l (ODROID HC1)
-RUN if [ "$(uname -m)" = "armv7l" ]; then \
+ && if [ "$(uname -m)" = "armv7l" ]; then \
          ln -s /usr/lib/arm-linux-gnueabihf/libz.so /usr/lib/ \
       && ln -s /usr/lib/arm-linux-gnueabihf/libjpeg.so /usr/lib/ \
-    ; fi
-
+    ; fi \
 # Discard data when Redis runs out of memory
-RUN echo "maxmemory-policy allkeys-lru" >> /etc/redis/redis.conf
-
+ && echo 'maxmemory-policy allkeys-lru' >> /etc/redis/redis.conf \
 # Disable saving the Redis database
-RUN echo "save \"\"" >> /etc/redis/redis.conf
-
+ && echo 'save ""' >> /etc/redis/redis.conf \
 # Only provision 1 database
-RUN echo "databases 1" >> /etc/redis/redis.conf
+ && echo 'databases 1' >> /etc/redis/redis.conf
 
 #####################
 # Build image start #
@@ -90,13 +89,10 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 WORKDIR /code
 COPY . /code
 
-RUN pip install -r requirements/build.txt
-
-RUN touch docker/Makefile
-
-RUN make wheel
-
-RUN chmod 777 dist -R
+RUN pip install -r requirements/build.txt \
+ && touch docker/Makefile \
+ && make wheel \
+ && chmod -R 777 dist
 
 #####################
 # Final image start #
@@ -110,13 +106,13 @@ RUN python /usr/lib/python2.7/dist-packages/virtualenv.py $PROJECT_INSTALL_DIR
 
 WORKDIR $PROJECT_INSTALL_DIR
 
-COPY --from=BUILDER_IMAGE /code/dist/*.whl .
-
-COPY --from=BUILDER_IMAGE /code/contrib/scripts/docker/run-tests.sh .
+COPY --from=BUILDER_IMAGE \
+       /code/dist/*.whl \
+       /code/contrib/scripts/docker/run-tests.sh \
+       /code/docker/version \
+       ./
 
 COPY --from=BUILDER_IMAGE /code/requirements/testing-base.txt requirements-testing.txt
-
-COPY --from=BUILDER_IMAGE /code/docker/version .
 
 # Fix ownership
 RUN chown -R mayan:mayan $PROJECT_INSTALL_DIR
