@@ -70,10 +70,17 @@ start() {
     exec /usr/bin/supervisord -nc /etc/supervisor/supervisord.conf
 }
 
+apt_get_install(){
+    apt-get -q update
+    apt-get install -y --force-yes --no-install-recommends --auto-remove "$@"
+    apt-get -q clean
+    rm -rf /var/lib/apt/lists/*
+}
+
 os_package_installs() {
     echo "mayan: os_package_installs()"
     if [ "${MAYAN_APT_INSTALLS}" ]; then
-        apt-get-install $MAYAN_APT_INSTALLS
+        DEBIAN_FRONTEND=noninteractive apt_get_install $MAYAN_APT_INSTALLS
     fi
 }
 

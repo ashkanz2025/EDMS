@@ -53,10 +53,6 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/* \
  && rm -f /var/cache/apt/archives/*.deb
 
-# Install apt-get-install
-ADD https://raw.githubusercontent.com/guilhem/apt-get-install/master/apt-get-install /usr/bin/
-RUN chmod +x /usr/bin/apt-get-install
-
 RUN adduser mayan --disabled-password --disabled-login --no-create-home --gecos ""
 
 # Pillow can't find zlib or libjpeg on aarch64 (ODROID C2)
