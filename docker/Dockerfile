@@ -80,16 +80,15 @@ FROM debian:9.4-slim as BUILDER_IMAGE
 
 ENV LC_ALL=C.UTF-8
 
-WORKDIR /code
-
-COPY . /code
-
 RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get update \
  && apt-get install -y \
       make \
       python-dev \
       python-pip
+
+WORKDIR /code
+COPY . /code
 
 RUN pip install -r requirements/build.txt
 
