@@ -49,8 +49,6 @@ services:
     image: mayan-edms/next
     build:
       context: ./
-      args:
-        - APT_PROXY=172.18.0.1:3142
     depends_on:
       broker:
         condition: service_healthy

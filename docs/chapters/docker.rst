@@ -348,13 +348,6 @@ Execute Docker's build command using the provided makefile::
 
     make docker-build
 
-Or using an apt cacher to speed up the build::
-
-    make docker-build-with-proxy APT_PROXY=172.17.0.1:3142
-
-Replace the IP address `172.17.0.1` with the IP address of the computer
-running the APT proxy and caching service.
-
 Customizing the image
 =====================
 

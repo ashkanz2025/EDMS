@@ -409,15 +409,6 @@ Execute Docker's build command:
 $ docker build -t mayanedms/mayanedms:2.7.3 .
 ```
 
-Or using an apt cacher to speed up the build:
-
-```console
-$ docker build -t mayanedms/mayanedms:2.7.3 --build-arg APT_PROXY=172.17.0.1:3142 .
-```
-
-Replace the IP address `172.17.0.1` with the IP address of the Docker host used from which these commands are running.
-
-
 ## Customizing the image
 
 ### Simple method
@@ -516,14 +507,6 @@ Start a Vagrant box from the include Vagrant file. This Vagrant box will builds 
 ```console
 $ vagrant up
 ```
-
-Create the same Vagrant box using an apt cacher to speed up the build:
-
-```console
-$ APT_PROXY=172.17.0.1:3142 vagrant up
-```
-
-Replace the IP address `172.17.0.1` with the IP address of the Docker host used from which these commands are running.
 
 ## Using Docker compose
 

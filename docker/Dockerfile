@@ -14,10 +14,6 @@ ENV LC_ALL C.UTF-8
 ENV PROJECT_INSTALL_DIR=/opt/mayan-edms
 ENV PYTHON_PIP=${PROJECT_INSTALL_DIR}/bin/pip
 
-ARG APT_PROXY
-# Package caching
-RUN if [ "${APT_PROXY}" ]; then echo "Acquire::http { Proxy \"http://${APT_PROXY}\"; };" > /etc/apt/apt.conf.d/01proxy; fi
-
 # Install base Ubuntu libraries
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -81,10 +77,6 @@ RUN echo "databases 1" >> /etc/redis/redis.conf
 #####################
 
 FROM debian:9.4-slim as BUILDER_IMAGE
-
-ARG APT_PROXY
-# Package caching
-RUN if [ "${APT_PROXY}" ]; then echo "Acquire::http { Proxy \"http://${APT_PROXY}\"; };" > /etc/apt/apt.conf.d/01proxy; fi
 
 WORKDIR /code
 
