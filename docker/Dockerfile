@@ -100,8 +100,6 @@ RUN pip install -r requirements/build.txt \
 
 FROM BASE_IMAGE
 
-RUN mkdir -p /opt
-
 RUN python /usr/lib/python2.7/dist-packages/virtualenv.py $PROJECT_INSTALL_DIR
 
 WORKDIR $PROJECT_INSTALL_DIR
@@ -128,17 +126,12 @@ RUN sudo -u mayan $PYTHON_PIP install --no-cache-dir --no-use-pep517 \
       psycopg2==2.7.3.2 \
       redis==2.10.6
 
-# Setup supervisor
-COPY docker/etc/supervisor/mayan.conf /etc/supervisor/conf.d
+COPY docker/rootfs /
 
-RUN mkdir /var/lib/mayan
 VOLUME ["/var/lib/mayan"]
 
-COPY docker/entrypoint.sh /usr/local/bin/
-RUN ln -s usr/local/bin/entrypoint.sh / # backwards compat
 ENTRYPOINT ["entrypoint.sh"]
-
-EXPOSE 8000
 CMD ["mayan"]
+EXPOSE 8000
 
 RUN find /var/log -type f | while read f; do echo -ne '' > $f; done;
