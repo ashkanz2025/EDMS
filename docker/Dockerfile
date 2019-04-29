@@ -117,9 +117,8 @@ COPY --from=BUILDER_IMAGE --chown=mayan:mayan \
        /code/dist/*.whl \
        /code/contrib/scripts/docker/run-tests.sh \
        /code/docker/version \
+       /code/requirements/testing-base.txt \
        ./
-
-COPY --from=BUILDER_IMAGE --chown=mayan:mayan /code/requirements/testing-base.txt requirements-testing.txt
 
 # Install build Mayan EDMS
 RUN . "${PROJECT_INSTALL_DIR}/bin/activate" \
