@@ -10,8 +10,7 @@ LABEL maintainer="Roberto Rosario roberto.rosario@mayan-edms.com"
 
 ENV PYTHONUNBUFFERED=1 \
     LC_ALL=C.UTF-8 \
-    PROJECT_INSTALL_DIR=/opt/mayan-edms \
-    PYTHON_PIP=/opt/mayan-edms/bin/pip
+    PROJECT_INSTALL_DIR=/opt/mayan-edms
 
 # Install base Ubuntu libraries
 RUN export DEBIAN_FRONTEND=noninteractive \
@@ -100,31 +99,34 @@ RUN pip install -r requirements/build.txt \
 
 FROM BASE_IMAGE
 
-RUN python /usr/lib/python2.7/dist-packages/virtualenv.py $PROJECT_INSTALL_DIR
+RUN mkdir -p "${PROJECT_INSTALL_DIR}" \
+ && chown -R mayan:mayan "${PROJECT_INSTALL_DIR}"
 
-WORKDIR $PROJECT_INSTALL_DIR
+USER mayan
+RUN python -m virtualenv "${PROJECT_INSTALL_DIR}" \
+ && . "${PROJECT_INSTALL_DIR}/bin/activate" \
+ && pip install --no-cache-dir --no-use-pep517 \
+      librabbitmq==1.6.1 \
+      mysql-python==1.2.5 \
+      psycopg2==2.7.3.2 \
+      redis==2.10.6
 
-COPY --from=BUILDER_IMAGE \
+WORKDIR "${PROJECT_INSTALL_DIR}"
+
+COPY --from=BUILDER_IMAGE --chown=mayan:mayan \
        /code/dist/*.whl \
        /code/contrib/scripts/docker/run-tests.sh \
        /code/docker/version \
        ./
 
-COPY --from=BUILDER_IMAGE /code/requirements/testing-base.txt requirements-testing.txt
-
-# Fix ownership
-RUN chown -R mayan:mayan $PROJECT_INSTALL_DIR
+COPY --from=BUILDER_IMAGE --chown=mayan:mayan /code/requirements/testing-base.txt requirements-testing.txt
 
 # Install build Mayan EDMS
-RUN sudo -u mayan $PYTHON_PIP install --no-cache-dir --no-use-pep517 *.whl \
- && rm *.whl
+RUN . "${PROJECT_INSTALL_DIR}/bin/activate" \
+ && pip install --no-cache-dir --no-use-pep517 \
+      *.whl
 
-# Install Python clients for librabbitmq, MySQL, PostgreSQL, REDIS
-RUN sudo -u mayan $PYTHON_PIP install --no-cache-dir --no-use-pep517 \
-      librabbitmq==1.6.1 \
-      mysql-python==1.2.5 \
-      psycopg2==2.7.3.2 \
-      redis==2.10.6
+USER root
 
 COPY docker/rootfs /
 
