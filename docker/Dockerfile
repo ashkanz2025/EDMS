@@ -89,7 +89,6 @@ WORKDIR /code
 COPY . /code
 
 RUN pip install -r requirements/build.txt \
- && touch docker/Makefile \
  && make wheel \
  && chmod -R 777 dist
 

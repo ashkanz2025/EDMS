@@ -333,4 +333,4 @@ check-missing-migrations:
 	./manage.py makemigrations --dry-run --noinput --check
 
 
-include docker/Makefile
+sinclude docker/Makefile
