@@ -65,9 +65,7 @@ RUN adduser mayan \
 # Build image start #
 #####################
 
-FROM debian:9.4-slim as BUILDER_IMAGE
-
-ENV LC_ALL=C.UTF-8
+FROM BASE_IMAGE as BUILDER_IMAGE
 
 RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get update \
@@ -85,19 +83,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
         python-pip \
         zlib1g-dev
 
-WORKDIR /code
-COPY . /code
-
-RUN pip install -r requirements/build.txt \
- && make wheel \
- && chmod -R 777 dist
-
-#####################
-# Final image start #
-#####################
-
-FROM BASE_IMAGE
-
 RUN mkdir -p "${PROJECT_INSTALL_DIR}" \
  && chown -R mayan:mayan "${PROJECT_INSTALL_DIR}"
 
@@ -110,17 +95,54 @@ RUN python -m virtualenv "${PROJECT_INSTALL_DIR}" \
       psycopg2==2.7.3.2 \
       redis==2.10.6
 
-COPY --from=BUILDER_IMAGE --chown=mayan:mayan \
-       /code/dist/*.whl \
-       /code/contrib/scripts/docker/run-tests.sh \
-       /code/docker/version \
-       /code/requirements/testing-base.txt \
-       ./
+# Add all files, except the docker folder
+#
+# I know this is shit, but this is the only way to not invalidate the cache, when changing docker/*
+# For god's sake, we don't have to care about the amount of layers in this build stage
+# See also: https://github.com/moby/moby/issues/15771
+COPY --chown=mayan:mayan \
+       CONTRIBUTING.md \
+       DCO \
+       generate_setup.py \
+       HISTORY_1_x.rst \
+       HISTORY_2_x.rst \
+       HISTORY.rst \
+       increase_version.py \
+       __init__.py \
+       __init__.py.tmpl \
+       LICENSE \
+       Makefile \
+       manage.py \
+       MANIFEST.in \
+       README.md \
+       README.rst \
+       removals.txt \
+       requirements.txt \
+       setup.cfg \
+       setup.py \
+       setup.py.tmpl \
+       tox.ini \
+       "${PROJECT_INSTALL_DIR}/"
+COPY --chown=mayan:mayan "mayan"         "${PROJECT_INSTALL_DIR}/mayan"
+COPY --chown=mayan:mayan "requirements"  "${PROJECT_INSTALL_DIR}/requirements"
+COPY --chown=mayan:mayan "contrib"       "${PROJECT_INSTALL_DIR}/contrib"
 
-# Install build Mayan EDMS
 RUN . "${PROJECT_INSTALL_DIR}/bin/activate" \
+ && set -x \
+ && pip install -r requirements/build.txt \
+ && make wheel \
  && pip install --no-cache-dir --no-use-pep517 \
-      *.whl
+      dist/*.whl
+
+RUN rm -r dist
+
+#####################
+# Final image start #
+#####################
+
+FROM BASE_IMAGE
+
+COPY --from=BUILDER_IMAGE --chown=mayan:mayan "${PROJECT_INSTALL_DIR}/" "${PROJECT_INSTALL_DIR}/"
 
 USER root
 
