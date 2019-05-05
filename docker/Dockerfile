@@ -18,24 +18,14 @@ WORKDIR "${PROJECT_INSTALL_DIR}"
 RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
-        default-libmysqlclient-dev \
-        g++ \
-        gcc \
         ghostscript \
         gnupg1 \
         gpgv \
         graphviz \
-        libffi-dev \
-        libfuse2 \
-        libjpeg-dev \
         libmagic1 \
-        libpng-dev \
-        libpq-dev \
         libreoffice \
-        libssl-dev \
-        libtiff-dev \
         poppler-utils \
-        python-dev \
+        python \
         python-setuptools \
         python-virtualenv \
         python-wheel \
@@ -44,7 +34,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
         sudo \
         supervisor \
         tesseract-ocr \
-        zlib1g-dev \
  && apt-get clean autoclean \
  && apt-get autoremove --purge -y \
  && rm -rf /var/lib/apt/lists/* \
@@ -83,9 +72,18 @@ ENV LC_ALL=C.UTF-8
 RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get update \
  && apt-get install -y \
-      make \
-      python-dev \
-      python-pip
+        default-libmysqlclient-dev \
+        build-essential \
+        libffi-dev \
+        libfuse2 \
+        libjpeg-dev \
+        libpng-dev \
+        libpq-dev \
+        libssl-dev \
+        libtiff-dev \
+        python-dev \
+        python-pip \
+        zlib1g-dev
 
 WORKDIR /code
 COPY . /code
