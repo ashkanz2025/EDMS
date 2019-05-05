@@ -52,24 +52,6 @@ export PYTHONPATH=$PYTHONPATH:$MAYAN_MEDIA_ROOT
 
 chown mayan:mayan /var/lib/mayan -R
 
-initialize() {
-    echo "mayan: initialize()"
-    su mayan -c "${MAYAN_BIN} initialsetup --force"
-    su mayan -c "${MAYAN_BIN} collectstatic --noinput --clear"
-}
-
-upgrade() {
-    echo "mayan: upgrade()"
-    su mayan -c "${MAYAN_BIN} performupgrade"
-    su mayan -c "${MAYAN_BIN} collectstatic --noinput --clear"
-}
-
-start() {
-    echo "mayan: start()"
-    rm -rf /var/run/supervisor.sock
-    exec /usr/bin/supervisord -nc /etc/supervisor/supervisord.conf
-}
-
 apt_get_install(){
     apt-get -q update
     apt-get install -y --force-yes --no-install-recommends --auto-remove "$@"
@@ -87,36 +69,39 @@ os_package_installs() {
 pip_installs() {
     echo "mayan: pip_installs()"
     if [ "${MAYAN_PIP_INSTALLS}" ]; then
-        $MAYAN_PIP_BIN install $MAYAN_PIP_INSTALLS
+        as_mayan pip install $MAYAN_PIP_INSTALLS
     fi
+}
+
+# Check if this is a new install, otherwise try to upgrade the existing
+# installation on subsequent starts
+bootstrap(){
+    if ! [ -f "${INSTALL_FLAG}" ]; then
+        echo "mayan: initialize()"
+        as_mayan mayan-edms.py initialsetup --force
+    else
+        echo "mayan: upgrade()"
+        as_mayan mayan-edms.py performupgrade
+    fi
+
+    as_mayan mayan-edms.py collectstatic --noinput --clear
 }
 
 os_package_installs || true
 pip_installs || true
 
 case "$1" in
-
-mayan) # Check if this is a new install, otherwise try to upgrade the existing
-       # installation on subsequent starts
-       if [ ! -f $INSTALL_FLAG ]; then
-           initialize
-       else
-           upgrade
-       fi
-       start
-       ;;
-
-run-tests) # Check if this is a new install, otherwise try to upgrade the existing
-           # installation on subsequent starts
-           if [ ! -f $INSTALL_FLAG ]; then
-               initialize
-           else
-               upgrade
-           fi
-           $DOCKER_ROOT/run-tests.sh
-           ;;
-
-*) su mayan -c "$@";
-   ;;
-
+    mayan)
+        echo "mayan: start()"
+        bootstrap
+        rm -rf /var/run/supervisor.sock
+        exec /usr/bin/supervisord -nc /etc/supervisor/supervisord.conf
+        ;;
+    run-tests)
+        bootstrap
+        $DOCKER_ROOT/run-tests.sh
+        ;;
+    *)
+        as_mayan "$@";
+        ;;
 esac

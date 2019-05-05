@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Load virtualenv
+
+su mayan -c "venv-cmd $*"
