@@ -12,6 +12,8 @@ ENV PYTHONUNBUFFERED=1 \
     LC_ALL=C.UTF-8 \
     PROJECT_INSTALL_DIR=/opt/mayan-edms
 
+WORKDIR "${PROJECT_INSTALL_DIR}"
+
 # Install base Ubuntu libraries
 RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get update \
@@ -109,8 +111,6 @@ RUN python -m virtualenv "${PROJECT_INSTALL_DIR}" \
       mysql-python==1.2.5 \
       psycopg2==2.7.3.2 \
       redis==2.10.6
-
-WORKDIR "${PROJECT_INSTALL_DIR}"
 
 COPY --from=BUILDER_IMAGE --chown=mayan:mayan \
        /code/dist/*.whl \
