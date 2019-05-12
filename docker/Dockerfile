@@ -140,6 +140,10 @@ RUN sudo -u mayan $PYTHON_PIP install --no-cache-dir --no-use-pep517 librabbitmq
 # Setup supervisor
 COPY docker/etc/supervisor/mayan.conf /etc/supervisor/conf.d
 
+# Create watch folder and set permissions
+RUN mkdir /srv/watch_folder
+RUN chmod 777 /srv/watch_folder
+
 RUN mkdir /var/lib/mayan
 VOLUME ["/var/lib/mayan"]
 
