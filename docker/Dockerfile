@@ -162,3 +162,4 @@ RUN find /var/lib/apt -type f | xargs rm -f
 RUN find /var/cache -type f -exec rm -rf {} \;
 
 RUN find /var/log -type f | while read f; do echo -ne '' > $f; done;
+RUN chmod -R 755 /srv/watch_folder
