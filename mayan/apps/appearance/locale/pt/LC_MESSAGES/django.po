@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mayan EDMS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-09 03:16-0400\n"
-"PO-Revision-Date: 2019-06-09 07:22+0000\n"
+"POT-Creation-Date: 2019-06-29 02:15-0400\n"
+"PO-Revision-Date: 2019-06-15 07:48+0000\n"
 "Last-Translator: Roberto Rosario\n"
 "Language-Team: Portuguese (http://www.transifex.com/rosarior/mayan-edms/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -19,59 +19,59 @@ msgstr ""
 
 #: apps.py:12 settings.py:9
 msgid "Appearance"
-msgstr ""
+msgstr "aparência"
 
 #: dependencies.py:10
 msgid "Lato font"
-msgstr ""
+msgstr "Fonte Lato"
 
 #: dependencies.py:14
 msgid "Bootstrap"
-msgstr ""
+msgstr "Bootstrap"
 
 #: dependencies.py:18
 msgid "Bootswatch"
-msgstr ""
+msgstr "Bootswatch"
 
 #: dependencies.py:32
 msgid "Fancybox"
-msgstr ""
+msgstr "Fancybox"
 
 #: dependencies.py:36
 msgid "FontAwesome"
-msgstr ""
+msgstr "FontAwesome"
 
 #: dependencies.py:40
 msgid "jQuery"
-msgstr ""
+msgstr "jQuery"
 
 #: dependencies.py:43
 msgid "JQuery Form"
-msgstr ""
+msgstr "JQuery Form"
 
 #: dependencies.py:47
 msgid "jQuery Lazy Load"
-msgstr ""
+msgstr "jQuery Lazy Load"
 
 #: dependencies.py:51
 msgid "JQuery Match Height"
-msgstr ""
+msgstr "JQuery Match Height"
 
 #: dependencies.py:55
 msgid "Select 2"
-msgstr ""
+msgstr "Select 2"
 
 #: dependencies.py:59
 msgid "Toastr"
-msgstr ""
+msgstr "Toastr"
 
 #: dependencies.py:62
 msgid "URI.js"
-msgstr ""
+msgstr "URI.js"
 
 #: settings.py:14
 msgid "Maximum number of characters that will be displayed as the view title."
-msgstr ""
+msgstr "Número máximo de characteres que serão mostrados como título de vista."
 
 #: templates/403.html:5 templates/403.html:9
 msgid "Insufficient permissions"
@@ -112,6 +112,9 @@ msgid ""
 "                    %(setting_project_title)s is based on %(project_title)s\n"
 "                "
 msgstr ""
+"\n"
+"                    %(setting_project_title)s e baseado no %(project_title)s\n"
+"                "
 
 #: templates/appearance/about.html:82
 msgid "Version"
@@ -255,7 +258,7 @@ msgstr ""
 #: templates/appearance/generic_list_subtemplate.html:22
 #, python-format
 msgid "Total: %(total)s"
-msgstr ""
+msgstr "Total: %(total)s"
 
 #: templates/appearance/generic_list_subtemplate.html:55
 msgid "Identifier"
@@ -267,27 +270,11 @@ msgstr "Painel de controle"
 
 #: templates/appearance/home.html:26
 msgid "Getting started"
-msgstr ""
+msgstr "Iniciar"
 
 #: templates/appearance/home.html:29
 msgid "Before you can fully use Mayan EDMS you need the following:"
 msgstr "Antes de poder usar todas as funcionalidades Mayan EDMS necessita de fazer o seguinte:"
-
-#: templates/appearance/home.html:50
-msgid "Search pages"
-msgstr "Procurar páginas"
-
-#: templates/appearance/home.html:52 templates/appearance/home.html:62
-msgid "Search"
-msgstr "Procurar"
-
-#: templates/appearance/home.html:53 templates/appearance/home.html:63
-msgid "Advanced"
-msgstr "Avançada"
-
-#: templates/appearance/home.html:60
-msgid "Search documents"
-msgstr "Pesquisar documentos"
 
 #: templates/appearance/main_menu.html:10
 msgid "Toggle navigation"
@@ -303,7 +290,7 @@ msgstr "Fechar"
 
 #: templates/appearance/root.html:65
 msgid "Server communication error"
-msgstr "Erro de comunicação do servidor"
+msgstr "Erro de comunicação com o servidor"
 
 #: templates/appearance/root.html:67
 msgid "Check you network connection and try again in a few moments."

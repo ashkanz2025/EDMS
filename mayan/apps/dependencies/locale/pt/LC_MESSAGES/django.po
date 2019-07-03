@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-09 03:18-0400\n"
+"POT-Creation-Date: 2019-06-29 02:16-0400\n"
 "PO-Revision-Date: 2019-04-27 22:53+0000\n"
 "Last-Translator: Manuela Silva <inactive+h_manuela_rodsilva@transifex.com>, 2019\n"
 "Language-Team: Portuguese (https://www.transifex.com/rosarior/teams/13584/pt/)\n"
@@ -55,7 +55,7 @@ msgstr "Declarado por"
 msgid "Version"
 msgstr "Versão"
 
-#: apps.py:59 classes.py:173 classes.py:804
+#: apps.py:59 classes.py:173 classes.py:809
 msgid "Environment"
 msgstr "Ambiente"
 
@@ -66,7 +66,7 @@ msgstr "Verifica"
 #: classes.py:65
 msgid ""
 "Environment used for building distributable packages of the software. End "
-"users can ignore missing depedencies under this environment."
+"users can ignore missing dependencies under this environment."
 msgstr ""
 "Ambiente usado para construir pacotes redistribuíveis do software. "
 "Utilizadores finais podem ignorar dependências ausentes neste ambiente."
@@ -78,7 +78,7 @@ msgstr "Build"
 #: classes.py:72
 msgid ""
 "Environment used for developers to make code changes. End users can ignore "
-"missing depedencies under this environment."
+"missing dependencies under this environment."
 msgstr ""
 "Ambiente usado para desenvolvedores fazerem alterações de código. Utilizadores "
 "finais podem ignorar dependências ausentes neste ambiente."
@@ -89,8 +89,8 @@ msgstr "Desenvolvimento"
 
 #: classes.py:78
 msgid ""
-"Normal environment for end users. A missing depedencies under this "
-"environment will result issues and error during normal use."
+"Normal environment for end users. A missing dependency under this "
+"environment will result in issues and errors during normal use."
 msgstr ""
 "Ambiente normal para utilizadores finais. As dependências ausentes neste "
 "ambiente resultarão em problemas e erros durante o uso normal."
@@ -162,91 +162,91 @@ msgstr "Não especificado"
 msgid "Patching files... "
 msgstr "Corrigindo ficheiros ..."
 
-#: classes.py:436
+#: classes.py:440
 msgid "Executables that are called directly by the code."
 msgstr "Executáveis que são chamados diretamente pelo código."
 
-#: classes.py:438
+#: classes.py:442
 msgid "Binary"
 msgstr "Binário"
 
-#: classes.py:455
+#: classes.py:459
 msgid ""
-"Javascript libraries downloaded the from NPM registry and used for front-end"
+"JavaScript libraries downloaded the from NPM registry and used for front-end"
 " functionality."
 msgstr ""
 "Bibliotecas Javascript baixaram o registro do NPM e usaram para funcionalidade "
 "front-end."
 
-#: classes.py:458
+#: classes.py:462
 msgid "Javascript"
 msgstr "Javascript"
 
-#: classes.py:492 classes.py:725
+#: classes.py:496 classes.py:729
 msgid "Downloading... "
 msgstr "Baixar..."
 
-#: classes.py:495
+#: classes.py:499
 msgid "Verifying... "
 msgstr "Verificando... "
 
-#: classes.py:498 classes.py:728
+#: classes.py:502 classes.py:732
 msgid "Extracting... "
 msgstr "Extraindo ..."
 
-#: classes.py:677
+#: classes.py:681
 msgid "Python packages downloaded from PyPI."
 msgstr ""
 
-#: classes.py:679
+#: classes.py:683
 msgid "Python"
 msgstr "Pacotes Python baixados do PyPI."
 
-#: classes.py:706
+#: classes.py:710
 msgid "Fonts downloaded from fonts.googleapis.com."
 msgstr "Fontes baixadas de fonts.googleapis.com."
 
-#: classes.py:708
+#: classes.py:712
 msgid "Google font"
 msgstr "Fontest Google"
 
-#: classes.py:786
+#: classes.py:791
 msgid "Declared in app"
 msgstr "Declarado no aplicativo"
 
-#: classes.py:787
+#: classes.py:792
 msgid "Show depedencies by the app that declared them."
 msgstr "Mostrar dependências pelo aplicativo que as declarou."
 
-#: classes.py:791
+#: classes.py:796
 msgid "Class"
 msgstr "Classe"
 
-#: classes.py:792
+#: classes.py:797
 msgid ""
-"Show the different classes of depedencies. Classes are usually divided by "
-"language or the file types of the depedency."
+"Show the different classes of dependencies. Classes are usually divided by "
+"language or the file types of the dependency."
 msgstr ""
 "Mostre as diferentes classes de dependências. As classes são geralmente "
 "divididas por linguagem ou pelos tipos de arquivo da dependência."
 
-#: classes.py:797
+#: classes.py:802
 msgid "State"
 msgstr "Estado"
 
-#: classes.py:798
+#: classes.py:803
 msgid ""
-"Show the different states of the depedencies. True means that the "
-"depedencies is installed and is of a correct version. False means the "
-"depedencies is missing or an incorrect version is present."
+"Show the different states of the dependencies. True means that the "
+"dependencies is installed and is of a correct version. False means the "
+"dependencies is missing or an incorrect version is present."
 msgstr ""
 "Mostrar os diferentes estados das dependências. True significa que as "
 "dependências estão instaladas e são de uma versão correta. False "
 "significa que as depedências estão faltando ou que uma versão incorreta está presente."
 
-#: classes.py:805
+#: classes.py:810
 msgid ""
-"Depedencies required for an environment might not be required for another. "
+"Dependencies required for an environment might not be required for another. "
 "Example environments: Production, Development."
 msgstr ""
 "Dependências necessárias para um ambiente podem não ser necessárias para outro."

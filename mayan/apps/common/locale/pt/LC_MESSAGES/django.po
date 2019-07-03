@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mayan EDMS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-09 03:17-0400\n"
-"PO-Revision-Date: 2019-05-17 05:50+0000\n"
+"POT-Creation-Date: 2019-06-29 02:15-0400\n"
+"PO-Revision-Date: 2019-06-29 06:21+0000\n"
 "Last-Translator: Roberto Rosario\n"
 "Language-Team: Portuguese (http://www.transifex.com/rosarior/mayan-edms/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgstr "Seleção"
 msgid "None"
 msgstr "Nenhum"
 
-#: generics.py:148
+#: generics.py:149
 msgid ""
 "Select entries to be removed. Hold Control to select multiple entries. Once "
 "the selection is complete, click the button below or double click the list "
@@ -66,7 +66,7 @@ msgstr ""
 "entradas. Quando a seleção estiver completa, clique no botão abaixo ou clique duas "
 "vezes na lista para efectuar a ação"
 
-#: generics.py:153
+#: generics.py:154
 msgid ""
 "Select entries to be added. Hold Control to select multiple entries. Once "
 "the selection is complete, click the button below or double click the list "
@@ -76,33 +76,33 @@ msgstr ""
 "entradas. Quando a seleção estiver completa, clique no botão abaixo ou clique duas "
 "vezes na lista para efectuar a ação"
 
-#: generics.py:286
+#: generics.py:287
 msgid "Add all"
 msgstr "Adicionar todos"
 
-#: generics.py:295
+#: generics.py:296
 msgid "Add"
 msgstr "Adicionar"
 
-#: generics.py:305
+#: generics.py:306
 msgid "Remove all"
 msgstr "Remover todos"
 
-#: generics.py:314
+#: generics.py:315
 msgid "Remove"
 msgstr "Remover"
 
-#: generics.py:519
+#: generics.py:521
 #, python-format
 msgid "Duplicate data error: %(error)s"
 msgstr "Erro, dados duplicados: %(error)s"
 
-#: generics.py:537
+#: generics.py:543
 #, python-format
 msgid "%(object)s not created, error: %(error)s"
 msgstr "%(object)s não criado, erro: %(error)s"
 
-#: generics.py:550
+#: generics.py:556
 #, python-format
 msgid "%(object)s created successfully."
 msgstr "%(object)s criado com sucesso."
@@ -112,17 +112,17 @@ msgstr "%(object)s criado com sucesso."
 msgid "%(object)s not deleted, error: %(error)s."
 msgstr "%(object)s não removido, erro: %(error)s"
 
-#: generics.py:605
+#: generics.py:604
 #, python-format
 msgid "%(object)s deleted successfully."
 msgstr "%(object)s removido com sucesso."
 
-#: generics.py:689
+#: generics.py:697
 #, python-format
 msgid "%(object)s not updated, error: %(error)s."
 msgstr "%(object)s não actualizado, erro: %(error)s"
 
-#: generics.py:700
+#: generics.py:708
 #, python-format
 msgid "%(object)s updated successfully."
 msgstr "%(object)s actualizado com sucesso."
@@ -175,13 +175,13 @@ msgstr "Suporte"
 msgid "Tools"
 msgstr "Ferramentas"
 
-#: literals.py:10
+#: literals.py:13
 msgid ""
 "This feature has been deprecated and will be removed in a future version."
 msgstr ""
 "Este será descontinuado e será removido em uma versão futura."
 
-#: literals.py:13
+#: literals.py:16
 msgid ""
 "Your database backend is set to use SQLite. SQLite should only be used for "
 "development and testing, not for production."
@@ -189,15 +189,15 @@ msgstr ""
 "Seu back-end de banco de dados está configurado para usar o SQLite. O SQLite "
 "só deve ser usado para desenvolvimento e teste, não para produção"
 
-#: literals.py:31
+#: literals.py:34
 msgid "Days"
 msgstr "Dias"
 
-#: literals.py:32
+#: literals.py:35
 msgid "Hours"
 msgstr "Horas"
 
-#: literals.py:33
+#: literals.py:36
 msgid "Minutes"
 msgstr "Minutos"
 
@@ -339,7 +339,23 @@ msgstr ""
 "Tempo para atrasar as tarefas em segundo plano que dependem de uma submissão "
 "para a base de dados para propagar."
 
-#: settings.py:32
+#: settings.py:33
+msgid ""
+"A list of strings designating all applications that are to be removed from "
+"the list normally installed by Mayan EDMS. Each string should be a dotted "
+"Python path to: an application configuration class (preferred), or a package"
+" containing an application."
+msgstr ""
+
+#: settings.py:43
+msgid ""
+"A list of strings designating all applications that are installed beyond "
+"those normally installed by Mayan EDMS. Each string should be a dotted "
+"Python path to: an application configuration class (preferred), or a package"
+" containing an application."
+msgstr ""
+
+#: settings.py:52
 msgid ""
 "Name of the view attached to the brand anchor in the main menu. This is also"
 " the view to which users will be redirected after log in."
@@ -347,35 +363,35 @@ msgstr ""
 "Nome da vista anexada à ligação da marca no menu principal. Essa também é a "
 "vista para a qual os utilizadores serão redirecionados após o entrar."
 
-#: settings.py:41
-msgid "An integer specifying how many objects should be displayed per page."
-msgstr "Especificar um número inteiro de quantos objectos são mostrados por página"
+#: settings.py:61
+msgid "The number objects that will be displayed per page."
+msgstr "Especificar número de objectos que são mostrados por página"
 
-#: settings.py:48
+#: settings.py:68
 msgid "Enable error logging outside of the system error logging capabilities."
 msgstr "Ativar o registo (log) de erros fora dos recursos de registo de erros do sistema"
 
-#: settings.py:55
+#: settings.py:75
 msgid "Path to the logfile that will track errors during production."
 msgstr "Caminho para o arquivo de registo (log) que rastreará erros durante a produção"
 
-#: settings.py:62
+#: settings.py:82
 msgid "Name to be displayed in the main menu."
 msgstr "Nome a ser exibido no menu principal"
 
-#: settings.py:68
+#: settings.py:88
 msgid "URL of the installation or homepage of the project."
 msgstr "URL da instalação ou homepage do projeto"
 
-#: settings.py:74
+#: settings.py:94
 msgid "A storage backend that all workers can use to share files."
 msgstr "Um back-end de armazenamento que todos os subprocessos podem usar para partilhar filcheiros"
 
-#: settings.py:83
+#: settings.py:103
 msgid "Django"
 msgstr "Django"
 
-#: settings.py:88
+#: settings.py:108
 msgid ""
 "A list of strings representing the host/domain names that this site can "
 "serve. This is a security measure to prevent HTTP Host header attacks, which"
@@ -400,7 +416,7 @@ msgstr ""
 "qualquer coisa. Nesse caso, você é responsável por fornecer sua própria validação do cabeçalho "
 "do Host. (talvez em um middleware; se assim for, este middleware deve ser listado primeiro no MIDDLEWARE)."
 
-#: settings.py:106
+#: settings.py:126
 msgid ""
 "When set to True, if the request URL does not match any of the patterns in "
 "the URLconf and it doesn't end in a slash, an HTTP redirect is issued to the"
@@ -415,7 +431,7 @@ msgstr ""
 "configuração APPEND_SLASH será usada somente se o CommonMiddleware estiver instalado (consulte Middleware). "
 "Consulte também PREPEND_WWW. "
 
-#: settings.py:119
+#: settings.py:139
 msgid ""
 "The list of validators that are used to check the strength of user's "
 "passwords."
@@ -423,7 +439,7 @@ msgstr ""
 "A lista de validadores que são usados para verificar a segurança das "
 "senhas do Utilizadores."
 
-#: settings.py:126
+#: settings.py:146
 msgid ""
 "A dictionary containing the settings for all databases to be used with "
 "Django. It is a nested dictionary whose contents map a database alias to a "
@@ -436,7 +452,7 @@ msgstr ""
 "opções para um banco de dados individual. A configuração DATABASES deve configurar uma base de "
 "dados padrão; base de dados também podem ser especificados."
 
-#: settings.py:138
+#: settings.py:158
 msgid ""
 "Default: 2621440 (i.e. 2.5 MB). The maximum size in bytes that a request "
 "body may be before a SuspiciousOperation (RequestDataTooBig) is raised. The "
@@ -461,7 +477,7 @@ msgstr ""
 "da Web normalmente não executam a inspeção profunda de solicitações, não é possível executar uma "
 "verificação semelhante nesse nível. Veja também FILE_UPLOAD_MAX_MEMORY_SIZE. "
 
-#: settings.py:158
+#: settings.py:178
 msgid ""
 "Default: 'webmaster@localhost' Default email address to use for various "
 "automated correspondence from the site manager(s). This doesn't include "
@@ -471,7 +487,7 @@ msgstr ""
 "várias correspondências automatizadas do(s) administradore(s) do site. Isso "
 "não inclui mensagens de erro enviadas a ADMINS e MANAGERS; para isso, consulte SERVER_EMAIL."
 
-#: settings.py:168
+#: settings.py:188
 msgid ""
 "Default: [] (Empty list). List of compiled regular expression objects "
 "representing User-Agent strings that are not allowed to visit any page, "
@@ -483,7 +499,7 @@ msgstr ""
 "página, em todo o sistema. Use isto para robôs / crawlers ruins. Isso é usado "
 "somente se o CommonMiddleware estiver instalado Middleware)."
 
-#: settings.py:179
+#: settings.py:199
 msgid ""
 "Default: 'django.core.mail.backends.smtp.EmailBackend'. The backend to use "
 "for sending emails."
@@ -491,11 +507,11 @@ msgstr ""
 "Padrão: 'django.core.mail.backends.smtp.EmailBackend'. O backend a ser "
 "usado para enviar e-mails."
 
-#: settings.py:187
+#: settings.py:207
 msgid "Default: 'localhost'. The host to use for sending email."
 msgstr "Padrão: 'localhost'. O host a ser usado para enviar email."
 
-#: settings.py:194
+#: settings.py:214
 msgid ""
 "Default: '' (Empty string). Password to use for the SMTP server defined in "
 "EMAIL_HOST. This setting is used in conjunction with EMAIL_HOST_USER when "
@@ -507,7 +523,7 @@ msgstr ""
 "ao autenticar no servidor SMTP. Se qualquer uma dessas configurações "
 "estiver vazia, o Django não tentará autenticação "
 
-#: settings.py:205
+#: settings.py:225
 msgid ""
 "Default: '' (Empty string). Username to use for the SMTP server defined in "
 "EMAIL_HOST. If empty, Django won't attempt authentication."
@@ -515,11 +531,11 @@ msgstr ""
 "Padrão: '' (vazio). Nome de utilizador para usar no servidor SMTP definido "
 "em EMAIL_HOST. Se vazio, o Django não tentará autenticação."
 
-#: settings.py:214
+#: settings.py:234
 msgid "Default: 25. Port to use for the SMTP server defined in EMAIL_HOST."
 msgstr "Padrão: 25. Porta a ser usada para o servidor SMTP definido em EMAIL_HOST."
 
-#: settings.py:221
+#: settings.py:241
 msgid ""
 "Default: None. Specifies a timeout in seconds for blocking operations like "
 "the connection attempt."
@@ -527,7 +543,7 @@ msgstr ""
 "Padrão: None. Especifica um tempo limite em segundos para operações de "
 "bloqueio, como a tentativa de conexão."
 
-#: settings.py:229
+#: settings.py:249
 msgid ""
 "Default: False. Whether to use a TLS (secure) connection when talking to the"
 " SMTP server. This is used for explicit TLS connections, generally on port "
@@ -539,7 +555,7 @@ msgstr ""
 "estiver com conexões interrompidas, consulte a configuração implícita de "
 "TLS EMAIL_USE_SSL."
 
-#: settings.py:239
+#: settings.py:259
 msgid ""
 "Default: False. Whether to use an implicit TLS (secure) connection when "
 "talking to the SMTP server. In most email documentation this type of TLS "
@@ -555,7 +571,7 @@ msgstr ""
 "/ EMAIL_USE_SSL são mutuamente exclusivos, portanto, defina apenas uma dessas "
 "configurações como True."
 
-#: settings.py:251
+#: settings.py:271
 msgid ""
 "Default: 2621440 (i.e. 2.5 MB). The maximum size (in bytes) that an upload "
 "will be before it gets streamed to the file system. See Managing files for "
@@ -565,19 +581,7 @@ msgstr ""
 "será antes de ser transmitido para o sistema de ficheiros. Consulte gestão "
 "ficheiros para obter detalhes. Consulte também DATA_UPLOAD_MAX_MEMORY_SIZE."
 
-#: settings.py:261
-msgid ""
-"A list of strings designating all applications that are enabled in this "
-"Django installation. Each string should be a dotted Python path to: an "
-"application configuration class (preferred), or a package containing an "
-"application."
-msgstr ""
-"Uma lista de strings designando todos os aplicativos que estão habilitados "
-"nesta instalação do Django. Cada string deve ser um caminho pontilhado do "
-"Python para: uma classe de configuração de aplicativo (preferida), ou um pacote "
-"contendo uma aplicação."
-
-#: settings.py:271
+#: settings.py:281
 msgid ""
 "Default: '/accounts/login/' The URL where requests are redirected for login,"
 " especially when using the login_required() decorator. This setting also "
@@ -592,7 +596,7 @@ msgstr ""
 "em dois lugares (settings e URLconf). "
 
 
-#: settings.py:283
+#: settings.py:293
 msgid ""
 "Default: '/accounts/profile/' The URL where requests are redirected after "
 "login when the contrib.auth.login view gets no next parameter. This is used "
@@ -607,7 +611,7 @@ msgstr ""
 "reduzir a duplicação de configuração, já que você não precisa definir o URL "
 "em dois lugares (settings e URLconf). "
 
-#: settings.py:295
+#: settings.py:305
 msgid ""
 "Default: None. The URL where requests are redirected after a user logs out "
 "using LogoutView (if the view doesn't get a next_page argument). If None, no"
@@ -623,7 +627,7 @@ msgstr ""
 "a duplicação de configuração, já que você não precisa definir o URL em dois lugares "
 "(configurações e URLconf). "
 
-#: settings.py:308
+#: settings.py:318
 msgid ""
 "A list of IP addresses, as strings, that: Allow the debug() context "
 "processor to add some variables to the template context. Can use the "
@@ -635,7 +639,7 @@ msgstr ""
 "admindocs mesmo se não estiver logado como utilizador da equipa. São marcados como "
 "\"internal\"(ao contrário de \"EXTERNAL\") em emails AdminEmailHandler."
 
-#: settings.py:319
+#: settings.py:329
 msgid ""
 "A list of all available languages. The list is a list of two-tuples in the "
 "format (language code, language name) for example, ('ja', 'Japanese'). This "
@@ -649,7 +653,7 @@ msgstr ""
 "o valor padrão deve ser suficiente. Somente defina essa configuração se você quiser "
 "restringir a seleção de idioma para um subconjunto dos idiomas fornecidos pelo Django."
 
-#: settings.py:332
+#: settings.py:342
 msgid ""
 "A string representing the language code for this installation. This should "
 "be in standard language ID format. For example, U.S. English is \"en-us\". "
@@ -669,19 +673,19 @@ msgstr ""
 "de fallback quando uma tradução para um determinado literal não existe para o idioma "
 "preferido do usuário. "
 
-#: settings.py:347
+#: settings.py:357
 msgid ""
 "URL to use when referring to static files located in STATIC_ROOT. Example: "
 "\"/static/\" or \"http://static.example.com/\" If not None, this will be "
 "used as the base path for asset definitions (the Media class) and the "
-"staticfiles app.It must end in a slash if set to a non-empty value."
+"staticfiles app. It must end in a slash if set to a non-empty value."
 msgstr ""
 "URL a ser usado ao se referir a arquivos estáticos localizados em STATIC_ROOT. "
 "Exemplo: \"/static/\" ou \"http://static.example.com/\"Se não for None, ele será "
 "usado como o caminho base para definições de ativos (a classe Media) e o aplicativo "
 "staticfiles. Ele deve terminar em uma barra se configurado para um valor não vazio. "
 
-#: settings.py:358
+#: settings.py:368
 msgid ""
 "The file storage engine to use when collecting static files with the "
 "collectstatic management command. A ready-to-use instance of the storage "
@@ -694,7 +698,7 @@ msgstr ""
 "pode ser encontrada em "
 "django.contrib.staticfiles.storage.staticfiles_storage."
 
-#: settings.py:368
+#: settings.py:378
 msgid ""
 "A string representing the time zone for this installation. Note that this "
 "isn't necessarily the time zone of the server. For example, one server may "
@@ -705,7 +709,7 @@ msgstr ""
 "pode servir vários sites com Django, cada um com uma configuração separada de "
 "fuso horário."
 
-#: settings.py:378
+#: settings.py:388
 msgid ""
 "The full Python path of the WSGI application object that Django's built-in "
 "servers (e.g. runserver) will use. The django-admin startproject management "
@@ -717,11 +721,11 @@ msgstr ""
 "startproject management criará um arquivo wsgi.py simples com um aplicativo "
 "que pode ser chamado nele e apontará essa configuração para essa aplicação. "
 
-#: settings.py:386
+#: settings.py:396
 msgid "Celery"
 msgstr "Celery"
 
-#: settings.py:391
+#: settings.py:401
 msgid ""
 "Default: \"amqp://\". Default broker URL. This must be a URL in the form of:"
 " transport://userid:password@hostname:port/virtual_host Only the scheme part"
@@ -733,7 +737,7 @@ msgstr ""
 "(transport://) é obrigatório, o restante é opcional e é padronizado para os "
 "valores padrão de transportes específicos. "
 
-#: settings.py:401
+#: settings.py:411
 msgid ""
 "Default: No result backend enabled by default. The backend used to store "
 "task results (tombstones). Refer to "
