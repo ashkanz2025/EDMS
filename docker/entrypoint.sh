@@ -93,7 +93,7 @@ mayan) # Check if this is a new install, otherwise try to upgrade the existing
        # installation on subsequent starts
        if [ ! -f $INSTALL_FLAG ]; then
            initialize
-       else
+       elif [ $(cat /opt/mayan-edms/version | tr -d "[:space:]") != $(cat /var/lib/mayan/system/VERSION | tr -d "[:space:]") ]; then
            upgrade
        fi
        start
