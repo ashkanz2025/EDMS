@@ -166,9 +166,3 @@ Archive.register(
 Archive.register(
     archive_classes=(TarArchive,), mime_types=('application/x-tar',)
 )
-Archive.register(
-    archive_classes=(TarArchive,), mime_types=('application/gzip',)
-)
-Archive.register(
-    archive_classes=(TarArchive,), mime_types=('application/x-bzip2',)
-)
