@@ -44,13 +44,18 @@ class DocumentTrashView(MultipleObjectConfirmActionView):
 
     def get_extra_context(self):
         queryset = self.object_list
+        document_labels = [document.label for document in queryset]
 
         result = {
+            'message': _('Do you really want to move the following documents to the trash?'),
+            'message_list': document_labels,
             'title': ungettext(
-                singular='Move the selected document to the trash?',
-                plural='Move the selected documents to the trash?',
+                singular='Move the %(count)d selected document to the trash?',
+                plural='Move the %(count)d selected documents to the trash?',
                 number=queryset.count()
-            )
+            ) % {
+                'count': queryset.count(),
+            }
         }
 
         return result

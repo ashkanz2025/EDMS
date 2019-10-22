@@ -14,9 +14,18 @@
                     <h3>{% trans 'Are you sure?' %}</h3>
                 </h4>
             </div>
-            {% if message %}
+            {% if message or message_list %}
                 <div class="modal-body">
-                    <p>{{ message }}</p>
+                    {% if message %}
+                        <p>{{ message }}</p>
+                    {% endif %}
+                    {% if message_list %}
+                        <ul>
+                            {% for item in message_list %}
+                                <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 </div>
             {% endif %}
             <div class="modal-footer">
