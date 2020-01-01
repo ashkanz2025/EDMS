@@ -35,6 +35,18 @@
   information.
 - Fix the POP3 source under Python 3. GitLab issue #724. Thanks to Kevin Pawsey
   (@kevinpawsey) for the report and debug information.
+- Merge NFS troubleshooting section. Thanks to Rob de Canha-Knight (@rssfed23).
+  GitLab merge !67.
+- Improve mirroring code to support slashes in index node values and document
+  labels and also support duplicate nodes values or documents labels. Slashes
+  are replaced with underscores. To handle duplicates, the primary key of
+  the object is appended to the label inside parenthesis. Closes
+  GitLab issue #722. Thanks to Rob de Canha-Knight (@rssfed23) for the
+  report and research.
+- Fix workflow document signing action. Also add message when trying to use
+  action for an initial state when the created document has no version
+  associated. GitLab issue #726. Thanks to forum user @holzhannes for the
+  report.
 
 3.3.6 (2019-12-19)
 ==================
