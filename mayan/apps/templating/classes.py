@@ -4,10 +4,11 @@ from django.template import Context, Engine, Template as DjangoTemplate
 class Template:
     def __init__(self, template_string):
         engine = Engine(
+            libraries=Engine.get_default().libraries,
             builtins=[
                 'mathfilters.templatetags.mathfilters',
                 'mayan.apps.templating.templatetags.templating_tags',
-            ]
+            ] + Engine.get_default().builtins
         )
 
         self._template = DjangoTemplate(
