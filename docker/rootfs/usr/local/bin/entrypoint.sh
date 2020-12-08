@@ -123,6 +123,9 @@ update_uid_gid() {
     groupmod mayan -o -g ${MAYAN_USER_GID}
     usermod mayan -o -u ${MAYAN_USER_UID}
 
+    # add mayan user to lp group so it can access the scanners
+    usermod -a -G lp mayan
+
     if [ ${MAYAN_USER_UID} -ne ${DEFAULT_USER_UID} ] || [ ${MAYAN_USER_GID} -ne ${DEFAULT_USER_GID} ]; then
         echo "mayan: Updating file ownership. This might take a while if there are many documents."
         chown -R mayan:mayan ${MAYAN_INSTALL_DIR} ${MAYAN_STATIC_ROOT}
