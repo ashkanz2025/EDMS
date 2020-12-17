@@ -3,6 +3,7 @@ import logging
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _, ungettext
+from django.apps import apps
 
 from mayan.apps.acls.models import AccessControlList
 from mayan.apps.common.settings import setting_home_view
@@ -39,6 +40,9 @@ class DocumentTrashView(MultipleObjectConfirmActionView):
     success_message_plural = _(
         '%(count)d documents moved to the trash.'
     )
+    DocumentCheckout = apps.get_model(
+        app_label='checkouts', model_name='DocumentCheckout'
+    )
 
     def get_extra_context(self):
         context = {
@@ -51,6 +55,16 @@ class DocumentTrashView(MultipleObjectConfirmActionView):
 
         if self.object_list.count() == 1:
             context['object'] = self.object_list.first()
+
+        # Perform document checkout checks
+        for document in self.object_list:
+            checkout = self.DocumentCheckout.objects.filter(document__id=document.id).first()
+            if checkout:
+                context['checkout'] = 'One or more of the documents you are trying to delete has been checked out:'
+                if 'checkouts' in result:
+                    context['checkouts'].append(checkout)
+                else:
+                    context['checkouts'] = [checkout]
 
         return context
 
@@ -65,7 +79,10 @@ class DocumentTrashView(MultipleObjectConfirmActionView):
             return None
 
     def object_action(self, form, instance):
-        instance.delete(_user=self.request.user)
+        checkout = self.DocumentCheckout.objects.filter(document__id=instance.id).first()
+
+        if not checkout: 
+            instance.delete(_user=self.request.user)
 
 
 class EmptyTrashCanView(ConfirmView):
