@@ -59,7 +59,7 @@ class DocumentTrashView(MultipleObjectConfirmActionView):
         # Perform document checkout checks
         for document in self.object_list:
             checkout = self.DocumentCheckout.objects.filter(document__id=document.id).first()
-            if checkout:
+            if checkout and checkout.user.id != self.request.user.id:
                 context['checkout'] = 'One or more of the documents you are trying to delete has been checked out:'
                 if 'checkouts' in result:
                     context['checkouts'].append(checkout)
@@ -81,7 +81,7 @@ class DocumentTrashView(MultipleObjectConfirmActionView):
     def object_action(self, form, instance):
         checkout = self.DocumentCheckout.objects.filter(document__id=instance.id).first()
 
-        if not checkout: 
+        if (not checkout) or (checkout.user.id == self.request.user.id): 
             instance.delete(_user=self.request.user)
 
 
