@@ -2,6 +2,7 @@ import os
 import time
 
 from django.conf import settings
+from django.apps import apps
 
 from mayan.apps.converter.classes import Layer
 from mayan.apps.converter.layers import layer_saved_transformations
@@ -663,6 +664,19 @@ class TrashedDocumentViewTestMixin:
             viewname='documents:document_trash', kwargs={
                 'document_id': self.test_document.pk
             }
+        )
+
+    def _checkout_document_for_user(document = None, user = None):
+        if not document: 
+            document = self.test_document
+        if not user: 
+            user = self._test_case_user
+        
+        DocumentCheckout = apps.get_model(app_label='checkouts', model_name='DocumentCheckout')
+        DocumentCheckout.objects.check_out_document(
+            block_new_version=True, document=document,
+            expiration_datetime= (now() + datetime.timedelta(seconds=60)),
+            user=user
         )
 
     def _request_trashed_document_restore_get_view(self):

@@ -1,3 +1,4 @@
+from django.apps import apps
 from ..models.document_models import Document
 from ..models.trashed_document_models import DeletedDocument
 from ..permissions import (
@@ -85,6 +86,49 @@ class DocumentTrashViewTestCase(
         self.assertEqual(
             DeletedDocument.objects.count(), trashed_document_count + 1
         )
+
+    def test_document_trash_post_view_without_access_with_checkout(self):
+        # Should NOT delete a checked out document
+        self._checkout_document_for_user(document=self.test_document)
+
+        response = self._request_document_trash_post_view()
+        self.assertEqual(response.status_code, 404)
+
+        self.assertEqual(DeletedDocument.objects.count(), 0)
+        self.assertEqual(Document.objects.count(), 1)
+
+        DocumentCheckout = apps.get_model(app_label='checkouts', model_name='DocumentCheckout')
+        self.assertEqual(DocumentCheckout.objects.count(), 1)
+        
+
+    def test_document_trash_post_view_with_access_with_checkout(self):
+        # Should NOT delete a checked out document
+        self.grant_access(
+            obj=self.test_document, permission=permission_document_trash
+        )
+        self._checkout_document_for_user(document=self.test_document)
+        
+        response = self._request_document_trash_post_view()
+        self.assertEqual(response.status_code, 302)
+
+        self.assertEqual(DeletedDocument.objects.count(), 0)
+        self.assertEqual(Document.objects.count(), 1)
+
+        DocumentCheckout = apps.get_model(app_label='checkouts', model_name='DocumentCheckout')
+        self.assertEqual(DocumentCheckout.objects.count(), 1)
+    
+    def test_document_trash_post_view_with_access_with_self_checkout(self):
+        # Should delete a document checked out by self
+        self.grant_access(
+            obj=self.test_document, permission=permission_document_trash
+        )
+        self._checkout_document_for_user(document=self.test_document, user=self.request.user)
+        
+        response = self._request_document_trash_post_view()
+        self.assertEqual(response.status_code, 302)
+
+        self.assertEqual(DeletedDocument.objects.count(), 1)
+        self.assertEqual(Document.objects.count(), 0)
 
     def test_trashed_document_trash_post_view_with_access(self):
         self.grant_access(
