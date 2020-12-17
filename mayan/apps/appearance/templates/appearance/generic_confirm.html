@@ -11,7 +11,11 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title">
+                    {% if checkout %}
+                    <h3>{% trans 'Error' %}</h3>
+                    {% else %}
                     <h3>{% trans 'Are you sure?' %}</h3>
+                    {% endif %}
                 </h4>
             </div>
             {% if message %}
@@ -19,6 +23,31 @@
                     <p>{{ message }}</p>
                 </div>
             {% endif %}
+            {% if checkout %}
+                <div class="modal-body">
+                    <p>{{ checkout }}</p>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Document</th>
+                                <th scope="col">Checked out by</th>
+                                <th scope="col">Until</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in checkouts %}
+                            <tr>
+                                <td>{{ c.document.label }}</td>
+                                <td>{{ c.user.username }}, {{ c.user.email }}</td>
+                                <td>{{ c.expiration_datetime }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+                </div>
+            {% endif %}
+
             <div class="modal-footer">
                 <form action="" method="post" class="form login">{% csrf_token %}
                     {% if next %}
@@ -29,7 +58,7 @@
                         <input name="previous" type="hidden" value="{{ previous }}" />
                     {% endif %}
 
-                    <button type="submit" class="btn btn-danger" data-dismiss="modal">
+                    <button type="submit" class="btn btn-danger" {% if checkout %}disabled="disabled"{% endif %} data-dismiss="modal">
                         {% if submit_icon_class %}
                             {{ submit_icon_class.render }}
                         {% else %}
