@@ -177,7 +177,7 @@ class DetachedSignature(ExtraDataModelMixin, SignatureBaseModel):
         created={
             'action_object': 'self',
             'event': event_detached_signature_uploaded,
-            'target': 'document_file'
+            'target': 'document_file.document'
         },
     )
     def save(self, *args, **kwargs):
