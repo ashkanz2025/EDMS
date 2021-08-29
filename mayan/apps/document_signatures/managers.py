@@ -38,7 +38,7 @@ class DetachedSignatureManager(models.Manager):
             instance._event_ignore = True
             instance.save()
             event_detached_signature_created.commit(
-                action_object=instance, actor=user, target=document_file
+                action_object=instance, actor=user, target=document_file.document
             )
             return instance
 
@@ -85,7 +85,7 @@ class EmbeddedSignatureManager(models.Manager):
                 )
             instance = self.get(signature_id=result.signature_id)
             event_embedded_signature_created.commit(
-                action_object=instance, actor=user, target=document_file
+                action_object=instance, actor=user, target=document_file.document
             )
             return instance
         finally:

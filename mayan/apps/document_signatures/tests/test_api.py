@@ -307,7 +307,7 @@ class DetachedSignatureDocumentAPIViewTestCase(
             self.test_document.file_latest.signatures.first().detachedsignature
         )
         self.assertEqual(events[0].actor, self._test_case_user)
-        self.assertEqual(events[0].target, self.test_document_file)
+        self.assertEqual(events[0].target, self.test_document_file.document)
         self.assertEqual(events[0].verb, event_detached_signature_created.id)
 
     def test_trashed_document_signature_detached_sign_api_view_with_full_access(self):
@@ -388,7 +388,7 @@ class DetachedSignatureDocumentAPIViewTestCase(
             self.test_document.file_latest.signatures.first().detachedsignature
         )
         self.assertEqual(events[0].actor, self._test_case_user)
-        self.assertEqual(events[0].target, self.test_document_file)
+        self.assertEqual(events[0].target, self.test_document_file.document)
         self.assertEqual(events[0].verb, event_detached_signature_uploaded.id)
 
     def test_trashed_document_signature_detached_upload_api_view_with_access(self):
@@ -652,7 +652,7 @@ class EmbeddedSignatureDocumentAPIViewTestCase(
             self.test_document.file_latest.signatures.first().embeddedsignature
         )
         self.assertEqual(events[4].actor, self._test_case_user)
-        self.assertEqual(events[4].target, self.test_document_file)
+        self.assertEqual(events[4].target, self.test_document_file.document)
         self.assertEqual(events[4].verb, event_embedded_signature_created.id)
 
     def test_trashed_document_signature_embedded_sign_api_view_with_full_access(self):
