@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import logging
 
 from django.apps import apps
@@ -8,12 +6,15 @@ from django.db import OperationalError
 from mayan.apps.lock_manager.exceptions import LockError
 from mayan.celery import app
 
-from .literals import RETRY_DELAY
+from .settings import setting_task_retry
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(name=__name__)
 
 
-@app.task(bind=True, default_retry_delay=RETRY_DELAY, max_retries=None, ignore_result=True)
+@app.task(
+    bind=True, default_retry_delay=setting_task_retry.value, max_retries=None,
+    ignore_result=True
+)
 def task_delete_empty(self):
     IndexInstanceNode = apps.get_model(
         app_label='document_indexing', model_name='IndexInstanceNode'
@@ -25,13 +26,16 @@ def task_delete_empty(self):
         raise self.retry(exc=exception)
 
 
-@app.task(bind=True, default_retry_delay=RETRY_DELAY, max_retries=None, ignore_result=True)
+@app.task(
+    bind=True, default_retry_delay=setting_task_retry.value, max_retries=None,
+    ignore_result=True
+)
 def task_index_document(self, document_id):
     Document = apps.get_model(
         app_label='documents', model_name='Document'
     )
-    Index = apps.get_model(
-        app_label='document_indexing', model_name='Index'
+    IndexTemplate = apps.get_model(
+        app_label='document_indexing', model_name='IndexTemplate'
     )
 
     try:
@@ -42,7 +46,7 @@ def task_index_document(self, document_id):
         pass
     else:
         try:
-            Index.objects.index_document(document=document)
+            IndexTemplate.objects.index_document(document=document)
         except OperationalError as exception:
             logger.warning(
                 'Operational error while trying to index document: '
@@ -57,21 +61,27 @@ def task_index_document(self, document_id):
             raise self.retry(exc=exception)
 
 
-@app.task(bind=True, default_retry_delay=RETRY_DELAY, ignore_result=True)
+@app.task(
+    bind=True, default_retry_delay=setting_task_retry.value,
+    ignore_result=True
+)
 def task_rebuild_index(self, index_id):
-    Index = apps.get_model(
-        app_label='document_indexing', model_name='Index'
+    IndexTemplate = apps.get_model(
+        app_label='document_indexing', model_name='IndexTemplate'
     )
 
     try:
-        index = Index.objects.get(pk=index_id)
+        index = IndexTemplate.objects.get(pk=index_id)
         index.rebuild()
     except LockError as exception:
         # This index is being rebuilt by another task, retry later
         raise self.retry(exc=exception)
 
 
-@app.task(bind=True, default_retry_delay=RETRY_DELAY, max_retries=None, ignore_result=True)
+@app.task(
+    bind=True, default_retry_delay=setting_task_retry.value, max_retries=None,
+    ignore_result=True
+)
 def task_remove_document(self, document_id):
     Document = apps.get_model(
         app_label='documents', model_name='Document'

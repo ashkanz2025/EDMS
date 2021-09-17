@@ -1,28 +1,27 @@
 'use strict';
 
 jQuery(document).ready(function() {
-    var fieldNameID = '[data-template-fields="model_property"]';
-    $(fieldNameID).change(function(event) {
-        var $idModelProperty = $(this);
-        var $idTemplate = $('[data-template-fields="template"]');
-        var templateCursorPosition = $idTemplate.prop('selectionStart');
-        var templateValue = $idTemplate.val();
-        var modelVariable = $idTemplate.data('model-variable');
-        var propertyText = '{{ ' + modelVariable + '.' + $idModelProperty.val() + ' }}';
+    $('[data-autocopy="true"]').change(function(event) {
+        const $this = $(this);
+        const $idTemplate = $this.siblings('[data-template-fields="template"]');
+        const templateCursorPosition = $idTemplate.prop('selectionStart');
+        let templateValue = $idTemplate.val();
+        const fieldText = eval('`' + $this.data('field-template') + '`');
 
         templateValue = templateValue.slice(
             0, templateCursorPosition
-        ) + propertyText + templateValue.slice(
+        ) + fieldText + templateValue.slice(
             templateCursorPosition
         );
         $idTemplate.val(templateValue);
         $idTemplate.focus();
         $idTemplate.prop(
-            'selectionStart', templateCursorPosition + propertyText.length
+            'selectionStart', templateCursorPosition + fieldText.length
         );
         $idTemplate.prop(
-            'selectionEnd', templateCursorPosition + propertyText.length
+            'selectionEnd', templateCursorPosition + fieldText.length
         );
-        $(fieldNameID + ' option')[0].selected = true;
+
+        $this.val('');
     });
 });

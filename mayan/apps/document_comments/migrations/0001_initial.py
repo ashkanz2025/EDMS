@@ -1,11 +1,8 @@
-from __future__ import unicode_literals
-
 from django.db import models, migrations
 from django.conf import settings
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('documents', '0026_auto_20150729_2140'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
@@ -29,14 +26,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'document', models.ForeignKey(
-                        related_name='comments', verbose_name='Document',
-                        to='documents.Document'
+                        on_delete=models.CASCADE, related_name='comments',
+                        to='documents.Document', verbose_name='Document'
                     )
                 ),
                 (
                     'user', models.ForeignKey(
-                        related_name='comments', editable=False,
-                        to=settings.AUTH_USER_MODEL, verbose_name='User'
+                        editable=False, on_delete=models.CASCADE,
+                        related_name='comments', to=settings.AUTH_USER_MODEL,
+                        verbose_name='User'
                     )
                 ),
             ],

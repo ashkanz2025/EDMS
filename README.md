@@ -1,10 +1,12 @@
-[![Donation](https://img.shields.io/badge/donation-PayPal-brightgreen)](https://paypal.me/MayanEDMS)
 [![pypi][pypi]][pypi-url]
 ![python][python]
 ![license][license]
 [![Docker pulls](https://img.shields.io/docker/pulls/mayanedms/mayanedms.svg?maxAge=3600)](https://hub.docker.com/r/mayanedms/mayanedms/)
 [![Docker Stars](https://img.shields.io/docker/stars/mayanedms/mayanedms.svg?maxAge=3600)](https://hub.docker.com/r/mayanedms/mayanedms/)
 [![Commits][commits]][commits-url]
+[![Support][support]][support-url]
+[![Store](https://img.shields.io/badge/Online_store-black)](https://teespring.com/stores/mayan-edms)
+[![Donation](https://img.shields.io/badge/donation-PayPal-brightgreen)](https://paypal.me/MayanEDMS)
 
 
 [pypi]: https://img.shields.io/pypi/v/mayan-edms.svg
@@ -12,9 +14,6 @@
 
 [builds]: https://gitlab.com/mayan-edms/mayan-edms/badges/master/build.svg
 [builds-url]: https://gitlab.com/mayan-edms/mayan-edms/pipelines
-
-[cover]: https://codecov.io/gitlab/mayan-edms/mayan-edms/coverage.svg?branch=master
-[cover-url]: https://codecov.io/gitlab/mayan-edms/mayan-edms?branch=master
 
 [python]: https://img.shields.io/pypi/pyversions/mayan-edms.svg
 [python-url]: https://img.shields.io/pypi/l/mayan-edms.svg?style=flat
@@ -25,6 +24,8 @@
 [commits]:  https://img.shields.io/github/commit-activity/y/mayan-edms/mayan-edms.svg
 [commits-url]: https://gitlab.com/mayan-edms/mayan-edms/
 
+[support]: https://img.shields.io/badge/Get_support-brightgreen
+[support-url]: https://www.mayan-edms.com/support/
 
 <div align="center">
   <a href="http://www.mayan-edms.com">
@@ -65,7 +66,7 @@ The easiest way to use Mayan EDMS is by using the official
 and working before attempting to install Mayan EDMS.
 
 For the complete set of installation instructions visit the Mayan EDMS documentation
-at: https://docs.mayan-edms.com/topics/installation.html
+at: https://docs.mayan-edms.com/parts/installation.html
 
 <h2 align="center">Hardware requirements</h2>
 
@@ -77,7 +78,6 @@ at: https://docs.mayan-edms.com/topics/installation.html
 
 - [Homepage](http://www.mayan-edms.com)
 - [Documentation](https://docs.mayan-edms.com)
-- [Wiki](https://wiki.mayan-edms.com/)
 - [Contributing](https://gitlab.com/mayan-edms/mayan-edms/blob/master/CONTRIBUTING.md)
 - [Forum](https://forum.mayan-edms.com/)
 - [Source code, issues, bugs](https://gitlab.com/mayan-edms/mayan-edms)

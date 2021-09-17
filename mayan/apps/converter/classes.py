@@ -1,44 +1,81 @@
-from __future__ import unicode_literals
-
 import copy
 from io import BytesIO
 import logging
 import os
 import shutil
 
+import PIL
 from PIL import Image
 import sh
 
 from django.apps import apps
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.exceptions import ImproperlyConfigured
 from django.db import transaction
-from django.utils.encoding import force_text, python_2_unicode_compatible
+from django.utils.encoding import force_text
 from django.utils.functional import cached_property
+from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 
 from mayan.apps.appearance.classes import Icon
 from mayan.apps.mimetype.api import get_mimetype
 from mayan.apps.navigation.classes import Link
+from mayan.apps.storage.compressed_files import MsgArchive
+from mayan.apps.storage.literals import MSG_MIME_TYPES
 from mayan.apps.storage.settings import setting_temporary_directory
 from mayan.apps.storage.utils import (
     NamedTemporaryFile, fs_cleanup, mkdtemp
 )
 
-from .exceptions import InvalidOfficeFormat, OfficeConversionError
+from .exceptions import (
+    InvalidOfficeFormat, LayerError, OfficeConversionError
+)
 from .literals import (
     CONVERTER_OFFICE_FILE_MIMETYPES, DEFAULT_LIBREOFFICE_PATH,
     DEFAULT_PAGE_NUMBER, DEFAULT_PILLOW_FORMAT
 )
-from .settings import setting_graphics_backend_arguments
+from .settings import (
+    setting_graphics_backend, setting_graphics_backend_arguments
+)
+
+logger = logging.getLogger(name=__name__)
+
 
 libreoffice_path = setting_graphics_backend_arguments.value.get(
     'libreoffice_path', DEFAULT_LIBREOFFICE_PATH
 )
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(name=__name__)
 
 
-class ConverterBase(object):
+class AppImageErrorImage:
+    _registry = {}
+
+    @classmethod
+    def get(cls, name):
+        return cls._registry[name]
+
+    def __init__(self, name, image_path=None, template_name=None):
+        if name in self.__class__._registry:
+            raise ImproperlyConfigured(
+                '{} already has a entry named `{}`'.format(__class__, name)
+            )
+
+        self.name = name
+        self.image_path = image_path
+        self.template_name = template_name
+
+        self.__class__._registry[name] = self
+
+    def open(self):
+        return staticfiles_storage.open(name=self.image_path, mode='rb')
+
+
+class ConverterBase:
+    @staticmethod
+    def get_converter_class():
+        return import_string(dotted_path=setting_graphics_backend.value)
+
     def __init__(self, file_object, mime_type=None):
         self.file_object = file_object
         self.image = None
@@ -48,7 +85,7 @@ class ConverterBase(object):
         self.soffice_file = None
         Image.init()
         try:
-            self.command_libreoffice = sh.Command(libreoffice_path).bake(
+            self.command_libreoffice = sh.Command(path=libreoffice_path).bake(
                 '--headless', '--convert-to', 'pdf:writer_pdf_Export'
             )
         except sh.CommandNotFound:
@@ -56,10 +93,6 @@ class ConverterBase(object):
 
     def convert(self, page_number=DEFAULT_PAGE_NUMBER):
         self.page_number = page_number
-
-    def detect_orientation(self, page_number):
-        # Must be overridden by subclass
-        pass
 
     def get_page(self, output_format=None):
         output_format = output_format or setting_graphics_backend_arguments.value.get(
@@ -74,7 +107,7 @@ class ConverterBase(object):
 
         if output_format.upper() == 'JPEG':
             # JPEG doesn't support transparency channel, convert the image to
-            # RGB. Removes modes: P and RGBA
+            # RGB. Removes modes: P and RGBA.
             new_mode = 'RGB'
 
         self.image.convert(new_mode).save(image_buffer, format=output_format)
@@ -95,21 +128,29 @@ class ConverterBase(object):
         If the file is a paged image get the page if not convert it to a
         paged image format and return the specified page as an image.
         """
-        # Starting with #0
+        # Starting with #0.
         self.file_object.seek(0)
 
         try:
-            self.image = Image.open(self.file_object)
+            self.image = Image.open(fp=self.file_object)
         except IOError:
-            # Cannot identify image file
+            # Cannot identify image file.
             self.image = self.convert(page_number=page_number)
+        except PIL.Image.DecompressionBombError as exception:
+            logger.error(
+                'Unable to seek document page. Increase the value of '
+                'the argument "pillow_maximum_image_pixels" in the '
+                'CONVERTER_GRAPHICS_BACKEND_ARGUMENTS setting; %s',
+                exception
+            )
+            raise
         else:
             self.image.seek(page_number)
             self.image.load()
 
     def soffice(self):
         """
-        Executes LibreOffice as a sub process
+        Executes LibreOffice as a sub process.
         """
         if not self.command_libreoffice:
             raise OfficeConversionError(
@@ -151,7 +192,10 @@ class ConverterBase(object):
                 raise OfficeConversionError(exception)
             except Exception as exception:
                 temporary_file_object.close()
-                logger.error('Exception launching Libre Office; %s', exception)
+                logger.error(
+                    'Exception launching LibreOffice; %s', exception,
+                    exc_info=True
+                )
                 raise
             finally:
                 fs_cleanup(filename=libreoffice_home_directory)
@@ -160,7 +204,7 @@ class ConverterBase(object):
             # provided but with the .pdf extension.
 
             # Get the converted output file path out of the temporary file
-            # name plus the temporary directory
+            # name plus the temporary directory.
 
             filename, extension = os.path.splitext(
                 os.path.basename(temporary_file_object.name)
@@ -183,8 +227,8 @@ class ConverterBase(object):
         temporary_converted_file_object = NamedTemporaryFile()
 
         # Copy the LibreOffice output file to a new named temporary file
-        # and delete the converted file
-        with open(converted_file_path, mode='rb') as converted_file_object:
+        # and delete the converted file.
+        with open(file=converted_file_path, mode='rb') as converted_file_object:
             shutil.copyfileobj(
                 fsrc=converted_file_object, fdst=temporary_converted_file_object
             )
@@ -193,6 +237,24 @@ class ConverterBase(object):
         return temporary_converted_file_object
 
     def to_pdf(self):
+        # Handle .msg files
+        if self.mime_type in MSG_MIME_TYPES:
+            archive = MsgArchive.open(file_object=self.file_object)
+            members = archive.members()
+            if len(members):
+                if 'message.txt' in members:
+                    self.file_object = archive.open_member(
+                        filename='message.txt'
+                    )
+                else:
+                    self.file_object = archive.open_member(
+                        filename=members[0]
+                    )
+
+                self.mime_type = get_mimetype(
+                    file_object=self.file_object, mimetype_only=True
+                )[0]
+
         if self.mime_type in CONVERTER_OFFICE_FILE_MIMETYPES:
             return self.soffice()
         else:
@@ -212,8 +274,7 @@ class ConverterBase(object):
             self.image = transformation.execute_on(image=self.image)
 
 
-@python_2_unicode_compatible
-class Layer(object):
+class Layer:
     _registry = {}
 
     @classmethod
@@ -244,10 +305,6 @@ class Layer(object):
         self, label, name, order, permissions, default=False,
         empty_results_text=None, symbol=None,
     ):
-        """
-        access_permission is the permission necessary to view the layer.
-        exclude_permission is the permission necessary to discard the layer.
-        """
         self.default = default
         self.empty_results_text = empty_results_text
         self.label = label
@@ -278,13 +335,12 @@ class Layer(object):
 
         self.__class__._registry[name] = self
 
-    def get_permission(self, name):
-        return self.permissions.get(name, None)
-
     def __str__(self):
-        return force_text(self.label)
+        return force_text(s=self.label)
 
-    def add_transformation_to(self, obj, transformation_class, arguments=None):
+    def add_transformation_to(
+        self, obj, transformation_class, arguments=None, order=None
+    ):
         ContentType = apps.get_model(
             app_label='contenttypes', model_name='ContentType'
         )
@@ -292,13 +348,22 @@ class Layer(object):
         object_layer, created = self.stored_layer.object_layers.get_or_create(
             content_type=content_type, object_id=obj.pk
         )
-        object_layer.transformations.create(
-            name=transformation_class.name, arguments=arguments
-        )
 
-    def copy_transformations(self, source, targets):
+        if self in transformation_class._layer_transformations:
+            return object_layer.transformations.create(
+                arguments=arguments or '', order=order,
+                name=transformation_class.name
+            )
+        else:
+            raise LayerError(
+                'Transformation `{}` not registered for layer `{}`.'.format(
+                    transformation_class, self
+                )
+            )
+
+    def copy_transformations(self, source, targets, delete_existing=False):
         """
-        Copy transformation from source to all targets
+        Copy transformation from source to all targets.
         """
         ContentType = apps.get_model(
             app_label='contenttypes', model_name='ContentType'
@@ -312,6 +377,9 @@ class Layer(object):
                 object_layer, created = self.stored_layer.object_layers.get_or_create(
                     content_type=content_type, object_id=target.pk
                 )
+                if delete_existing:
+                    object_layer.transformations.all().delete()
+
                 for transformation in transformations:
                     object_layer.transformations.create(
                         order=transformation.order,
@@ -342,10 +410,13 @@ class Layer(object):
 
         return stored_layer
 
+    def get_permission(self, action):
+        return self.permissions.get(action, None)
+
     def get_transformations_for(self, obj, as_classes=False):
         """
         as_classes == True returns the transformation classes from .classes
-        ready to be feed to the converter class
+        ready to be feed to the converter class.
         """
         LayerTransformation = apps.get_model(
             app_label='converter', model_name='LayerTransformation'
@@ -366,15 +437,15 @@ class LayerLink(Link):
     def set_icon(instance, layer):
         if instance.action == 'list':
             if layer.symbol:
-                instance.icon_class = layer.get_icon()
+                instance.icon = layer.get_icon()
 
     def __init__(self, action, layer, object_name=None, **kwargs):
-        super(LayerLink, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.action = action
         self.layer = layer
         self.object_name = object_name or _('transformation')
 
-        permission = layer.permissions.get(action, None)
+        permission = layer.get_permission(action=action)
         if permission:
             self.permissions = (permission,)
 
@@ -408,7 +479,7 @@ class LayerLink(Link):
         )
 
 
-class LayerLinkKwargsFactory(object):
+class LayerLinkKwargsFactory:
     def __init__(self, layer_name=None, variable_name='resolved_object'):
         self.layer_name = layer_name
         self.variable_name = variable_name
@@ -425,7 +496,7 @@ class LayerLinkKwargsFactory(object):
             default_layer = Layer.get_by_value(key='default', value=True)
             return {
                 'app_label': '"{}"'.format(content_type.app_label),
-                'model': '"{}"'.format(content_type.model),
+                'model_name': '"{}"'.format(content_type.model),
                 'object_id': '{}.pk'.format(self.variable_name),
                 'layer_name': '"{}"'.format(
                     self.layer_name or context.get(

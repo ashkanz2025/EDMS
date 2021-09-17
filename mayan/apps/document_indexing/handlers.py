@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from django.apps import apps
 from django.utils.translation import ugettext_lazy as _
 
@@ -12,11 +10,11 @@ def handler_create_default_document_index(sender, **kwargs):
     DocumentType = apps.get_model(
         app_label='documents', model_name='DocumentType'
     )
-    Index = apps.get_model(
-        app_label='document_indexing', model_name='Index'
+    IndexTemplate = apps.get_model(
+        app_label='document_indexing', model_name='IndexTemplate'
     )
 
-    index = Index.objects.create(
+    index = IndexTemplate.objects.create(
         label=_('Creation date'), slug='creation_date'
     )
     for document_type in DocumentType.objects.all():
@@ -24,11 +22,11 @@ def handler_create_default_document_index(sender, **kwargs):
 
     root_template_node = index.template_root
     node = root_template_node.get_children().create(
-        expression='{{ document.date_added|date:"Y" }}', index=index,
+        expression='{{ document.datetime_created|date:"Y" }}', index=index,
         parent=root_template_node
     )
     node.get_children().create(
-        expression='{{ document.date_added|date:"m" }}',
+        expression='{{ document.datetime_created|date:"m" }}',
         index=index, link_documents=True, parent=node
     )
 
@@ -41,18 +39,6 @@ def handler_index_document(sender, **kwargs):
     task_index_document.apply_async(
         kwargs=dict(document_id=kwargs['instance'].pk)
     )
-
-
-def handler_post_save_index_document(sender, **kwargs):
-    """
-    Reindex documents when they get edited. For indexing documents
-    when they are first created the handler_index_document is called
-    from the custom post_document_created signal.
-    """
-    if not kwargs['created']:
-        task_index_document.apply_async(
-            kwargs=dict(document_id=kwargs['instance'].pk)
-        )
 
 
 def handler_remove_document(sender, **kwargs):

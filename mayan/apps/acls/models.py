@@ -1,24 +1,25 @@
-from __future__ import absolute_import, unicode_literals
-
 import logging
 
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.db import models, transaction
+from django.db import models
 from django.urls import reverse
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
+from mayan.apps.databases.model_mixins import ExtraDataModelMixin
+from mayan.apps.events.classes import (
+    EventManagerMethodAfter, EventManagerSave
+)
+from mayan.apps.events.decorators import method_event
 from mayan.apps.permissions.models import Role, StoredPermission
 
-from .events import event_acl_created, event_acl_edited
+from .events import event_acl_created, event_acl_deleted, event_acl_edited
 from .managers import AccessControlListManager
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(name=__name__)
 
 
-@python_2_unicode_compatible
-class AccessControlList(models.Model):
+class AccessControlList(ExtraDataModelMixin, models.Model):
     """
     ACL means Access Control List it is a more fine-grained method of
     granting access to objects. In the case of ACLs, they grant access using
@@ -44,7 +45,9 @@ class AccessControlList(models.Model):
         verbose_name=_('Permissions')
     )
     role = models.ForeignKey(
-        on_delete=models.CASCADE, related_name='acls', to=Role,
+        help_text=_(
+            'Role to which the access is granted for the specified object.'
+        ), on_delete=models.CASCADE, related_name='acls', to=Role,
         verbose_name=_('Role')
     )
 
@@ -64,9 +67,17 @@ class AccessControlList(models.Model):
             'role': self.role,
         }
 
+    @method_event(
+        event_manager_class=EventManagerMethodAfter,
+        event=event_acl_deleted,
+        target='content_object'
+    )
+    def delete(self, *args, **kwargs):
+        return super().delete(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse(
-            viewname='acls:acl_permissions', kwargs={'pk': self.pk}
+            viewname='acls:acl_permissions', kwargs={'acl_id': self.pk}
         )
 
     def get_inherited_permissions(self):
@@ -74,31 +85,39 @@ class AccessControlList(models.Model):
             obj=self.content_object, role=self.role
         )
 
-    def permissions_add(self, queryset, _user=None):
-        with transaction.atomic():
+    def permissions_add(self, queryset, _event_actor=None):
+        for obj in queryset:
+            self.permissions.add(obj)
             event_acl_edited.commit(
-                actor=_user, target=self
+                action_object=obj, actor=_event_actor or self._event_actor,
+                target=self
             )
-            self.permissions.add(*queryset)
 
-    def permissions_remove(self, queryset, _user=None):
-        with transaction.atomic():
+    def permissions_remove(self, queryset, _event_actor=None):
+        for obj in queryset:
+            self.permissions.remove(obj)
             event_acl_edited.commit(
-                actor=_user, target=self
+                action_object=obj, actor=_event_actor or self._event_actor,
+                target=self
             )
-            self.permissions.remove(*queryset)
 
+    @method_event(
+        event_manager_class=EventManagerSave,
+        created={
+            'action_object': 'content_object',
+            'event': event_acl_created,
+            'target': 'self',
+        },
+        edited={
+            'action_object': 'content_object',
+            'event': event_acl_edited,
+            'target': 'self',
+        }
+    )
     def save(self, *args, **kwargs):
-        _user = kwargs.pop('_user', None)
+        return super().save(*args, **kwargs)
 
-        with transaction.atomic():
-            is_new = not self.pk
-            super(AccessControlList, self).save(*args, **kwargs)
-            if is_new:
-                event_acl_created.commit(
-                    actor=_user, target=self
-                )
-            else:
-                event_acl_edited.commit(
-                    actor=_user, target=self
-                )
+
+class GlobalAccessControlListProxy(AccessControlList):
+    class Meta:
+        proxy = True

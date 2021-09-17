@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import yaml
 
 from django import forms
@@ -7,15 +5,29 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from mayan.apps.common.serialization import yaml_load
+from mayan.apps.views.forms import DetailForm
 
-from .models import LayerTransformation
+from .fields import AssetImageField
+from .models import Asset, LayerTransformation
 from .transformations import BaseTransformation
+
+
+class AssetDetailForm(DetailForm):
+    preview = AssetImageField(label=_('Preview'))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['preview'].initial = kwargs['instance']
+
+    class Meta:
+        fields = ('label', 'internal_name', 'preview')
+        model = Asset
 
 
 class LayerTransformationSelectForm(forms.Form):
     def __init__(self, *args, **kwargs):
         layer = kwargs.pop('layer')
-        super(LayerTransformationSelectForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields[
             'transformation'
         ].choices = BaseTransformation.get_transformation_choices(layer=layer)
@@ -33,7 +45,7 @@ class LayerTransformationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         transformation_name = kwargs.pop('transformation_name', None)
-        super(LayerTransformationForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         if not transformation_name:
             # Get the template name when the transformation is being edited.

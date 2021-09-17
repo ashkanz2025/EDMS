@@ -1,64 +1,86 @@
-from __future__ import unicode_literals
+from django.db import models
 
-from ..http import URL
+from mayan.apps.testing.tests.base import BaseTestCase
 
-from .base import BaseTestCase
+from ..classes import QuerysetParametersSerializer
 
 
-class URLTestCase(BaseTestCase):
-    def test_query_to_string(self):
-        url = URL(query={'a': 1})
+class QuerysetParametersSerializerTestCase(BaseTestCase):
+    def _assertQuerysetEqual(self):
+        rebuilt_items = list(map(repr, self.queryset_rebuilt))
 
-        self.assertEqual(url.to_string(), '?a=1')
+        self.assertQuerysetEqual(
+            qs=self.queryset_original, values=rebuilt_items
+        )
 
-    def test_query_list_to_string(self):
-        url = URL(query={'a': '1'})
-        url.args.appendlist(key='a', value='2')
+    def test_without_kwargs(self):
+        self._create_test_object()
 
-        self.assertEqual(url.to_string(), '?a=1&a=2')
+        self.queryset_original = self.TestModel.objects.all()
 
-    def test_query_with_question_mark_to_string(self):
-        url = URL(query={'a': '1?'})
+        decomposed_queryset = QuerysetParametersSerializer.decompose(
+            _model=self.TestModel, _method_name='all'
+        )
 
-        self.assertEqual(url.to_string(), '?a=1%3F')
+        self.queryset_rebuilt = QuerysetParametersSerializer.rebuild(
+            decomposed_queryset=decomposed_queryset
+        )
 
-    def test_querystring_with_list_to_string(self):
-        url = URL(query_string='a=1&a=2')
+        self._assertQuerysetEqual()
 
-        self.assertEqual(url.args.getlist('a'), ['1', '2'])
+    def test_foreign_key_model(self):
+        self.TestModelParent = self._create_test_model(
+            model_name='TestModelParent'
+        )
+        self.TestModelChild = self._create_test_model(
+            fields={
+                'parent': models.ForeignKey(
+                    on_delete=models.CASCADE, related_name='children',
+                    to='TestModelParent',
+                )
+            }, model_name='TestModelChild'
+        )
 
-    def test_querystring_with_question_mark_to_string(self):
-        url = URL(query_string='a=1?')
+        parent = self.TestModelParent.objects.create()
+        self.TestModelChild.objects.create(parent=parent)
 
-        self.assertEqual(url.to_string(), '?a=1%3F')
+        self.queryset_original = self.TestModelChild.objects.all()
 
-    def test_querystring_with_question_mark_encoded_to_string(self):
-        url = URL(query_string='a=1%3F')
+        decomposed_queryset = QuerysetParametersSerializer.decompose(
+            _model=self.TestModelChild, _method_name='filter', parent=parent
+        )
 
-        self.assertEqual(url.to_string(), '?a=1%3F')
+        self.queryset_rebuilt = QuerysetParametersSerializer.rebuild(
+            decomposed_queryset=decomposed_queryset
+        )
 
-    def test_querystring_to_args(self):
-        url = URL(query_string='a=1')
+        self._assertQuerysetEqual()
 
-        self.assertEqual(url.args['a'], '1')
+    def test_foreign_key_model_id_query(self):
+        self.TestModelParent = self._create_test_model(
+            model_name='TestModelParent'
+        )
+        self.TestModelChild = self._create_test_model(
+            fields={
+                'parent': models.ForeignKey(
+                    on_delete=models.CASCADE, related_name='children',
+                    to='TestModelParent',
+                )
+            }, model_name='TestModelChild'
+        )
 
-    def test_querystring_with_question_mark_encoded_to_args(self):
-        url = URL(query_string='a=1%3F')
+        parent = self.TestModelParent.objects.create()
+        self.TestModelChild.objects.create(parent_id=parent.pk)
 
-        self.assertEqual(url.args['a'], '1?')
+        self.queryset_original = self.TestModelChild.objects.all()
 
-    def test_querystring_mixed_to_args(self):
-        url = URL(query_string='a=1&a=2&b=1')
+        decomposed_queryset = QuerysetParametersSerializer.decompose(
+            _model=self.TestModelChild, _method_name='filter',
+            parent_id=parent.pk
+        )
 
-        self.assertEqual(url.args.getlist('a'), ['1', '2'])
-        self.assertEqual(url.args.getlist('b'), ['1'])
+        self.queryset_rebuilt = QuerysetParametersSerializer.rebuild(
+            decomposed_queryset=decomposed_queryset
+        )
 
-    def test_path_and_querystring_to_string(self):
-        url = URL(path='http://example.com', query_string='a=1')
-
-        self.assertEqual(url.to_string(), 'http://example.com?a=1')
-
-    def test_path_and_query_to_string(self):
-        url = URL(path='http://example.com', query={'a': 1})
-
-        self.assertEqual(url.to_string(), 'http://example.com?a=1')
+        self._assertQuerysetEqual()

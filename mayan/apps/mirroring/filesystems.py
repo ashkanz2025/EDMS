@@ -1,12 +1,10 @@
-from __future__ import print_function, unicode_literals
-
 import datetime
 from errno import ENOENT
 import logging
 from stat import S_IFDIR, S_IFREG
 from time import time
 
-from fuse import FuseOSError, Operations
+from fuse import FuseOSError, LoggingMixIn, Operations
 
 from django.core.exceptions import MultipleObjectsReturned
 from django.db.models import (
@@ -14,7 +12,9 @@ from django.db.models import (
 )
 from django.db.models.functions import Concat
 
-from mayan.apps.document_indexing.models import Index, IndexInstanceNode
+from mayan.apps.document_indexing.models import (
+    IndexInstanceNode, IndexTemplate
+)
 from mayan.apps.documents.models import Document
 
 from .literals import (
@@ -22,8 +22,7 @@ from .literals import (
 )
 from .runtime import cache
 
-
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(name=__name__)
 
 
 class Trim(Transform):
@@ -31,7 +30,7 @@ class Trim(Transform):
     lookup_name = 'trim'
 
 
-class IndexFilesystem(Operations):
+class IndexFilesystem(LoggingMixIn, Operations):
     @staticmethod
     def _clean_queryset(queryset, source_field_name, destination_field_name):
         queryset = IndexFilesystem._clean_queryset_end_of_lines(
@@ -139,7 +138,7 @@ class IndexFilesystem(Operations):
 
         logger.debug('parts: %s', parts)
 
-        node = self.index.instance_root
+        node = self.index_template.instance_root
 
         if len(parts) > 1 and parts[1] != '':
             path_cache = cache.get_path(path=path)
@@ -157,9 +156,9 @@ class IndexFilesystem(Operations):
                     if access_only:
                         return True
                     else:
-                        return Document.objects.get(pk=document_pk)
+                        return Document.valid.get(pk=document_pk)
 
-            for count, part in enumerate(parts[1:]):
+            for count, part in enumerate(iterable=parts[1:]):
                 try:
                     node = IndexFilesystem._clean_queryset(
                         queryset=node.get_children(),
@@ -174,8 +173,12 @@ class IndexFilesystem(Operations):
                     else:
                         try:
                             if node.index_template_node.link_documents:
+                                queryset = Document.valid.filter(
+                                    pk__in=node.documents.values('pk')
+                                )
+
                                 document = IndexFilesystem._clean_queryset(
-                                    queryset=node.documents,
+                                    queryset=queryset,
                                     source_field_name='label',
                                     destination_field_name='label_clean'
                                 ).get(label_clean=part)
@@ -210,8 +213,8 @@ class IndexFilesystem(Operations):
         self.file_descriptors = {}
 
         try:
-            self.index = Index.objects.get(slug=index_slug)
-        except Index.DoesNotExist:
+            self.index_template = IndexTemplate.objects.get(slug=index_slug)
+        except IndexTemplate.DoesNotExist:
             print('Unknown index slug: {}.'.format(index_slug))
             exit(1)
 
@@ -236,30 +239,33 @@ class IndexFilesystem(Operations):
         # Must be 2 for directories and at least 1 for files
         # https://www.gnu.org/software/libc/manual/html_node/Attribute-Meanings.html
         if isinstance(result, IndexInstanceNode):
-            return {
+            function_result = {
                 'st_mode': (S_IFDIR | DIRECTORY_MODE), 'st_ctime': now,
                 'st_mtime': now, 'st_atime': now, 'st_nlink': 2
             }
         else:
-            return {
+            function_result = {
                 'st_mode': (S_IFREG | FILE_MODE),
                 'st_ctime': (
-                    result.date_added.replace(tzinfo=None) - result.date_added.utcoffset() - datetime.datetime(1970, 1, 1)
+                    result.datetime_created.replace(tzinfo=None) - result.datetime_created.utcoffset() - datetime.datetime(1970, 1, 1)
                 ).total_seconds(),
                 'st_mtime': (
-                    result.latest_version.timestamp.replace(tzinfo=None) - result.latest_version.timestamp.utcoffset() - datetime.datetime(1970, 1, 1)
+                    result.file_latest.timestamp.replace(tzinfo=None) - result.file_latest.timestamp.utcoffset() - datetime.datetime(1970, 1, 1)
                 ).total_seconds(),
                 'st_atime': now,
-                'st_size': result.size,
+                'st_size': result.file_latest.size or 0,
                 'st_nlink': 1
             }
+
+        logger.debug('function_result: %s', function_result)
+        return function_result
 
     def open(self, path, flags):
         result = self._path_to_node(path=path, directory_only=False)
 
         if isinstance(result, Document):
             next_file_descriptor = self._get_next_file_descriptor()
-            self.file_descriptors[next_file_descriptor] = result.open()
+            self.file_descriptors[next_file_descriptor] = result.file_latest.open()
             return next_file_descriptor
         else:
             raise FuseOSError(ENOENT)
@@ -290,9 +296,12 @@ class IndexFilesystem(Operations):
 
         # Documents
         if node.index_template_node.link_documents:
+            queryset = Document.valid.filter(
+                pk__in=node.documents.values('pk')
+            )
 
             queryset = IndexFilesystem._clean_queryset(
-                queryset=node.documents, source_field_name='label',
+                queryset=queryset, source_field_name='label',
                 destination_field_name='label_clean'
             )
 

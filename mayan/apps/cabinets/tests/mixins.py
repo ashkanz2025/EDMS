@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+from mayan.apps.documents.tests.literals import TEST_SMALL_DOCUMENT_PATH
 
 from ..models import Cabinet
 
@@ -7,9 +7,9 @@ from .literals import (
 )
 
 
-class CabinetAPIViewTestMixin(object):
+class CabinetAPIViewTestMixin:
     def _request_test_cabinet_create_api_view(self, extra_data=None):
-        data = {'label': TEST_CABINET_LABEL}
+        data = {'label': TEST_CABINET_LABEL, 'parent': ''}
 
         if extra_data:
             data.update(extra_data)
@@ -26,28 +26,21 @@ class CabinetAPIViewTestMixin(object):
     def _request_test_cabinet_delete_api_view(self):
         return self.delete(
             viewname='rest_api:cabinet-detail', kwargs={
-                'pk': self.test_cabinet.pk
-            }
-        )
-
-    def _request_test_cabinet_document_remove_api_view(self):
-        return self.delete(
-            viewname='rest_api:cabinet-document', kwargs={
-                'pk': self.test_cabinet.pk, 'document_pk': self.test_document.pk
+                'cabinet_id': self.test_cabinet.pk
             }
         )
 
     def _request_test_cabinet_edit_api_patch_view(self):
         return self.patch(
             data={'label': TEST_CABINET_LABEL_EDITED}, kwargs={
-                'pk': self.test_cabinet.pk
+                'cabinet_id': self.test_cabinet.pk
             }, viewname='rest_api:cabinet-detail'
         )
 
     def _request_test_cabinet_edit_api_put_view(self):
         return self.put(
             data={'label': TEST_CABINET_LABEL_EDITED}, kwargs={
-                'pk': self.test_cabinet.pk
+                'cabinet_id': self.test_cabinet.pk
             }, viewname='rest_api:cabinet-detail'
         )
 
@@ -55,9 +48,53 @@ class CabinetAPIViewTestMixin(object):
         return self.get(viewname='rest_api:cabinet-list')
 
 
-class CabinetTestMixin(object):
+class CabinetDocumentAPIViewTestMixin:
+    def _request_test_cabinet_document_add_api_view(self):
+        return self.post(
+            viewname='rest_api:cabinet-document-add', kwargs={
+                'cabinet_id': self.test_cabinet.pk
+            }, data={
+                'document': self.test_document.pk
+            }
+        )
+
+    def _request_test_cabinet_document_list_api_view(self):
+        return self.get(
+            viewname='rest_api:cabinet-document-list', kwargs={
+                'cabinet_id': self.test_cabinet.pk
+            }
+        )
+
+    def _request_test_cabinet_document_remove_api_view(self):
+        return self.post(
+            viewname='rest_api:cabinet-document-remove', kwargs={
+                'cabinet_id': self.test_cabinet.pk
+            }, data={
+                'document': self.test_document.pk
+            }
+        )
+
+
+class CabinetDocumentUploadWizardStepTestMixin:
+    def _request_upload_interactive_document_create_view(self):
+        with open(file=TEST_SMALL_DOCUMENT_PATH, mode='rb') as file_object:
+            return self.post(
+                viewname='sources:document_upload_interactive', kwargs={
+                    'source_id': self.test_source.pk
+                }, data={
+                    'document_type_id': self.test_document_type.pk,
+                    'source-file': file_object,
+                    'cabinets': Cabinet.objects.values_list('pk', flat=True)
+                }
+            )
+
+    def _request_wizard_view(self):
+        return self.get(viewname='sources:document_create_multiple')
+
+
+class CabinetTestMixin:
     def setUp(self):
-        super(CabinetTestMixin, self).setUp()
+        super().setUp()
         if not hasattr(self, 'test_cabinets'):
             self.test_cabinets = []
 
@@ -71,9 +108,9 @@ class CabinetTestMixin(object):
         )
 
 
-class CabinetViewTestMixin(object):
+class CabinetViewTestMixin:
     def setUp(self):
-        super(CabinetViewTestMixin, self).setUp()
+        super().setUp()
         if not hasattr(self, 'test_cabinets'):
             self.test_cabinets = []
 
@@ -95,14 +132,14 @@ class CabinetViewTestMixin(object):
     def _request_test_cabinet_delete_view(self):
         return self.post(
             viewname='cabinets:cabinet_delete', kwargs={
-                'pk': self.test_cabinet.pk
+                'cabinet_id': self.test_cabinet.pk
             }
         )
 
     def _request_test_cabinet_edit_view(self):
         return self.post(
             viewname='cabinets:cabinet_edit', kwargs={
-                'pk': self.test_cabinet.pk
+                'cabinet_id': self.test_cabinet.pk
             }, data={
                 'label': TEST_CABINET_LABEL_EDITED
             }
@@ -114,7 +151,7 @@ class CabinetViewTestMixin(object):
 
         response = self.post(
             viewname='cabinets:cabinet_child_add', kwargs={
-                'pk': self.test_cabinet.pk
+                'cabinet_id': self.test_cabinet.pk
             }, data={'label': TEST_CABINET_CHILD_LABEL}
         )
 
@@ -126,17 +163,33 @@ class CabinetViewTestMixin(object):
     def _request_test_cabinet_child_delete_view(self):
         return self.post(
             viewname='cabinets:cabinet_delete', kwargs={
-                'pk': self.test_cabinet_child.pk
+                'cabinet_id': self.test_cabinet_child.pk
+            }
+        )
+
+    def _request_test_cabinet_document_list_view(self):
+        return self.get(
+            viewname='cabinets:cabinet_view', kwargs={
+                'cabinet_id': self.test_cabinet.pk
             }
         )
 
     def _request_test_cabinet_list_view(self):
         return self.get(viewname='cabinets:cabinet_list')
 
+    def _request_test_document_cabinet_add_view(self):
+        return self.post(
+            viewname='cabinets:document_cabinet_add', kwargs={
+                'document_id': self.test_document.pk
+            }, data={
+                'cabinets': self.test_cabinet.pk
+            }
+        )
+
     def _request_test_document_cabinet_multiple_remove_view(self):
         return self.post(
             viewname='cabinets:document_cabinet_remove', kwargs={
-                'pk': self.test_document.pk
+                'document_id': self.test_document.pk
             }, data={
                 'cabinets': (self.test_cabinet.pk,),
             }
@@ -151,10 +204,19 @@ class CabinetViewTestMixin(object):
         )
 
 
-class DocumentCabinetAPIViewTestMixin(object):
-    def _request_test_document_cabinet_list_view(self):
+class DocumentCabinetAPIViewTestMixin:
+    def _request_test_document_cabinet_list_api_view(self):
         return self.get(
             viewname='rest_api:document-cabinet-list', kwargs={
-                'pk': self.test_document.pk
+                'document_id': self.test_document.pk
+            }
+        )
+
+
+class DocumentCabinetViewTestMixin:
+    def _request_test_document_cabinet_list_view(self):
+        return self.get(
+            viewname='cabinets:document_cabinet_list', kwargs={
+                'document_id': self.test_document.pk
             }
         )

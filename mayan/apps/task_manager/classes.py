@@ -1,21 +1,21 @@
-from __future__ import absolute_import, unicode_literals
-
-from importlib import import_module
 import logging
 
 from kombu import Exchange, Queue
 
-from django.apps import apps
-from django.utils.encoding import force_text, python_2_unicode_compatible
+from django.core.exceptions import ImproperlyConfigured
+from django.utils.encoding import force_text
 from django.utils.module_loading import import_string
 
+from mayan.apps.common.class_mixins import AppsModuleLoaderMixin
+from mayan.apps.common.exceptions import NonUniqueError
 from mayan.celery import app as celery_app
 
-logger = logging.getLogger(__name__)
+from .literals import WORKER_DEFAULT_CONCURRENCY
+
+logger = logging.getLogger(name=__name__)
 
 
-@python_2_unicode_compatible
-class TaskType(object):
+class TaskType:
     _registry = {}
 
     @classmethod
@@ -35,7 +35,7 @@ class TaskType(object):
         self.validate()
 
     def __str__(self):
-        return force_text(self.label)
+        return force_text(s=self.label)
 
     def validate(self):
         try:
@@ -48,34 +48,19 @@ class TaskType(object):
             raise
 
 
-@python_2_unicode_compatible
-class Task(object):
+class Task:
     def __init__(self, task_type, kwargs):
         self.task_type = task_type
         self.kwargs = kwargs
 
     def __str__(self):
-        return force_text(self.task_type)
+        return force_text(s=self.task_type)
 
 
-@python_2_unicode_compatible
-class CeleryQueue(object):
+class CeleryQueue(AppsModuleLoaderMixin):
+    _loader_module_name = 'queues'
     _registry = {}
-
-    @staticmethod
-    def initialize():
-        for app in apps.get_app_configs():
-            try:
-                import_module('{}.queues'.format(app.name))
-            except ImportError as exception:
-                if force_text(exception) not in ('No module named queues', 'No module named \'{}.queues\''.format(app.name)):
-                    logger.error(
-                        'Error importing %s queues.py file; %s', app.name,
-                        exception
-                    )
-                    raise
-
-        CeleryQueue.update_celery()
+    _registry_task_types = {}
 
     @classmethod
     def all(cls):
@@ -88,6 +73,19 @@ class CeleryQueue(object):
         return cls._registry[queue_name]
 
     @classmethod
+    def load_modules(cls):
+        super().load_modules()
+        CeleryQueue.update_celery()
+
+        for task_name, task in celery_app.tasks.items():
+            if not task_name.startswith('celery') and task_name not in cls._registry_task_types:
+                raise ImproperlyConfigured(
+                    'Task `{}` is not properly configured.'.format(
+                        task_name
+                    )
+                )
+
+    @classmethod
     def update_celery(cls):
         for instance in cls.all():
             instance._update_celery()
@@ -98,11 +96,17 @@ class CeleryQueue(object):
         self.default_queue = default_queue
         self.transient = transient
         self.task_types = []
+
+        if name in self.__class__._registry:
+            raise NonUniqueError(
+                'A queue named `{}`, already exists.'.format(name)
+            )
+
         self.__class__._registry[name] = self
-        worker.queues.append(self)
+        worker._queues.append(self)
 
     def __str__(self):
-        return force_text(self.label)
+        return force_text(s=self.label)
 
     def _process_task_dictionary(self, task_dictionary):
         result = []
@@ -117,6 +121,7 @@ class CeleryQueue(object):
     def add_task_type(self, *args, **kwargs):
         task_type = TaskType(*args, **kwargs)
         self.task_types.append(task_type)
+        self.__class__._registry_task_types[task_type.dotted_path] = self
         return task_type
 
     def _update_celery(self):
@@ -153,7 +158,7 @@ class CeleryQueue(object):
                 )
 
 
-class Worker(object):
+class Worker:
     _registry = {}
 
     @classmethod
@@ -164,9 +169,20 @@ class Worker(object):
     def get(cls, name):
         return cls._registry[name]
 
-    def __init__(self, name, label=None, nice_level=0):
+    def __init__(
+        self, name, maximum_memory_per_child=None,
+        maximum_tasks_per_child=None, concurrency=None, label=None,
+        nice_level=0
+    ):
+        self.concurrency = concurrency or WORKER_DEFAULT_CONCURRENCY
         self.name = name
         self.label = label
+        self.maximum_memory_per_child = maximum_memory_per_child
+        self.maximum_tasks_per_child = maximum_tasks_per_child
         self.nice_level = nice_level
-        self.queues = []
+        self._queues = []
         self.__class__._registry[name] = self
+
+    @property
+    def queues(self):
+        return sorted(self._queues, key=lambda queue: queue.name)

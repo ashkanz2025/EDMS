@@ -1,26 +1,25 @@
-from __future__ import absolute_import, unicode_literals
-
 import logging
 
-from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
-from mayan.apps.common.generics import (
+from mayan.apps.views.generics import (
     SingleObjectCreateView, SingleObjectDeleteView, SingleObjectEditView,
     SingleObjectListView
 )
-from mayan.apps.common.mixins import ExternalObjectMixin
+from mayan.apps.views.mixins import ExternalObjectViewMixin
 
-from ..forms import DocumentTypeFilenameForm_create
+from ..forms.document_type_forms import (
+    DocumentTypeFilenameGeneratorForm, DocumentTypeFilenameForm_create
+)
 from ..icons import (
     icon_document_type_filename, icon_document_type_setup
 )
 from ..links.document_type_links import (
     link_document_type_create, link_document_type_filename_create
 )
-from ..models import DocumentType, DocumentTypeFilename
+from ..models.document_type_models import DocumentType, DocumentTypeFilename
 from ..permissions import (
     permission_document_type_create, permission_document_type_delete,
     permission_document_type_edit, permission_document_type_view
@@ -30,26 +29,28 @@ from .document_views import DocumentListView
 
 __all__ = (
     'DocumentTypeDocumentListView', 'DocumentTypeListView',
-    'DocumentTypeCreateView', 'DocumentTypeDeleteView', 'DocumentTypeEditView',
-    'DocumentTypeFilenameCreateView', 'DocumentTypeFilenameEditView',
-    'DocumentTypeFilenameDeleteView', 'DocumentTypeFilenameListView'
+    'DocumentTypeCreateView', 'DocumentTypeDeleteView',
+    'DocumentTypeEditView', 'DocumentTypeFilenameCreateView',
+    'DocumentTypeFilenameEditView', 'DocumentTypeFilenameDeleteView',
+    'DocumentTypeFilenameListView'
 )
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(name=__name__)
 
 
-class DocumentTypeDocumentListView(DocumentListView):
-    def get_document_type(self):
-        return get_object_or_404(klass=DocumentType, pk=self.kwargs['pk'])
+class DocumentTypeDocumentListView(ExternalObjectViewMixin, DocumentListView):
+    external_object_class = DocumentType
+    external_object_permission = permission_document_type_view
+    external_object_pk_url_kwarg = 'document_type_id'
 
     def get_document_queryset(self):
-        return self.get_document_type().documents.all()
+        return self.external_object.documents.all()
 
     def get_extra_context(self):
-        context = super(DocumentTypeDocumentListView, self).get_extra_context()
+        context = super().get_extra_context()
         context.update(
             {
-                'object': self.get_document_type(),
-                'title': _('Documents of type: %s') % self.get_document_type()
+                'object': self.external_object,
+                'title': _('Documents of type: %s') % self.external_object
             }
         )
         return context
@@ -82,7 +83,9 @@ class DocumentTypeListView(SingleObjectListView):
 class DocumentTypeCreateView(SingleObjectCreateView):
     fields = ('label',)
     model = DocumentType
-    post_action_redirect = reverse_lazy(viewname='documents:document_type_list')
+    post_action_redirect = reverse_lazy(
+        viewname='documents:document_type_list'
+    )
     view_permission = permission_document_type_create
 
     def get_extra_context(self):
@@ -90,22 +93,46 @@ class DocumentTypeCreateView(SingleObjectCreateView):
             'title': _('Create document type'),
         }
 
-    def get_save_extra_data(self):
+    def get_instance_extra_data(self):
         return {
-            '_user': self.request.user,
+            '_event_actor': self.request.user,
         }
 
 
 class DocumentTypeDeleteView(SingleObjectDeleteView):
     model = DocumentType
     object_permission = permission_document_type_delete
-    post_action_redirect = reverse_lazy(viewname='documents:document_type_list')
+    pk_url_kwarg = 'document_type_id'
+    post_action_redirect = reverse_lazy(
+        viewname='documents:document_type_list'
+    )
 
     def get_extra_context(self):
         return {
             'message': _('All documents of this type will be deleted too.'),
-            'object': self.get_object(),
-            'title': _('Delete the document type: %s?') % self.get_object(),
+            'object': self.object,
+            'title': _('Delete the document type: %s?') % self.object,
+        }
+
+
+class DocumentTypeEditView(SingleObjectEditView):
+    fields = ('label',)
+    model = DocumentType
+    object_permission = permission_document_type_edit
+    pk_url_kwarg = 'document_type_id'
+    post_action_redirect = reverse_lazy(
+        viewname='documents:document_type_list'
+    )
+
+    def get_extra_context(self):
+        return {
+            'object': self.object,
+            'title': _('Edit document type: %s') % self.object,
+        }
+
+    def get_instance_extra_data(self):
+        return {
+            '_event_actor': self.request.user,
         }
 
 
@@ -116,85 +143,68 @@ class DocumentTypeDeletionPoliciesEditView(SingleObjectEditView):
     )
     model = DocumentType
     object_permission = permission_document_type_edit
+    pk_url_kwarg = 'document_type_id'
     post_action_redirect = reverse_lazy(viewname='documents:document_type_list')
 
     def get_extra_context(self):
         return {
-            'object': self.get_object(),
+            'object': self.object,
             'title': _(
                 'Deletion policies for document type: %s'
-            ) % self.get_object(),
-        }
-
-    def get_save_extra_data(self):
-        return {
-            '_user': self.request.user,
-        }
-
-
-class DocumentTypeEditView(SingleObjectEditView):
-    fields = ('label',)
-    model = DocumentType
-    object_permission = permission_document_type_edit
-    post_action_redirect = reverse_lazy(viewname='documents:document_type_list')
-
-    def get_extra_context(self):
-        return {
-            'object': self.get_object(),
-            'title': _('Edit document type: %s') % self.get_object(),
-        }
-
-    def get_save_extra_data(self):
-        return {
-            '_user': self.request.user,
-        }
-
-
-class DocumentTypeFilenameCreateView(ExternalObjectMixin, SingleObjectCreateView):
-    external_object_class = DocumentType
-    external_object_permission = permission_document_type_edit
-    external_object_pk_url_kwarg = 'pk'
-    form_class = DocumentTypeFilenameForm_create
-
-    def get_document_type(self):
-        return self.external_object
-
-    def get_extra_context(self):
-        return {
-            'document_type': self.get_document_type(),
-            'navigation_object_list': ('document_type',),
-            'title': _(
-                'Create quick label for document type: %s'
-            ) % self.get_document_type(),
+            ) % self.object,
         }
 
     def get_instance_extra_data(self):
-        return {'document_type': self.get_document_type()}
+        return {
+            '_event_actor': self.request.user,
+        }
+
+
+class DocumentTypeFilenameCreateView(
+    ExternalObjectViewMixin, SingleObjectCreateView
+):
+    external_object_class = DocumentType
+    external_object_permission = permission_document_type_edit
+    external_object_pk_url_kwarg = 'document_type_id'
+    form_class = DocumentTypeFilenameForm_create
+
+    def get_extra_context(self):
+        return {
+            'document_type': self.external_object,
+            'navigation_object_list': ('document_type',),
+            'title': _(
+                'Create quick label for document type: %s'
+            ) % self.external_object,
+        }
+
+    def get_instance_extra_data(self):
+        return {'document_type': self.external_object}
 
 
 class DocumentTypeFilenameDeleteView(SingleObjectDeleteView):
     model = DocumentTypeFilename
     object_permission = permission_document_type_edit
-    pk_url_kwarg = 'pk'
+    pk_url_kwarg = 'document_type_filename_id'
 
     def get_extra_context(self):
         return {
-            'document_type': self.get_object().document_type,
-            'filename': self.get_object(),
+            'document_type': self.object.document_type,
+            'filename': self.object,
             'navigation_object_list': ('document_type', 'filename',),
             'title': _(
                 'Delete the quick label: %(label)s, from document type '
                 '"%(document_type)s"?'
             ) % {
-                'document_type': self.get_object().document_type,
-                'label': self.get_object()
+                'document_type': self.object.document_type,
+                'label': self.object
             },
         }
 
     def get_post_action_redirect(self):
         return reverse(
-            viewname='documents:document_type_filename_list',
-            kwargs={'pk': self.get_object().document_type.pk}
+            viewname='documents:document_type_filename_list', kwargs={
+                'document_type_id': self.object.document_type.pk
+            }
         )
 
 
@@ -202,42 +212,40 @@ class DocumentTypeFilenameEditView(SingleObjectEditView):
     fields = ('enabled', 'filename',)
     model = DocumentTypeFilename
     object_permission = permission_document_type_edit
-    pk_url_kwarg = 'pk'
+    pk_url_kwarg = 'document_type_filename_id'
 
     def get_extra_context(self):
-        document_type_filename = self.get_object()
-
         return {
-            'document_type': document_type_filename.document_type,
-            'filename': document_type_filename,
+            'document_type': self.object.document_type,
+            'filename': self.object,
             'navigation_object_list': ('document_type', 'filename',),
             'title': _(
                 'Edit quick label "%(filename)s" from document type '
                 '"%(document_type)s"'
             ) % {
-                'document_type': document_type_filename.document_type,
-                'filename': document_type_filename
+                'document_type': self.object.document_type,
+                'filename': self.object
             },
         }
 
     def get_post_action_redirect(self):
         return reverse(
-            viewname='documents:document_type_filename_list',
-            kwargs={'pk': self.get_object().document_type.pk}
+            viewname='documents:document_type_filename_list', kwargs={
+                'document_type_id': self.object.document_type.pk
+            }
         )
 
 
-class DocumentTypeFilenameListView(ExternalObjectMixin, SingleObjectListView):
+class DocumentTypeFilenameListView(
+    ExternalObjectViewMixin, SingleObjectListView
+):
     external_object_class = DocumentType
     external_object_permission = permission_document_type_view
-    external_object_pk_url_kwarg = 'pk'
-
-    def get_document_type(self):
-        return self.external_object
+    external_object_pk_url_kwarg = 'document_type_id'
 
     def get_extra_context(self):
         return {
-            'document_type': self.get_document_type(),
+            'document_type': self.external_object,
             'hide_link': True,
             'hide_object': True,
             'navigation_object_list': ('document_type',),
@@ -245,7 +253,7 @@ class DocumentTypeFilenameListView(ExternalObjectMixin, SingleObjectListView):
             'no_results_main_link': link_document_type_filename_create.resolve(
                 context=RequestContext(
                     request=self.request, dict_={
-                        'document_type': self.get_document_type()
+                        'document_type': self.external_object
                     }
                 )
             ),
@@ -260,8 +268,31 @@ class DocumentTypeFilenameListView(ExternalObjectMixin, SingleObjectListView):
             ),
             'title': _(
                 'Quick labels for document type: %s'
-            ) % self.get_document_type(),
+            ) % self.external_object,
         }
 
     def get_source_queryset(self):
-        return self.get_document_type().filenames.all()
+        return self.external_object.filenames.all()
+
+
+class DocumentTypeFileGeneratorEditView(SingleObjectEditView):
+    form_class = DocumentTypeFilenameGeneratorForm
+    model = DocumentType
+    object_permission = permission_document_type_edit
+    pk_url_kwarg = 'document_type_id'
+    post_action_redirect = reverse_lazy(
+        viewname='documents:document_type_list'
+    )
+
+    def get_extra_context(self):
+        return {
+            'object': self.object,
+            'title': _(
+                'Filename generation setup for document type: %s'
+            ) % self.object,
+        }
+
+    def get_instance_extra_data(self):
+        return {
+            '_event_actor': self.request.user,
+        }

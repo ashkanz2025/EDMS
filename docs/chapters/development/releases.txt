@@ -18,7 +18,6 @@ This is the sequence of step used to produce an installable package:
     $ source venv/bin/activate
     $ pip install <path of the Git repository>/dist/mayan-edms-x.y.z.tar.gz
     $ mayan-edms.py initialsetup
-    $ mayan-edms.py preparestatic
     $ mayan-edms.py runserver
 
 
@@ -40,7 +39,6 @@ Wheel package
     $ source venv/bin/activate
     $ pip install <path of the Git repository>/dist/mayan_edms-x.y.z-py2-none-any.whl
     $ mayan-edms.py initialsetup
-    $ mayan-edms.py preparestatic
     $ mayan-edms.py runserver
 
 
@@ -60,21 +58,23 @@ X.Y     # Final release
 Release checklist
 =================
 
+#. Copy the ``config.env`` values::
+
+    make copy-config-env
+
+#. Update the distrution ``.gitlab-ci.yml`` file::
+
+    make gitlab-ci-update
+
+#. Scan the code with flake8 for simple style warnings.
+#. Run all tests::
+
+    make test-all
+
 #. Check for missing migrations::
 
     make check-missing-migrations
 
-#. Synchronize translations::
-
-    make translations-pull
-
-#. Compile translations::
-
-    make translations-compile
-
-#. Update changelog.
-#. Write release notes.
-#. Scan the code with flake8 for simple style warnings.
 #. Check README.rst format with::
 
     python setup.py check -r -s
@@ -83,14 +83,15 @@ Release checklist
 
        make check-readme
 
+#. Update changelog.
+#. Write release notes.
+#. Synchronize translations::
+
+    make translations-all
+
 #. Bump version in ``mayan/__init__.py`` and ``docker/rootfs/version``::
 
     make increase-version PART=<major, minor or micro>
-
-#. Update requirements version in ``setup.py`` using:
-   ::
-
-       make generate-setup
 
 #. Commit as version bump.
 #. Build source package and test:
@@ -122,8 +123,9 @@ Release using GitLab CI using the makefile
 ------------------------------------------
 
 #. Use of the GitLab makefile targets: ``gitlab-release-all``,
-   ``gitlab-release-docker``, ``gitlab-release-documentation``,
-   ``gitlab-release-python``.
+   ``gitlab-release-all-minor``, ``gitlab-release-docker-minor``,
+   ``gitlab-release-python-minor``, ``gitlab-release-docker``,
+   ``gitlab-release-documentation``, ``gitlab-release-python``.
 
 
 Release using GitLab CI manually

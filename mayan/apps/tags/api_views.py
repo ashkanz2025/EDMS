@@ -1,15 +1,10 @@
-from __future__ import absolute_import, unicode_literals
-
-from django.shortcuts import get_object_or_404
-
-from rest_framework.exceptions import ValidationError
-from rest_framework.response import Response
-
-from mayan.apps.acls.models import AccessControlList
 from mayan.apps.documents.models import Document
 from mayan.apps.documents.permissions import permission_document_view
-from mayan.apps.documents.serializers import DocumentSerializer
+from mayan.apps.documents.serializers.document_serializers import (
+    DocumentSerializer
+)
 from mayan.apps.rest_api import generics
+from mayan.apps.rest_api.api_view_mixins import ExternalObjectAPIViewMixin
 
 from .models import Tag
 from .permissions import (
@@ -17,9 +12,32 @@ from .permissions import (
     permission_tag_edit, permission_tag_remove, permission_tag_view
 )
 from .serializers import (
-    DocumentTagSerializer, NewDocumentTagSerializer, TagSerializer,
-    WritableTagSerializer
+    DocumentTagAttachSerializer, DocumentTagRemoveSerializer,
+    TagSerializer
 )
+
+
+class APITagDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    delete: Delete the selected tag.
+    get: Return the details of the selected tag.
+    patch: Edit the selected tag.
+    put: Edit the selected tag.
+    """
+    lookup_url_kwarg = 'tag_id'
+    mayan_object_permissions = {
+        'DELETE': (permission_tag_delete,),
+        'GET': (permission_tag_view,),
+        'PATCH': (permission_tag_edit,),
+        'PUT': (permission_tag_edit,)
+    }
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+
+    def get_instance_extra_data(self):
+        return {
+            '_event_actor': self.request.user
+        }
 
 
 class APITagListView(generics.ListCreateAPIView):
@@ -29,180 +47,81 @@ class APITagListView(generics.ListCreateAPIView):
     """
     mayan_object_permissions = {'GET': (permission_tag_view,)}
     mayan_view_permissions = {'POST': (permission_tag_create,)}
+    ordering_fields = ('id', 'label')
     queryset = Tag.objects.all()
+    serializer_class = TagSerializer
 
-    def get_serializer(self, *args, **kwargs):
-        if not self.request:
-            return None
-
-        return super(APITagListView, self).get_serializer(*args, **kwargs)
-
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return TagSerializer
-        elif self.request.method == 'POST':
-            return WritableTagSerializer
+    def get_instance_extra_data(self):
+        return {
+            '_event_actor': self.request.user
+        }
 
 
-class APITagView(generics.RetrieveUpdateDestroyAPIView):
-    """
-    delete: Delete the selected tag.
-    get: Return the details of the selected tag.
-    patch: Edit the selected tag.
-    put: Edit the selected tag.
-    """
-    mayan_object_permissions = {
-        'DELETE': (permission_tag_delete,),
-        'GET': (permission_tag_view,),
-        'PATCH': (permission_tag_edit,),
-        'PUT': (permission_tag_edit,)
-    }
-    queryset = Tag.objects.all()
-
-    def get_serializer(self, *args, **kwargs):
-        if not self.request:
-            return None
-
-        return super(APITagView, self).get_serializer(*args, **kwargs)
-
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return TagSerializer
-        else:
-            return WritableTagSerializer
-
-
-class APITagDocumentListView(generics.ListAPIView):
+class APITagDocumentListView(
+    ExternalObjectAPIViewMixin, generics.ListAPIView
+):
     """
     get: Returns a list of all the documents tagged by a particular tag.
     """
+    external_object_class = Tag
+    external_object_pk_url_kwarg = 'tag_id'
+    mayan_external_object_permissions = {'GET': (permission_tag_view,)}
     mayan_object_permissions = {'GET': (permission_document_view,)}
     serializer_class = DocumentSerializer
 
     def get_queryset(self):
-        queryset = AccessControlList.objects.restrict_queryset(
-            queryset=Tag.objects.all(), permission=permission_tag_view,
-            user=self.request.user
+        return Document.valid.filter(
+            pk__in=self.external_object.documents.only('pk')
         )
 
-        tag = get_object_or_404(klass=queryset, pk=self.kwargs['pk'])
 
-        return tag.documents.all()
-
-
-class APIDocumentTagListView(generics.ListCreateAPIView):
+class APIDocumentTagAttachView(generics.ObjectActionAPIView):
     """
-    get: Returns a list of all the tags attached to a document.
     post: Attach a tag to a document.
     """
+    lookup_url_kwarg = 'document_id'
     mayan_object_permissions = {
-        'GET': (permission_tag_view,),
         'POST': (permission_tag_attach,)
     }
+    serializer_class = DocumentTagAttachSerializer
+    queryset = Document.valid
 
-    def get_document(self):
-        if self.request.method == 'GET':
-            permission = permission_tag_view
-        elif self.request.method == 'POST':
-            permission = permission_tag_attach
-
-        queryset = AccessControlList.objects.restrict_queryset(
-            queryset=Document.objects.all(), permission=permission,
-            user=self.request.user
-        )
-        return get_object_or_404(
-            klass=queryset, pk=self.kwargs['document_pk']
-        )
-
-    def get_queryset(self):
-        return self.get_document().tags.all()
-
-    def get_serializer(self, *args, **kwargs):
-        if not self.request:
-            return None
-
-        return super(APIDocumentTagListView, self).get_serializer(*args, **kwargs)
-
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return DocumentTagSerializer
-        elif self.request.method == 'POST':
-            return NewDocumentTagSerializer
-
-    def get_serializer_context(self):
-        """
-        Extra context provided to the serializer class.
-        """
-        context = super(APIDocumentTagListView, self).get_serializer_context()
-        if self.kwargs:
-            context.update(
-                {
-                    'document': self.get_document(),
-                }
-            )
-
-        return context
-
-    def perform_create(self, serializer):
-        serializer.save(document=self.get_document())
+    def object_action(self, request, serializer):
+        tag = serializer.validated_data['tag']
+        tag._event_actor = self.request.user
+        tag.attach_to(document=self.object)
 
 
-class APIDocumentTagView(generics.RetrieveDestroyAPIView):
+class APIDocumentTagRemoveView(generics.ObjectActionAPIView):
     """
-    delete: Remove a tag from the selected document.
-    get: Returns the details of the selected document tag.
+    post: Remove a tag from a document.
     """
+    lookup_url_kwarg = 'document_id'
+    mayan_object_permissions = {
+        'POST': (permission_tag_remove,)
+    }
+    serializer_class = DocumentTagRemoveSerializer
+    queryset = Document.valid
+
+    def object_action(self, request, serializer):
+        tag = serializer.validated_data['tag']
+        tag._event_actor = self.request.user
+        tag.remove_from(document=self.object)
+
+
+class APIDocumentTagListView(ExternalObjectAPIViewMixin, generics.ListAPIView):
+    """
+    get: Returns a list of all the tags attached to a document.
+    """
+    external_object_queryset = Document.valid
+    external_object_pk_url_kwarg = 'document_id'
+    mayan_external_object_permissions = {
+        'GET': (permission_tag_view,)
+    }
     mayan_object_permissions = {
         'GET': (permission_tag_view,),
-        'DELETE': (permission_tag_remove,)
     }
-    serializer_class = DocumentTagSerializer
-
-    def get_document(self):
-        if self.request.method == 'GET':
-            permission = permission_tag_view
-        elif self.request.method == 'DELETE':
-            permission = permission_tag_remove
-
-        queryset = AccessControlList.objects.restrict_queryset(
-            queryset=Document.objects.all(), permission=permission,
-            user=self.request.user
-        )
-        return get_object_or_404(
-            klass=queryset, pk=self.kwargs['document_pk']
-        )
+    serializer_class = TagSerializer
 
     def get_queryset(self):
-        return self.get_document().tags.all()
-
-    def get_serializer(self, *args, **kwargs):
-        if not self.request:
-            return None
-
-        return super(APIDocumentTagView, self).get_serializer(*args, **kwargs)
-
-    def get_serializer_context(self):
-        """
-        Extra context provided to the serializer class.
-        """
-        context = super(APIDocumentTagView, self).get_serializer_context()
-        if self.kwargs:
-            context.update(
-                {
-                    'document': self.get_document(),
-                }
-            )
-
-        return context
-
-    def perform_destroy(self, instance):
-        try:
-            instance.documents.remove(self.get_document())
-        except Exception as exception:
-            raise ValidationError(exception)
-
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
+        return self.external_object.tags.all()

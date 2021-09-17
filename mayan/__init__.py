@@ -1,10 +1,8 @@
-from __future__ import unicode_literals
-
 __title__ = 'Mayan EDMS'
-__version__ = '3.3.9'
-__build__ = 0x030309
-__build_string__ = 'v3.3.9_Sat Jan 18 04:41:52 2020 -0400'
-__django_version__ = '1.11'
+__version__ = '4.0.15'
+__build__ = 0x040015
+__build_string__ = 'v4.0.15_Sat Aug 7 03:33:43 2021 -0400'
+__django_version__ = '2.2'
 __author__ = 'Roberto Rosario'
 __author_email__ = 'roberto.rosario@mayan-edms.com'
 __description__ = 'Free Open Source Electronic Document Management System'

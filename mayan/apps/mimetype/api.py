@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from shutil import copyfileobj
 
 import magic
@@ -7,7 +5,7 @@ import magic
 from mayan.apps.storage.utils import NamedTemporaryFile
 
 
-def get_mimetype(file_object, mimetype_only=False):
+def get_mimetype(file_object, mime=True, mimetype_only=False):
     """
     Determine a file's mimetype by calling the system's libmagic
     library via python-magic.
@@ -21,7 +19,7 @@ def get_mimetype(file_object, mimetype_only=False):
     file_object.seek(0)
     temporary_file_object.seek(0)
 
-    kwargs = {'mime': True}
+    kwargs = {'mime': mime}
 
     if not mimetype_only:
         kwargs['mime_encoding'] = True

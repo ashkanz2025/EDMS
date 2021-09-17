@@ -1,12 +1,9 @@
-from __future__ import unicode_literals
-
 from django.db import models, migrations
 
-import mayan.apps.converter.models
+import mayan.apps.common.validators
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('contenttypes', '0001_initial'),
     ]
@@ -41,13 +38,16 @@ class Migration(migrations.Migration):
                     'arguments', models.TextField(
                         blank=True, null=True, verbose_name='Arguments',
                         validators=[
-                            mayan.apps.converter.validators.YAMLValidator
+                            mayan.apps.common.validators.YAMLValidator
                         ]
                     )
                 ),
                 (
                     'content_type',
-                    models.ForeignKey(to='contenttypes.ContentType')
+                    models.ForeignKey(
+                        on_delete=models.CASCADE,
+                        to='contenttypes.ContentType'
+                    )
                 ),
             ],
             options={

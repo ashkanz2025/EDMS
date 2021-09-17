@@ -1,16 +1,14 @@
-from __future__ import unicode_literals
-
 import logging
 
 from mayan.apps.document_indexing.tasks import task_index_document
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(name=__name__)
 
 
 def handler_index_document(sender, **kwargs):
     if kwargs['action'] in ('post_add', 'post_remove'):
         for pk in kwargs['pk_set']:
-            task_index_document.apply_async(kwargs=dict(document_id=pk))
+            task_index_document.apply_async(kwargs={'document_id': pk})
 
 
 def handler_tag_pre_delete(sender, **kwargs):

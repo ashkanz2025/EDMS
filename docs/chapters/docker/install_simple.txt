@@ -7,11 +7,11 @@ Simple Docker installation
 
 #. Install Docker:
 
-   .. code-block:: bash
+   .. code-block:: console
 
        wget -qO- https://get.docker.com/ | sh
 
-   If you don't want run an automated script, follow the instructions outlined
+   If you don't want to run an automated script, follow the instructions outlined
    in their documentation: https://docs.docker.com/install/
 
    Once the Docker installation is finished, proceed to the link below to install
@@ -23,28 +23,33 @@ Simple Docker installation
    With Docker properly installed, proceed to download the Mayan EDMS Docker
    image using the command:
 
-   .. code-block:: bash
+   .. code-block:: console
 
        docker pull mayanedms/mayanedms:|DOCKER_MAYAN_IMAGE_VERSION|
+
+   .. note::
+
+       Do not use the ``latest`` tag. It may not necessarily point to the
+       latest version, might be pointing to the latest image pushed.
 
 
 #. Download the PostgreSQL Docker image:
 
-   .. code-block:: bash
+   .. code-block:: console
 
        docker pull |DOCKER_POSTGRES_IMAGE_VERSION|
 
 
 #. Download the Redis Docker image:
 
-   .. code-block:: bash
+   .. code-block:: console
 
        docker pull |DOCKER_REDIS_IMAGE_VERSION|
 
 
 #. Create and run a PostgreSQL container:
 
-   .. code-block:: bash
+   .. code-block:: console
 
        docker run \
        -d \
@@ -66,7 +71,7 @@ Simple Docker installation
 
 #. Create and run a Redis container:
 
-   .. code-block:: bash
+   .. code-block:: console
 
        docker run \
        -d \
@@ -77,7 +82,7 @@ Simple Docker installation
        |DOCKER_REDIS_IMAGE_VERSION| \
        redis-server \
        --databases \
-       "2" \
+       "3" \
        --maxmemory-policy \
        allkeys-lru \
        --save \
@@ -91,16 +96,18 @@ Simple Docker installation
 
 #. Create and run a Mayan EDMS container:
 
-   .. code-block:: bash
+   .. code-block:: console
 
        docker run \
        -d \
        --name mayan-edms \
        --restart=always \
        -p 80:8000 \
-       -e MAYAN_DATABASES="{'default':{'ENGINE':'django.db.backends.postgresql','NAME':'mayan','PASSWORD':'mayanuserpass','USER':'mayan','HOST':'172.17.0.1'}}" \
-       -e MAYAN_CELERY_BROKER_URL="redis://:mayanredispassword@172.17.0.1:6379/0" \
-       -e MAYAN_CELERY_RESULT_BACKEND="redis://:mayanredispassword@172.17.0.1:6379/1" \
+       -e MAYAN_CELERY_BROKER_URL="redis://:|DEFAULT_REDIS_PASSWORD|@172.17.0.1:6379/0" \
+       -e MAYAN_CELERY_RESULT_BACKEND="redis://:|DEFAULT_REDIS_PASSWORD|@172.17.0.1:6379/1" \
+       -e MAYAN_DATABASES="{'default':{'ENGINE':'django.db.backends.postgresql','NAME':'|DEFAULT_DATABASE_NAME|','PASSWORD':'|DEFAULT_DATABASE_PASSWORD|','USER':'|DEFAULT_DATABASE_USER|','HOST':'172.17.0.1'}}" \
+       -e MAYAN_LOCK_MANAGER_BACKEND="mayan.apps.lock_manager.backends.redis_lock.RedisLock" \
+       -e MAYAN_LOCK_MANAGER_BACKEND_ARGUMENTS="{'redis_url':'redis://:|DEFAULT_REDIS_PASSWORD|@172.17.0.1:6379/2'}" \
        -v /docker-volumes/mayan-edms/media:/var/lib/mayan \
        mayanedms/mayanedms:|DOCKER_MAYAN_IMAGE_VERSION|
 

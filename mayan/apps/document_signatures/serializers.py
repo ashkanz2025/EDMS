@@ -1,54 +1,88 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.utils.translation import ugettext_lazy as _
 
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
+from rest_framework.reverse import reverse
 
-from mayan.apps.acls.models import AccessControlList
 from mayan.apps.django_gpg.models import Key
 from mayan.apps.django_gpg.permissions import permission_key_sign
-from mayan.apps.rest_api.relations import MultiKwargHyperlinkedIdentityField
+from mayan.apps.rest_api.relations import (
+    FilteredPrimaryKeyRelatedField, MultiKwargHyperlinkedIdentityField
+)
 
 from .models import DetachedSignature, EmbeddedSignature
 
 
 class BaseSignatureSerializer(serializers.HyperlinkedModelSerializer):
-    document_version_url = MultiKwargHyperlinkedIdentityField(
+    document_file_url = MultiKwargHyperlinkedIdentityField(
         view_kwargs=(
             {
-                'lookup_field': 'document_version_id',
-                'lookup_url_kwarg': 'version_pk',
+                'lookup_field': 'document_file_id',
+                'lookup_url_kwarg': 'document_file_id',
             },
             {
-                'lookup_field': 'document_version.document.pk',
-                'lookup_url_kwarg': 'pk',
+                'lookup_field': 'document_file.document_id',
+                'lookup_url_kwarg': 'document_id',
             }
         ),
-        view_name='rest_api:documentversion-detail'
+        view_name='rest_api:documentfile-detail'
     )
+    key_url = serializers.SerializerMethodField()
+
+    class Meta:
+        fields = (
+            'date_time', 'document_file_url', 'key_algorithm',
+            'key_creation_date', 'key_expiration_date', 'key_id',
+            'key_length', 'key_type', 'key_user_id', 'key_url',
+            'public_key_fingerprint', 'signature_id', 'url'
+        )
+        read_only_fields = (
+            'date_time', 'document_file_url', 'key_algorithm',
+            'key_creation_date', 'key_expiration_date', 'key_id',
+            'key_length', 'key_type', 'key_user_id', 'key_url',
+            'public_key_fingerprint', 'signature_id', 'url'
+        )
+
+    def get_key_url(self, instance):
+        key = instance.key
+
+        if key:
+            return reverse(
+                viewname='rest_api:key-detail', kwargs={
+                    'key_id': key.pk
+                }, request=self.context['request'],
+                format=self.context['format']
+            )
 
 
 class BaseSignSerializer(serializers.HyperlinkedModelSerializer):
+    key = FilteredPrimaryKeyRelatedField(
+        help_text=_(
+            'Primary key of the tag to add to the document.'
+        ), source_queryset=Key.objects.private_keys(),
+        source_permission=permission_key_sign
+    )
     passphrase = serializers.CharField(
         help_text=_(
             'The passphrase to unlock the key and allow it to be used to '
-            'sign the document version.'
+            'sign the document file.'
         ),
         required=False, write_only=True
     )
+
+    class Meta:
+        fields = ('key', 'passphrase',)
 
 
 class DetachedSignatureSerializer(BaseSignatureSerializer):
     url = MultiKwargHyperlinkedIdentityField(
         view_kwargs=(
             {
-                'lookup_field': 'document_version.document.pk',
+                'lookup_field': 'document_file.document_id',
                 'lookup_url_kwarg': 'document_id',
             },
             {
-                'lookup_field': 'document_version_id',
-                'lookup_url_kwarg': 'document_version_id',
+                'lookup_field': 'document_file_id',
+                'lookup_url_kwarg': 'document_file_id',
             },
             {
                 'lookup_field': 'pk',
@@ -58,48 +92,28 @@ class DetachedSignatureSerializer(BaseSignatureSerializer):
         view_name='rest_api:detachedsignature-detail'
     )
 
-    class Meta:
-        extra_kwargs = {
-            'signature_file': {'write_only': True},
-        }
-        fields = (
-            'date', 'document_version_url', 'key_id', 'signature_file',
-            'signature_id', 'public_key_fingerprint', 'url'
-        )
+    class Meta(BaseSignatureSerializer.Meta):
         model = DetachedSignature
-        read_only_fields = ('key_id',)
-
-    def create(self, validated_data):
-        validated_data['document_version'] = self.context['document_version']
-        return super(DetachedSignatureSerializer, self).create(
-            validated_data=validated_data
-        )
 
 
-class EmbeddedSignatureSerializer(serializers.HyperlinkedModelSerializer):
-    document_version_url = MultiKwargHyperlinkedIdentityField(
-        view_kwargs=(
-            {
-                'lookup_field': 'document_version_id',
-                'lookup_url_kwarg': 'version_pk',
-            },
-            {
-                'lookup_field': 'document_version.document.pk',
-                'lookup_url_kwarg': 'pk',
-            }
-        ),
-        view_name='rest_api:documentversion-detail'
-    )
+class DetachedSignatureUploadSerializer(DetachedSignatureSerializer):
+    class Meta(DetachedSignatureSerializer.Meta):
+        fields = DetachedSignatureSerializer.Meta.fields + ('signature_file',)
+        model = DetachedSignature
 
+
+class EmbeddedSignatureSerializer(
+    BaseSignatureSerializer, serializers.HyperlinkedModelSerializer
+):
     url = MultiKwargHyperlinkedIdentityField(
         view_kwargs=(
             {
-                'lookup_field': 'document_version.document.pk',
+                'lookup_field': 'document_file.document.pk',
                 'lookup_url_kwarg': 'document_id',
             },
             {
-                'lookup_field': 'document_version_id',
-                'lookup_url_kwarg': 'document_version_id',
+                'lookup_field': 'document_file_id',
+                'lookup_url_kwarg': 'document_file_id',
             },
             {
                 'lookup_field': 'pk',
@@ -108,100 +122,16 @@ class EmbeddedSignatureSerializer(serializers.HyperlinkedModelSerializer):
         ),
         view_name='rest_api:embeddedsignature-detail'
     )
-    passphrase = serializers.CharField(required=False, write_only=True)
 
-    class Meta:
-        fields = (
-            'date', 'document_version_url', 'key_id', 'signature_id',
-            'passphrase', 'public_key_fingerprint', 'url'
-        )
+    class Meta(BaseSignatureSerializer.Meta):
         model = EmbeddedSignature
 
-    def create(self, validated_data):
-        key_id = validated_data.pop('key_id')
-        passphrase = validated_data.pop('passphrase', None)
 
-        key_queryset = AccessControlList.objects.restrict_queryset(
-            permission=permission_key_sign, queryset=Key.objects.all(),
-            user=self.context['request'].user
-        )
-
-        try:
-            key = key_queryset.get(fingerprint__endswith=key_id)
-        except Key.DoesNotExist:
-            raise ValidationError(
-                {
-                    'key_id': [
-                        'Key "{}" not found.'.format(key_id)
-                    ]
-                }, code='invalid'
-            )
-
-        signature = EmbeddedSignature.objects.sign_document_version(
-            document_version=self.context['document_version'], key=key,
-            passphrase=passphrase, user=self.context['request'].user
-        )
-
-        return signature
-
-
-class SignDetachedSerializer(BaseSignatureSerializer, BaseSignSerializer):
-    class Meta:
-        fields = (
-            'date', 'document_version_url', 'key_id', 'signature_id',
-            'passphrase', 'public_key_fingerprint', 'url'
-        )
+class SignDetachedSerializer(BaseSignSerializer, BaseSignatureSerializer):
+    class Meta(BaseSignSerializer.Meta, BaseSignatureSerializer.Meta):
         model = DetachedSignature
-
-    def sign(self, key_id, passphrase):
-        key_queryset = AccessControlList.objects.restrict_queryset(
-            permission=permission_key_sign, queryset=Key.objects.all(),
-            user=self.context['request'].user
-        )
-
-        try:
-            key = key_queryset.get(fingerprint__endswith=key_id)
-        except Key.DoesNotExist:
-            raise ValidationError(
-                {
-                    'key_id': [
-                        'Key "{}" not found.'.format(key_id)
-                    ]
-                }, code='invalid'
-            )
-
-        return DetachedSignature.objects.sign_document_version(
-            document_version=self.context['document_version'], key=key,
-            passphrase=passphrase, user=self.context['request'].user
-        )
 
 
 class SignEmbeddedSerializer(SignDetachedSerializer):
-    class Meta:
-        fields = (
-            'date', 'document_version_url', 'key_id', 'signature_id',
-            'passphrase', 'public_key_fingerprint', 'url'
-        )
+    class Meta(SignDetachedSerializer.Meta):
         model = EmbeddedSignature
-
-    def sign(self, key_id, passphrase):
-        key_queryset = AccessControlList.objects.restrict_queryset(
-            permission=permission_key_sign, queryset=Key.objects.all(),
-            user=self.context['request'].user
-        )
-
-        try:
-            key = key_queryset.get(fingerprint__endswith=key_id)
-        except Key.DoesNotExist:
-            raise ValidationError(
-                {
-                    'key_id': [
-                        'Key "{}" not found.'.format(key_id)
-                    ]
-                }, code='invalid'
-            )
-
-        return EmbeddedSignature.objects.sign_document_version(
-            document_version=self.context['document_version'], key=key,
-            passphrase=passphrase, user=self.context['request'].user
-        )

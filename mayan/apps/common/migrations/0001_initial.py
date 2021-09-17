@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.db import models, migrations
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
@@ -9,7 +7,6 @@ import mayan.apps.common.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
@@ -54,9 +51,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'account', models.ForeignKey(
+                        blank=True, null=True, on_delete=models.CASCADE,
                         related_name='auto_admin_account',
-                        verbose_name='Account', blank=True,
-                        to=settings.AUTH_USER_MODEL, null=True
+                        to=settings.AUTH_USER_MODEL, verbose_name='Account'
                     )
                 ),
             ],
@@ -674,8 +671,10 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'user', models.OneToOneField(
-                        related_name='locale_profile', verbose_name='User',
-                        to=settings.AUTH_USER_MODEL
+                        on_delete=models.CASCADE,
+                        related_name='locale_profile',
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name='User',
                     )
                 ),
             ],

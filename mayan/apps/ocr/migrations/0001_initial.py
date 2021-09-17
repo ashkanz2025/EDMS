@@ -1,10 +1,7 @@
-from __future__ import unicode_literals
-
 from django.db import models, migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('documents', '__first__'),
     ]
@@ -32,8 +29,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'document_version', models.ForeignKey(
-                        verbose_name='Document version',
-                        to='documents.DocumentVersion'
+                        on_delete=models.CASCADE,
+                        to='documents.DocumentVersion',
+                        verbose_name='Document version'
                     )
                 ),
             ],

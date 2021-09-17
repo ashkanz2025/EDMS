@@ -1,10 +1,7 @@
-from __future__ import unicode_literals
-
 from django.db import models, migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('sources', '0002_auto_20150608_1902'),
     ]
@@ -31,8 +28,8 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'source', models.ForeignKey(
-                        related_name='logs', verbose_name='Source',
-                        to='sources.Source'
+                        on_delete=models.CASCADE, related_name='logs',
+                        to='sources.Source', verbose_name='Source'
                     )
                 ),
             ],

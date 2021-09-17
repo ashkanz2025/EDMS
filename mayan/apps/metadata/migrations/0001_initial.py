@@ -1,10 +1,7 @@
-from __future__ import unicode_literals
-
 from django.db import models, migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('documents', '__first__'),
     ]
@@ -27,8 +24,8 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'document', models.ForeignKey(
-                        related_name='metadata', verbose_name='Document',
-                        to='documents.Document'
+                        on_delete=models.CASCADE, related_name='metadata',
+                        to='documents.Document', verbose_name='Document'
                     )
                 ),
             ],
@@ -54,9 +51,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'document_type', models.ForeignKey(
-                        related_name='metadata',
-                        verbose_name='Document type',
-                        to='documents.DocumentType'
+                        on_delete=models.CASCADE, related_name='metadata',
+                        to='documents.DocumentType',
+                        verbose_name='Document type'
                     )
                 ),
             ],
@@ -123,7 +120,8 @@ class Migration(migrations.Migration):
             model_name='documenttypemetadatatype',
             name='metadata_type',
             field=models.ForeignKey(
-                verbose_name='Metadata type', to='metadata.MetadataType'
+                on_delete=models.CASCADE, to='metadata.MetadataType',
+                verbose_name='Metadata type'
             ),
             preserve_default=True,
         ),
@@ -135,7 +133,8 @@ class Migration(migrations.Migration):
             model_name='documentmetadata',
             name='metadata_type',
             field=models.ForeignKey(
-                verbose_name='Type', to='metadata.MetadataType'
+                on_delete=models.CASCADE, to='metadata.MetadataType',
+                verbose_name='Type'
             ),
             preserve_default=True,
         ),

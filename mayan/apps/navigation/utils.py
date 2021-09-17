@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 import logging
 
 from django.apps import apps
@@ -9,7 +7,7 @@ from django.urls import Resolver404, resolve
 
 from mayan.apps.permissions import Permission
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(name=__name__)
 
 
 def get_cascade_condition(
@@ -34,11 +32,13 @@ def get_cascade_condition(
             # Simple request extraction failed. Might not be a view context.
             # Try alternate method.
             try:
-                request = Variable('request').resolve(context)
+                request = Variable(var='request').resolve(context=context)
             except VariableDoesNotExist:
                 # There is no request variable, most probable a 500 in a test
                 # view. Don't return any resolved links then.
-                logger.warning('No request variable, aborting cascade resolution')
+                logger.warning(
+                    'No request variable, aborting cascade resolution'
+                )
                 return ()
 
         if view_permission:
@@ -47,7 +47,10 @@ def get_cascade_condition(
                     permissions=(view_permission,), user=request.user
                 )
             except PermissionDenied:
-                pass
+                """
+                Don't raise an error, just ignore and let
+                .restrict_queryset() perform a fine grained filtering.
+                """
             else:
                 return True
 
@@ -60,12 +63,39 @@ def get_cascade_condition(
     return condition
 
 
+def get_content_type_kwargs_factory(
+    variable_name='resolved_object', result_map=None
+):
+    if not result_map:
+        result_map = {
+            'app_label': 'app_label',
+            'model_name': 'model_name',
+            'object_id': 'object_id'
+        }
+
+    def get_kwargs(context):
+        ContentType = apps.get_model(
+            app_label='contenttypes', model_name='ContentType'
+        )
+
+        content_type = ContentType.objects.get_for_model(
+            model=context[variable_name]
+        )
+        return {
+            result_map['app_label']: '"{}"'.format(content_type.app_label),
+            result_map['model_name']: '"{}"'.format(content_type.model),
+            result_map['object_id']: '{}.pk'.format(variable_name)
+        }
+
+    return get_kwargs
+
+
 def get_current_view_name(request):
     current_path = request.META['PATH_INFO']
 
-    # Get sources: view name, view objects
+    # Get sources: view name, view objects.
     try:
-        current_view_name = resolve(current_path).view_name
+        current_view_name = resolve(path=current_path).view_name
     except Resolver404:
         # Can't figure out which view corresponds to this URL.
         # Most likely it is an invalid URL.

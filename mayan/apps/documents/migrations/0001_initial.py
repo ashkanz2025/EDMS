@@ -1,12 +1,9 @@
-from __future__ import unicode_literals
-
 from django.db import models, migrations
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
@@ -476,8 +473,8 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'document_page', models.ForeignKey(
-                        verbose_name='Document page',
-                        to='documents.DocumentPage'
+                        on_delete=models.CASCADE, to='documents.DocumentPage',
+                        verbose_name='Document page'
                     )
                 ),
             ],
@@ -527,7 +524,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'filename', models.CharField(
-                        max_length=128, verbose_name='Filename', db_index=True
+                        db_index=True, max_length=128, verbose_name='Filename'
                     )
                 ),
                 (
@@ -537,9 +534,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'document_type', models.ForeignKey(
-                        related_name='filenames',
-                        verbose_name='Document type',
-                        to='documents.DocumentType'
+                        on_delete=models.CASCADE, related_name='filenames',
+                        to='documents.DocumentType',
+                        verbose_name='Document type'
                     )
                 ),
             ],
@@ -594,8 +591,8 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'document', models.ForeignKey(
-                        related_name='versions', verbose_name='Document',
-                        to='documents.Document'
+                        on_delete=models.CASCADE, related_name='versions',
+                        to='documents.Document', verbose_name='Document'
                     )
                 ),
             ],
@@ -621,14 +618,14 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'document', models.ForeignKey(
-                        editable=False, to='documents.Document',
-                        verbose_name='Document'
+                        editable=False, on_delete=models.CASCADE,
+                        to='documents.Document', verbose_name='Document'
                     )
                 ),
                 (
                     'user', models.ForeignKey(
-                        editable=False, to=settings.AUTH_USER_MODEL,
-                        verbose_name='User'
+                        editable=False, on_delete=models.CASCADE,
+                        to=settings.AUTH_USER_MODEL, verbose_name='User'
                     )
                 ),
             ],
@@ -647,8 +644,9 @@ class Migration(migrations.Migration):
             model_name='documentpage',
             name='document_version',
             field=models.ForeignKey(
-                related_name='pages', verbose_name='Document version',
-                to='documents.DocumentVersion'
+                on_delete=models.CASCADE, related_name='pages',
+                to='documents.DocumentVersion',
+                verbose_name='Document version'
             ),
             preserve_default=True,
         ),
@@ -656,8 +654,8 @@ class Migration(migrations.Migration):
             model_name='document',
             name='document_type',
             field=models.ForeignKey(
-                related_name='documents', verbose_name='Document type',
-                to='documents.DocumentType'
+                on_delete=models.CASCADE, related_name='documents',
+                to='documents.DocumentType', verbose_name='Document type'
             ),
             preserve_default=True,
         ),

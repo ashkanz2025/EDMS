@@ -1,10 +1,7 @@
-from __future__ import unicode_literals
-
 from django.db import models, migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('documents', '__first__'),
         ('contenttypes', '0001_initial'),
@@ -51,14 +48,15 @@ class Migration(migrations.Migration):
                 (
                     'document',
                     models.ForeignKey(
-                        verbose_name='Document', to='documents.Document',
-                        unique=True
+                        on_delete=models.CASCADE, to='documents.Document',
+                        unique=True, verbose_name='Document'
                     )
                 ),
                 (
                     'user_content_type',
                     models.ForeignKey(
-                        blank=True, to='contenttypes.ContentType', null=True
+                        blank=True, null=True, on_delete=models.CASCADE,
+                        to='contenttypes.ContentType'
                     )
                 ),
             ],

@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.utils.translation import ugettext_lazy as _
 
 from mayan.apps.events.classes import EventTypeNamespace
@@ -21,6 +19,8 @@ event_user_created = namespace.add_event_type(
 event_user_edited = namespace.add_event_type(
     label=_('User edited'), name='user_edited'
 )
+
+# Deprecated events. These are now handled by the authentication app.
 event_user_logged_in = namespace.add_event_type(
     label=_('User logged in'), name='user_logged_in'
 )

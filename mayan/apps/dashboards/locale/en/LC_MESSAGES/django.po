@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-16 05:48-0400\n"
+"POT-Creation-Date: 2021-08-05 04:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +16,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: apps.py:14
+#: apps.py:12
 msgid "Dashboards"
 msgstr ""
 
-#: dashboards.py:7
+#: dashboards.py:5
 msgid "Main"
 msgstr ""
 
-#: templates/dashboards/numeric_widget.html:29
+#: templates/dashboards/numeric_widget.html:27
 msgid "View details"
 msgstr ""

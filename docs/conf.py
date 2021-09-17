@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 #
 # Mayan EDMS documentation build configuration file, created by
 # sphinx-quickstart on Fri Aug 19 05:13:38 2011.
@@ -18,8 +16,11 @@ import sys
 
 from docutils.parsers.rst import directives
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mayan.settings')
 sys.path.insert(0, os.path.abspath('..'))
 sys.path.insert(1, os.path.abspath('.'))
+
+from contrib.scripts.version import Version
 
 import mayan
 
@@ -273,31 +274,40 @@ html_baseurl = 'https://docs.mayan-edms.com/'
 
 
 def setup(app):
-    BASE_DIRECTORY = '/opt/'
-    MAYAN_INSTALLATION_DIRECTORY = os.path.join(BASE_DIRECTORY, 'mayan-edms')
-    MAYAN_MEDIA_ROOT = os.path.join(MAYAN_INSTALLATION_DIRECTORY, 'media')
-    MAYAN_PYTHON_BIN_DIR = os.path.join(MAYAN_INSTALLATION_DIRECTORY, 'bin')
+    environment_variables = utils.load_env_file()
+
+    MAYAN_PYTHON_BIN_DIR = os.path.join(
+        environment_variables['DEFAULT_DIRECTORY_INSTALLATION'], 'bin'
+    )
     MAYAN_GUNICORN_BIN = os.path.join(MAYAN_PYTHON_BIN_DIR, 'gunicorn')
     MAYAN_PIP_BIN = os.path.join(MAYAN_PYTHON_BIN_DIR, 'pip')
     MAYAN_BIN = os.path.join(MAYAN_PYTHON_BIN_DIR, 'mayan-edms.py')
-    SUPERVISOR_ETC_PATH = '/etc/supervisor/conf.d/'
-    MAYAN_SUPERVISOR_CONF = os.path.join(SUPERVISOR_ETC_PATH, 'mayan.conf')
+    MAYAN_SUPERVISOR_CONF = os.path.join(
+        environment_variables['SUPERVISOR_CONFIGURATION_DIRECTORY'],
+        environment_variables['SUPERVISOR_CONFIGURATION_FILENAME']
+    )
 
-    environment_variables = utils.load_env_file()
-    environment_variables['DOCKER_MAYAN_IMAGE_VERSION'] = mayan.__version__
-    environment_variables['MAYAN_INSTALLATION_DIRECTORY'] = MAYAN_INSTALLATION_DIRECTORY
-    environment_variables['MAYAN_MEDIA_ROOT'] = MAYAN_MEDIA_ROOT
+    environment_variables['DOCKER_MAYAN_IMAGE_VERSION'] = 's{}'.format(
+        Version(version_string=mayan.__version__).major
+    )
+    environment_variables['MAYAN_INSTALLATION_DIRECTORY'] = environment_variables[
+        'DEFAULT_DIRECTORY_INSTALLATION'
+    ]
+    environment_variables['MAYAN_MEDIA_ROOT'] = environment_variables[
+        'DEFAULT_DIRECTORY_MEDIA_ROOT'
+    ]
     environment_variables['MAYAN_PYTHON_BIN_DIR'] = MAYAN_PYTHON_BIN_DIR
     environment_variables['MAYAN_GUNICORN_BIN'] = MAYAN_GUNICORN_BIN
     environment_variables['MAYAN_BIN'] = MAYAN_BIN
     environment_variables['MAYAN_PIP_BIN'] = MAYAN_PIP_BIN
-    environment_variables['SUPERVISOR_ETC_PATH'] = SUPERVISOR_ETC_PATH
     environment_variables['MAYAN_SUPERVISOR_CONF'] = MAYAN_SUPERVISOR_CONF
+    environment_variables['MAYAN_VERSION'] = mayan.__version__
+
     substitutions = utils.generate_substitutions(
         dictionary=environment_variables
     )
 
-    app.add_stylesheet(filename='css/custom.css')
+    app.add_css_file(filename='css/custom.css')
     app.connect(
         event='source-read', callback=callbacks.get_source_read_callback(
             substitutions=substitutions

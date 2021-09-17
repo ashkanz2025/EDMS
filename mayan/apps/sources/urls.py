@@ -1,95 +1,96 @@
-from __future__ import unicode_literals
-
 from django.conf.urls import url
 
 from .api_views import (
     APIStagingSourceFileView, APIStagingSourceFileImageView,
-    APIStagingSourceListView, APIStagingSourceView
+    APIStagingSourceFileUploadView, APIStagingSourceListView,
+    APIStagingSourceView
 )
 from .views import (
-    SetupSourceCheckView, SetupSourceCreateView, SetupSourceDeleteView,
-    SetupSourceEditView, SetupSourceListView, SourceLogListView,
-    StagingFileDeleteView, DocumentVersionUploadInteractiveView, UploadInteractiveView
+    SourceCheckView, SourceCreateView, SourceDeleteView,
+    SourceEditView, SourceListView, StagingFileDeleteView,
+    DocumentFileUploadInteractiveView, UploadInteractiveView
 )
 from .wizards import DocumentCreateWizard
 
 urlpatterns = [
     url(
-        regex=r'^staging_files/(?P<pk>\d+)/(?P<encoded_filename>.+)/delete/$',
-        view=StagingFileDeleteView.as_view(), name='staging_file_delete'
+        regex=r'^staging_folders/(?P<staging_folder_id>\d+)/files/(?P<encoded_filename>.+)/delete/$',
+        name='staging_file_delete', view=StagingFileDeleteView.as_view()
     ),
 
     # Document create views
 
     url(
         regex=r'^documents/create/from/local/multiple/$',
-        view=DocumentCreateWizard.as_view(), name='document_create_multiple'
+        name='document_create_multiple', view=DocumentCreateWizard.as_view()
     ),
     url(
         regex=r'^documents/upload/new/interactive/(?P<source_id>\d+)/$',
-        view=UploadInteractiveView.as_view(),
-        name='document_upload_interactive'
+        name='document_upload_interactive',
+        view=UploadInteractiveView.as_view()
     ),
     url(
         regex=r'^documents/upload/new/interactive/$',
-        view=UploadInteractiveView.as_view(),
-        name='document_upload_interactive'
+        name='document_upload_interactive',
+        view=UploadInteractiveView.as_view()
     ),
     url(
-        regex=r'^documents/(?P<document_pk>\d+)/versions/upload/interactive/(?P<source_id>\d+)/$',
-        view=DocumentVersionUploadInteractiveView.as_view(),
-        name='document_version_upload'
+        regex=r'^documents/(?P<document_id>\d+)/files/upload/interactive/(?P<source_id>\d+)/$',
+        name='document_file_upload',
+        view=DocumentFileUploadInteractiveView.as_view()
     ),
     url(
-        regex=r'^documents/(?P<document_pk>\d+)/versions/upload/interactive/$',
-        view=DocumentVersionUploadInteractiveView.as_view(),
-        name='document_version_upload'
+        regex=r'^documents/(?P<document_id>\d+)/files/upload/interactive/$',
+        name='document_file_upload',
+        view=DocumentFileUploadInteractiveView.as_view()
     ),
 
     # Setup views
 
     url(
-        regex=r'^sources/$', view=SetupSourceListView.as_view(),
-        name='setup_source_list'
+        regex=r'^sources/$', name='setup_source_list',
+        view=SourceListView.as_view()
     ),
     url(
-        regex=r'^sources/(?P<pk>\d+)/edit/$', view=SetupSourceEditView.as_view(),
-        name='setup_source_edit'
+        regex=r'^sources/create/(?P<source_type_name>\w+)/$',
+        name='setup_source_create', view=SourceCreateView.as_view()
     ),
     url(
-        regex=r'^sources/(?P<pk>\d+)/logs/$', view=SourceLogListView.as_view(),
-        name='setup_source_logs'
+        regex=r'^sources/(?P<source_id>\d+)/check/$',
+        name='setup_source_check', view=SourceCheckView.as_view()
     ),
     url(
-        regex=r'^sources/(?P<pk>\d+)/delete/$',
-        view=SetupSourceDeleteView.as_view(), name='setup_source_delete'
+        regex=r'^sources/(?P<source_id>\d+)/delete/$',
+        name='setup_source_delete', view=SourceDeleteView.as_view()
     ),
     url(
-        regex=r'^sources/(?P<source_type>\w+)/create/$',
-        view=SetupSourceCreateView.as_view(), name='setup_source_create'
-    ),
-    url(
-        regex=r'^sources/(?P<pk>\d+)/check/$',
-        view=SetupSourceCheckView.as_view(), name='setup_source_check'
+        regex=r'^sources/(?P<source_id>\d+)/edit/$', name='setup_source_edit',
+        view=SourceEditView.as_view()
     ),
 ]
 
 api_urls = [
     url(
         regex=r'^staging_folders/file/(?P<staging_folder_pk>[0-9]+)/(?P<encoded_filename>.+)/image/$',
-        view=APIStagingSourceFileImageView.as_view(),
-        name='stagingfolderfile-image-view'
+        name='stagingfolderfile-image',
+        view=APIStagingSourceFileImageView.as_view()
+    ),
+    url(
+        regex=r'^staging_folders/file/(?P<staging_folder_pk>[0-9]+)/(?P<encoded_filename>.+)/upload/$',
+        name='stagingfolderfile-upload',
+        view=APIStagingSourceFileUploadView.as_view()
     ),
     url(
         regex=r'^staging_folders/file/(?P<staging_folder_pk>[0-9]+)/(?P<encoded_filename>.+)/$',
-        view=APIStagingSourceFileView.as_view(), name='stagingfolderfile-detail'
+        name='stagingfolderfile-detail',
+        view=APIStagingSourceFileView.as_view()
     ),
     url(
-        regex=r'^staging_folders/$', view=APIStagingSourceListView.as_view(),
-        name='stagingfolder-list'
+        regex=r'^staging_folders/$', name='stagingfolder-list',
+        view=APIStagingSourceListView.as_view()
     ),
     url(
         regex=r'^staging_folders/(?P<pk>[0-9]+)/$',
-        view=APIStagingSourceView.as_view(), name='stagingfolder-detail'
+        name='stagingfolder-detail', view=APIStagingSourceView.as_view()
     )
 ]

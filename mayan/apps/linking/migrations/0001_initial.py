@@ -1,10 +1,7 @@
-from __future__ import unicode_literals
-
 from django.db import models, migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('documents', '__first__'),
     ]
@@ -115,8 +112,8 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'smart_link', models.ForeignKey(
-                        related_name='conditions', verbose_name='Smart link',
-                        to='linking.SmartLink'
+                        on_delete=models.CASCADE, related_name='conditions',
+                        to='linking.SmartLink', verbose_name='Smart link'
                     )
                 ),
             ],

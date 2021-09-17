@@ -1,13 +1,15 @@
-from __future__ import unicode_literals
-
-from django.db import models, transaction
+from django.db import models
 from django.db.models import Q
-from django.template import Context, Template
-from django.utils.encoding import force_text, python_2_unicode_compatible
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 
-from mayan.apps.documents.events import event_document_type_edited
+from mayan.apps.databases.model_mixins import ExtraDataModelMixin
 from mayan.apps.documents.models import Document, DocumentType
+from mayan.apps.events.classes import (
+    EventManagerMethodAfter, EventManagerSave
+)
+from mayan.apps.events.decorators import method_event
+from mayan.apps.templating.classes import Template
 
 from .events import event_smart_link_created, event_smart_link_edited
 from .literals import (
@@ -16,8 +18,7 @@ from .literals import (
 from .managers import SmartLinkManager
 
 
-@python_2_unicode_compatible
-class SmartLink(models.Model):
+class SmartLink(ExtraDataModelMixin, models.Model):
     """
     This model stores the basic fields for a smart link. Smart links allow
     linking documents using a programmatic method of conditions that mirror
@@ -49,27 +50,21 @@ class SmartLink(models.Model):
     def __str__(self):
         return self.label
 
-    def document_types_add(self, queryset, _user=None):
-        with transaction.atomic():
+    def document_types_add(self, queryset, _event_actor=None):
+        for obj in queryset:
+            self.document_types.add(obj)
             event_smart_link_edited.commit(
-                actor=_user, target=self
+                action_object=obj, actor=_event_actor or self._event_actor,
+                target=self
             )
-            for obj in queryset:
-                self.document_types.add(obj)
-                event_document_type_edited.commit(
-                    actor=_user, action_object=self, target=obj
-                )
 
-    def document_types_remove(self, queryset, _user=None):
-        with transaction.atomic():
+    def document_types_remove(self, queryset, _event_actor=None):
+        for obj in queryset:
+            self.document_types.remove(obj)
             event_smart_link_edited.commit(
-                actor=_user, target=self
+                action_object=obj, actor=_event_actor or self._event_actor,
+                target=self
             )
-            for obj in queryset:
-                self.document_types.remove(obj)
-                event_document_type_edited.commit(
-                    actor=_user, action_object=self, target=obj
-                )
 
     def get_dynamic_label(self, document):
         """
@@ -77,14 +72,13 @@ class SmartLink(models.Model):
         static label, resolve the template and return the result.
         """
         if self.dynamic_label:
-            context = Context({'document': document})
             try:
-                template = Template(self.dynamic_label)
-                return template.render(context=context)
+                template = Template(template_string=self.dynamic_label)
+                return template.render(context={'document': document})
             except Exception as exception:
                 return _(
                     'Error generating dynamic label; %s' % force_text(
-                        exception
+                        s=exception
                     )
                 )
         else:
@@ -105,15 +99,13 @@ class SmartLink(models.Model):
 
         smart_link_query = Q()
 
-        context = Context({'document': document})
-
         for condition in self.conditions.filter(enabled=True):
-            template = Template(condition.expression)
+            template = Template(template_string=condition.expression)
 
             condition_query = Q(**{
                 '%s__%s' % (
                     condition.foreign_document_data, condition.operator
-                ): template.render(context=context)
+                ): template.render(context={'document': document})
             })
             if condition.negated:
                 condition_query = ~condition_query
@@ -135,20 +127,19 @@ class SmartLink(models.Model):
             )
         )
 
+    @method_event(
+        event_manager_class=EventManagerSave,
+        created={
+            'event': event_smart_link_created,
+            'target': 'self',
+        },
+        edited={
+            'event': event_smart_link_edited,
+            'target': 'self',
+        }
+    )
     def save(self, *args, **kwargs):
-        _user = kwargs.pop('_user', None)
-
-        with transaction.atomic():
-            is_new = not self.pk
-            super(SmartLink, self).save(*args, **kwargs)
-            if is_new:
-                event_smart_link_created.commit(
-                    actor=_user, target=self
-                )
-            else:
-                event_smart_link_edited.commit(
-                    actor=_user, target=self
-                )
+        return super().save(*args, **kwargs)
 
 
 class ResolvedSmartLink(SmartLink):
@@ -163,8 +154,7 @@ class ResolvedSmartLink(SmartLink):
         return self.get_dynamic_label(document=document) or self.label
 
 
-@python_2_unicode_compatible
-class SmartLinkCondition(models.Model):
+class SmartLinkCondition(ExtraDataModelMixin, models.Model):
     """
     This model stores a single smart link condition. A smart link is a
     collection of one of more smart link conditions.
@@ -202,6 +192,14 @@ class SmartLinkCondition(models.Model):
     def __str__(self):
         return self.get_full_label()
 
+    @method_event(
+        event_manager_class=EventManagerMethodAfter,
+        event=event_smart_link_edited,
+        target='smart_link'
+    )
+    def delete(self, *args, **kwargs):
+        return super().delete(*args, **kwargs)
+
     def get_full_label(self):
         return '%s foreign %s %s %s %s' % (
             self.get_inclusion_display(),
@@ -210,3 +208,19 @@ class SmartLinkCondition(models.Model):
         )
 
     get_full_label.short_description = _('Full label')
+
+    @method_event(
+        event_manager_class=EventManagerSave,
+        created={
+            'action_object': 'self',
+            'event': event_smart_link_edited,
+            'target': 'smart_link',
+        },
+        edited={
+            'action_object': 'self',
+            'event': event_smart_link_edited,
+            'target': 'smart_link',
+        }
+    )
+    def save(self, *args, **kwargs):
+        return super().save(*args, **kwargs)

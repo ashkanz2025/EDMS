@@ -3,71 +3,139 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Lyudmil Antonov <lantonov.here@gmail.com>, 2019
+# Translators:
+# Roberto Rosario, 2021
+# Pavlin Koldamov <pkoldamov@gmail.com>, 2021
+# 295005be79b88987cac803400975dbae_87f6b64 <412e4e8df9c702a35ac89972be5f12ff_27148>, 2021
+# Lyudmil Antonov <lantonov.here@gmail.com>, 2021
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Mayan EDMS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-16 05:49-0400\n"
-"PO-Revision-Date: 2019-12-04 18:41+0000\n"
-"Last-Translator: Lyudmil Antonov <lantonov.here@gmail.com>\n"
-"Language-Team: Bulgarian (http://www.transifex.com/rosarior/mayan-edms/language/bg/)\n"
+"POT-Creation-Date: 2021-08-05 04:46+0000\n"
+"PO-Revision-Date: 2021-04-11 06:23+0000\n"
+"Last-Translator: Lyudmil Antonov <lantonov.here@gmail.com>, 2021\n"
+"Language-Team: Bulgarian (https://www.transifex.com/rosarior/teams/13584/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: bg\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps.py:129 apps.py:325 events.py:7 menus.py:10
-#: models/document_models.py:93 permissions.py:7 queues.py:26 settings.py:18
-#: statistics.py:236
+#: apps.py:209 apps.py:617 events.py:5 menus.py:8
+#: models/document_models.py:130 permissions.py:5 queues.py:22 settings.py:38
+#: statistics.py:230
 msgid "Documents"
 msgstr "Документи"
 
-#: apps.py:150
+#: apps.py:269
+msgid "Decorations"
+msgstr "Декорации"
+
+#: apps.py:288
 msgid "Create a document type"
 msgstr "Създайте тип документ"
 
-#: apps.py:152
+#: apps.py:290
 msgid ""
 "Every uploaded document must be assigned a document type, it is the basic "
 "way Mayan EDMS categorizes documents."
-msgstr "На всеки качен документ трябва да бъде присвоен тип документ, това е основният начин, по който Mayan EDMS категоризира документите."
+msgstr ""
+"На всеки качен документ трябва да бъде присвоен тип документ, това е "
+"основният начин, по който Mayan EDMS категоризира документите."
 
-#: apps.py:171
-msgid "Versions comment"
-msgstr "Коментар на версиите"
+#: apps.py:384
+msgid "File comments"
+msgstr "Файлови коментари"
 
-#: apps.py:175
-msgid "Versions encoding"
-msgstr "Кодиране на версиите"
+#: apps.py:388
+msgid "File encodings"
+msgstr "Файлови кодирания"
 
-#: apps.py:179
-msgid "Versions mime type"
-msgstr "Мime тип на версиите"
+#: apps.py:392
+msgid "File MIME types"
+msgstr "Файлови MIME типове"
 
-#: apps.py:183
-msgid "Versions timestamp"
-msgstr "Времева марка на версиите"
+#: apps.py:396
+msgid "File timestamps"
+msgstr "Файлови времеви печати"
 
-#: apps.py:262 apps.py:292 apps.py:309 apps.py:355
+#: apps.py:401 links/document_file_page_links.py:79
+#: models/document_file_models.py:120 models/document_file_page_models.py:42
+#: search.py:52
+msgid "Document file"
+msgstr "Файл на документа"
+
+#: apps.py:405 models/document_file_page_models.py:46
+#: models/document_version_page_models.py:58
+msgid "Page number"
+msgstr "Номер на страница"
+
+#: apps.py:410
+msgid "Return the latest file of the document."
+msgstr "Върнете най-новия файл на документа."
+
+#: apps.py:411
+msgid "Latest file"
+msgstr "Последен файл"
+
+#: apps.py:414
+msgid "Return the document instance."
+msgstr "Върнете екземпляра на документа."
+
+#: apps.py:415 links/document_file_links.py:63
+#: links/document_file_page_links.py:73 links/document_version_links.py:75
+#: links/document_version_page_links.py:96 models/document_file_models.py:76
+#: models/document_models.py:129 models/document_version_models.py:44
+#: models/favorite_document_models.py:28
+#: models/recently_accessed_document_models.py:27 search.py:23
+msgid "Document"
+msgstr "Документ"
+
+#: apps.py:546 apps.py:574 apps.py:603 apps.py:637 apps.py:662
 msgid "Thumbnail"
 msgstr "Умалено изображение"
 
-#: apps.py:270 apps.py:360 forms/document_forms.py:184
-#: links/document_version_page_links.py:137
-msgid "Pages"
-msgstr "Страници"
-
-#: apps.py:279 links/duplicated_document_links.py:14
-msgid "Duplicates"
-msgstr "Дубликати"
-
-#: apps.py:313
+#: apps.py:552
 msgid "Type"
 msgstr "Тип"
 
-#: dashboard_widgets.py:24
+#: apps.py:556 apps.py:579 apps.py:642 forms/document_file_forms.py:63
+#: links/document_file_page_links.py:122
+#: links/document_version_page_links.py:51
+msgid "Pages"
+msgstr "Страници"
+
+#: classes.py:57
+msgid "Original"
+msgstr "Оригинал"
+
+#: classes.py:59
+msgid "Keeps the original filename of the uploaded file."
+msgstr "Запазва оригиналното име на качения файл."
+
+#: classes.py:69 forms/document_forms.py:108 models/document_models.py:57
+msgid "UUID"
+msgstr "UUID"
+
+#: classes.py:71
+msgid "Generates an immutable, random UUID (RFC 4122) for each file."
+msgstr "Генерира неизменяем, произволен UUID (RFC 4122) за всеки файл."
+
+#: classes.py:80
+msgid "UUID plus original"
+msgstr "UUID плюс оригинал"
+
+#: classes.py:82
+msgid ""
+"Generates an immutable, random UUID (RFC 4122) for each file and appends the"
+" original filename of the uploaded file."
+msgstr ""
+"Генерира неизменяем, произволен UUID (RFC 4122) за всеки файл и добавя "
+"оригиналното име на качения файл."
+
+#: dashboard_widgets.py:23
 msgid "Total pages"
 msgstr "Общо страници"
 
@@ -75,13 +143,13 @@ msgstr "Общо страници"
 msgid "Total documents"
 msgstr "Общо документи"
 
-#: dashboard_widgets.py:66 views/trashed_document_views.py:136
+#: dashboard_widgets.py:66 views/trashed_document_views.py:144
 msgid "Documents in trash"
 msgstr "Документи в кошчето"
 
-#: dashboard_widgets.py:85 links/document_type_links.py:66
-#: links/document_type_links.py:71 permissions.py:55
-#: views/document_type_views.py:78
+#: dashboard_widgets.py:85 links/document_type_links.py:77
+#: links/document_type_links.py:85 permissions.py:80
+#: views/document_type_views.py:79
 msgid "Document types"
 msgstr "Типове документи"
 
@@ -89,7 +157,7 @@ msgstr "Типове документи"
 msgid "New documents this month"
 msgstr "Нови документи този месец"
 
-#: dashboard_widgets.py:118
+#: dashboard_widgets.py:119
 msgid "New pages this month"
 msgstr "Нови страници този месец"
 
@@ -98,547 +166,771 @@ msgid "Document created"
 msgstr "Документът е създаден"
 
 #: events.py:13
-msgid "Document downloaded"
-msgstr "Документът е изтеглен"
+msgid "Document edited"
+msgstr "Редактиране на документ"
 
 #: events.py:16
-msgid "New version uploaded"
-msgstr "Качена нова версия"
-
-#: events.py:19
-msgid "Document properties edited"
-msgstr "Свойствата на документа са редактирани"
-
-#: events.py:22
-msgid "Document trashed"
-msgstr "Изхвърлени документи"
-
-#: events.py:26
-msgid "Document type changed"
-msgstr "Типът документ е променен"
-
-#: events.py:30
-msgid "Document type created"
-msgstr "Тип на документа е създаден"
-
-#: events.py:34
-msgid "Document type edited"
-msgstr "Тип на документа редактиран"
-
-#: events.py:37
-msgid "Document version reverted"
-msgstr "Версията на документа е обърната"
-
-#: events.py:40
 msgid "Document viewed"
 msgstr "Прегледан документ"
 
-#: forms/document_forms.py:26
-msgid "Compress"
-msgstr "Компресиране"
+#: events.py:22
+msgid "Document file created"
+msgstr "Създаден е файл с документ"
 
-#: forms/document_forms.py:28
-msgid ""
-"Download the document in the original format or in a compressed manner. This"
-" option is selectable only when downloading one document, for multiple "
-"documents, the bundle will always be downloads as a compressed file."
-msgstr "Изтеглете документа в оригиналния формат или по компресиран начин. Тази опция е избираема само при изтегляне на един документ, за много документи пакетът винаги ще бъде изтеглян като компресиран файл."
+#: events.py:25
+msgid "Document file deleted"
+msgstr "Файлът на документа е изтрит"
 
-#: forms/document_forms.py:35
-msgid "Compressed filename"
-msgstr "Име на компресирания архив"
+#: events.py:28
+msgid "Document file downloaded"
+msgstr "Файлът на документа е изтеглен"
 
-#: forms/document_forms.py:38
-msgid ""
-"The filename of the compressed file that will contain the documents to be "
-"downloaded, if the previous option is selected."
-msgstr "Името на компресирания архив, съдържащ документите за сваляне, ако предишната опция е избрана."
+#: events.py:31
+msgid "Document file edited"
+msgstr "Файлът на документа е редактиран"
 
-#: forms/document_forms.py:87
-msgid "Quick document rename"
-msgstr "Бързо преименуване на документ"
+#: events.py:37
+msgid "Document type created"
+msgstr "Тип на документа е създаден"
 
-#: forms/document_forms.py:95 forms/document_version_forms.py:15
-msgid "Preserve extension"
-msgstr "Запазване на разширението"
+#: events.py:40
+msgid "Document type edited"
+msgstr "Тип на документа е редактиран"
 
-#: forms/document_forms.py:97
-msgid ""
-"Takes the file extension and moves it to the end of the filename allowing "
-"operating systems that rely on file extensions to open document correctly."
-msgstr "Взема разширението на файла и го премества в края на името на файла, което позволява на операционните системи, които разчитат на разширения на файлове, да отворят правилно документа."
+#: events.py:43
+msgid "Document type quick label created"
+msgstr "Създаден е бърз етикет за тип документ"
 
-#: forms/document_forms.py:149
+#: events.py:47
+msgid "Document type quick label deleted"
+msgstr "Изтрит е бърз етикет за тип документ"
+
+#: events.py:51
+msgid "Document type quick label edited"
+msgstr "Редактиран е бърз етикет за тип документ"
+
+#: events.py:56
+msgid "Document type changed"
+msgstr "Типът документ е променен"
+
+#: events.py:62
+msgid "Document version created"
+msgstr "Версията на документа е създадена"
+
+#: events.py:65
+msgid "Document version deleted"
+msgstr "Версията на документа е изтрита"
+
+#: events.py:68
+msgid "Document version edited"
+msgstr "Версията на документа е редактирана"
+
+#: events.py:71
+msgid "Document version exported"
+msgstr "Версията на документа е експортирана"
+
+#: events.py:77
+msgid "Document version page created"
+msgstr "Страницата с версията на документа е създадена"
+
+#: events.py:81
+msgid "Document version page deleted"
+msgstr "Страницата с версия на документа е изтрита"
+
+#: events.py:85
+msgid "Document version page edited"
+msgstr "Страницата с версията на документа е редактирана"
+
+#: events.py:92
+msgid "Document trashed"
+msgstr "Изхвърлени документи"
+
+#: events.py:95
+msgid "Trashed document deleted"
+msgstr "Изтрит документ от кошчето"
+
+#: events.py:98
+msgid "Trashed document restored"
+msgstr "Възстановен документ от кошчето"
+
+#: events.py:104
+msgid "Document downloaded (historic)"
+msgstr "Документът е изтеглен (исторически)"
+
+#: events.py:107
+msgid "Document file created (historic)"
+msgstr "Създаден файл с документи (исторически)"
+
+#: events.py:111
+msgid "Document version reverted (historic)"
+msgstr "Версията на документа е върната (историческа)"
+
+#: events.py:115
+msgid "Document version uploaded (historic)"
+msgstr "Версията на документа е качена (исторически)"
+
+#: forms/document_file_forms.py:38
 msgid "Date added"
 msgstr "Дата на добавяне"
 
-#: forms/document_forms.py:153 models/document_models.py:41 search.py:43
-msgid "UUID"
-msgstr "UUID"
+#: forms/document_file_forms.py:43 models/document_file_models.py:102
+msgid "MIME type"
+msgstr "MIME тип"
 
-#: forms/document_forms.py:155 models/document_models.py:65
-msgid "Language"
-msgstr "Език"
+#: forms/document_file_forms.py:47 models/document_file_models.py:108
+msgid "Encoding"
+msgstr "Кодиране"
 
-#: forms/document_forms.py:163
-msgid "File mimetype"
-msgstr "mimetype на файла"
+#: forms/document_file_forms.py:51
+msgid "Size"
+msgstr "Размер"
 
-#: forms/document_forms.py:164 forms/document_forms.py:169
-msgid "None"
-msgstr "Няма"
-
-#: forms/document_forms.py:167
-msgid "File encoding"
-msgstr "Кодиране на файлове"
-
-#: forms/document_forms.py:173
-msgid "File size"
-msgstr "Размер на файла"
-
-#: forms/document_forms.py:178
+#: forms/document_file_forms.py:56
 msgid "Exists in storage"
-msgstr "Съществува в склада"
+msgstr "Съществува в хранилището"
 
-#: forms/document_forms.py:180
-msgid "File path in storage"
-msgstr "Файлов път до склада"
+#: forms/document_file_forms.py:58
+msgid "Path in storage"
+msgstr "Път запазен"
 
-#: forms/document_forms.py:183 models/document_version_models.py:104
-#: search.py:47 search.py:72
+#: forms/document_file_forms.py:61 models/document_file_models.py:115
 msgid "Checksum"
 msgstr "Контролна сума"
 
-#: forms/document_forms.py:200 literals.py:43
+#: forms/document_forms.py:45
+msgid "Quick document rename"
+msgstr "Бързо преименуване на документ"
+
+#: forms/document_forms.py:53
+msgid "Preserve extension"
+msgstr "Запазване на разширението"
+
+#: forms/document_forms.py:55
+msgid ""
+"Takes the file extension and moves it to the end of the filename allowing "
+"operating systems that rely on file extensions to open document correctly."
+msgstr ""
+"Взема разширението на файла и го премества в края на името на файла, което "
+"позволява на операционните системи, които разчитат на разширения на файлове,"
+" да отворят правилно документа."
+
+#: forms/document_forms.py:104
+msgid "Date created"
+msgstr "Дата на създаване"
+
+#: forms/document_forms.py:110 models/document_models.py:86
+msgid "Language"
+msgstr "Език"
+
+#: forms/document_type_forms.py:47 models/document_models.py:62
+#: models/document_type_models.py:83 models/document_type_models.py:199
+#: workflow_actions.py:11
+msgid "Document type"
+msgstr "Тип документ"
+
+#: forms/document_version_page_forms.py:27
+msgid "Content type"
+msgstr "Тип съдържание"
+
+#: forms/document_version_page_forms.py:30
+msgid "Object ID"
+msgstr "Идентификатор на обекта"
+
+#: forms/document_version_page_forms.py:33
+msgid "Source"
+msgstr "Източник"
+
+#: forms/document_version_page_forms.py:38
+msgid "Destination page number"
+msgstr "Номер на записваната страница"
+
+#: forms/document_version_page_forms.py:82
+msgid "Target page number can't be repeated."
+msgstr "Номерът на целевата страница не може да се повтори."
+
+#: forms/misc_forms.py:12 literals.py:102
 msgid "Page range"
 msgstr "Поредица от страници"
 
-#: forms/document_page_forms.py:29
+#: forms/misc_forms.py:18
 msgid ""
 "Page number from which all the transformations will be cloned. Existing "
 "transformations will be lost."
-msgstr "Номер на страницата, от която ще бъдат клонирани всички трансформации. Съществуващите трансформации ще бъдат загубени."
+msgstr ""
+"Номер на страницата, от която ще бъдат клонирани всички трансформации. "
+"Съществуващите трансформации ще бъдат загубени."
 
-#: forms/document_type_forms.py:42 models/document_models.py:45
-#: models/document_type_models.py:60 models/document_type_models.py:146
-#: search.py:35 search.py:59
-msgid "Document type"
-msgstr "Тип на документа"
-
-#: forms/document_version_forms.py:17
-msgid ""
-"Takes the file extension and moves it to the end of the filename allowing "
-"operating systems that rely on file extensions to open the downloaded "
-"document version correctly."
-msgstr "Взема разширението на файла и го премества в края на името на файла, което позволява на операционните системи, които разчитат на разширения на файлове, да отворят правилно изтеглената версия на документа."
-
-#: handlers.py:33
-msgid "Document images"
-msgstr "Документни изображения"
-
-#: links/document_links.py:23 links/document_links.py:67
-msgid "Clear transformations"
-msgstr "Изчисти трансформациите"
-
-#: links/document_links.py:30
-msgid "Clone transformations"
-msgstr "Клонирай трансформациите"
-
-#: links/document_links.py:36 links/document_links.py:71
-msgid "Change type"
-msgstr "Промяна на типа"
-
-#: links/document_links.py:42 links/document_links.py:77
-msgid "Advanced download"
-msgstr "Разширено изтегляне"
-
-#: links/document_links.py:49
-msgid "Edit properties"
-msgstr "Редактиране на свойства"
-
-#: links/document_links.py:53 views/document_views.py:97
-msgid "All documents"
-msgstr "Всички документи"
-
-#: links/document_links.py:57 views/document_views.py:608
-msgid "Recently accessed"
-msgstr "Наскоро достъпени"
-
-#: links/document_links.py:61 views/document_views.py:634
-msgid "Recently added"
-msgstr "Неотдавна добавени"
-
-#: links/document_links.py:84
-msgid "Preview"
-msgstr "Предварителен преглед"
-
-#: links/document_links.py:90
-msgid "Properties"
-msgstr "Свойства"
-
-#: links/document_links.py:96
-msgid "Print"
-msgstr "Печат"
-
-#: links/document_links.py:101
-msgid "Quick download"
-msgstr "Бързо изтегляне"
-
-#: links/document_type_links.py:20 views/document_type_views.py:90
-msgid "Create document type"
-msgstr "Създаване на тип документ"
-
-#: links/document_type_links.py:25 links/document_type_links.py:49
-#: links/trashed_document_links.py:17 links/trashed_document_links.py:43
+#: links/document_file_links.py:26 links/document_file_links.py:31
+#: links/document_type_links.py:28 links/document_type_links.py:52
+#: links/document_version_links.py:41 links/document_version_links.py:55
+#: links/document_version_page_links.py:47 links/trashed_document_links.py:19
+#: links/trashed_document_links.py:41
 msgid "Delete"
 msgstr "Изтрийте"
 
-#: links/document_type_links.py:31
-msgid "Deletion policies"
-msgstr "Политики за изтриване"
-
-#: links/document_type_links.py:35 links/document_type_links.py:56
+#: links/document_file_links.py:36 links/document_type_links.py:38
+#: links/document_type_links.py:59 links/document_version_links.py:46
 msgid "Edit"
 msgstr "Редактиране"
 
-#: links/document_type_links.py:42
-msgid "Add quick label to document type"
-msgstr "Добавете бърз етикет към типа документ"
+#: links/document_file_links.py:41
+msgid "Quick download"
+msgstr "Бързо изтегляне"
 
-#: links/document_type_links.py:62 models/document_type_models.py:157
-msgid "Quick labels"
-msgstr "Бързи етикети"
+#: links/document_file_links.py:47 links/document_file_links.py:69
+msgid "Files"
+msgstr "Файлове"
 
-#: links/document_version_links.py:28 links/document_version_links.py:45
-msgid "Versions"
-msgstr "Версии"
+#: links/document_file_links.py:51 links/document_version_links.py:69
+msgid "Print"
+msgstr "Печат"
 
-#: links/document_version_links.py:33
-msgid "Download version"
-msgstr "Изтеглете версия"
+#: links/document_file_links.py:58 links/document_links.py:43
+msgid "Properties"
+msgstr "Свойства"
 
-#: links/document_version_links.py:39 links/document_version_page_links.py:98
-#: models/document_models.py:92 models/document_version_models.py:67
-#: models/misc_models.py:35 models/misc_models.py:65 models/misc_models.py:94
-msgid "Document"
-msgstr "Документ"
+#: links/document_file_links.py:76 links/document_links.py:38
+#: links/document_version_links.py:65
+msgid "Preview"
+msgstr "Предварителен преглед"
 
-#: links/document_version_links.py:52
-msgid "Details"
-msgstr "Детайли"
+#: links/document_file_links.py:82 links/document_file_links.py:88
+#: links/document_version_links.py:88 links/document_version_links.py:94
+msgid "Clear transformations"
+msgstr "Изчисти трансформациите"
 
-#: links/document_version_links.py:58
-msgid "Revert"
-msgstr "Обръщане"
+#: links/document_file_links.py:95 links/document_version_links.py:101
+msgid "Clone transformations"
+msgstr "Клонирай трансформациите"
 
-#: links/document_version_page_links.py:49
-msgid "Disable page"
-msgstr "Деактивиране на страницата"
-
-#: links/document_version_page_links.py:54
-msgid "Disable pages"
-msgstr "Деактивиране на страниците"
-
-#: links/document_version_page_links.py:61
-msgid "Enable page"
-msgstr "Активиране на страницата"
-
-#: links/document_version_page_links.py:66
-msgid "Enable pages"
-msgstr "Активиране на страниците"
-
-#: links/document_version_page_links.py:73
+#: links/document_file_page_links.py:46
+#: links/document_version_page_links.py:68
 msgid "First page"
 msgstr "Първа страница"
 
-#: links/document_version_page_links.py:78
+#: links/document_file_page_links.py:52
+#: links/document_version_page_links.py:74
 msgid "Last page"
 msgstr "Последна страница"
 
-#: links/document_version_page_links.py:86
+#: links/document_file_page_links.py:60
+#: links/document_version_page_links.py:82
 msgid "Previous page"
 msgstr "Предишна страница"
 
-#: links/document_version_page_links.py:92
+#: links/document_file_page_links.py:66
+#: links/document_version_page_links.py:88
 msgid "Next page"
 msgstr "Следваща страница"
 
-#: links/document_version_page_links.py:104
+#: links/document_file_page_links.py:86 models/document_file_page_models.py:54
+#: models/document_file_page_models.py:317
+msgid "Document file pages"
+msgstr "Страници на файл с документи"
+
+#: links/document_file_page_links.py:91
+#: links/document_version_page_links.py:114
 msgid "Rotate left"
 msgstr "Завърти наляво"
 
-#: links/document_version_page_links.py:109
+#: links/document_file_page_links.py:96
+#: links/document_version_page_links.py:119
 msgid "Rotate right"
 msgstr "Завърти надясно"
 
-#: links/document_version_page_links.py:114
+#: links/document_file_page_links.py:100
+#: links/document_version_page_links.py:124
 msgid "Page image"
 msgstr "Изображение на страница"
 
-#: links/document_version_page_links.py:119
+#: links/document_file_page_links.py:105
+#: links/document_version_page_links.py:129
 msgid "Reset view"
 msgstr "Нулиране на изгледа"
 
-#: links/document_version_page_links.py:125
+#: links/document_file_page_links.py:111
+#: links/document_version_page_links.py:135
 msgid "Zoom in"
 msgstr "Увеличаване"
 
-#: links/document_version_page_links.py:131
+#: links/document_file_page_links.py:117
+#: links/document_version_page_links.py:141
 msgid "Zoom out"
 msgstr "Намаляване"
 
-#: links/document_version_page_links.py:142
-#: links/document_version_page_links.py:149
+#: links/document_file_page_links.py:127 links/document_file_page_links.py:134
 msgid "Recalculate page count"
 msgstr "Преизчисляване броя на страниците"
 
-#: links/duplicated_document_links.py:18 models/misc_models.py:38
-#: models/misc_models.py:48 views/duplicated_document_views.py:78
-msgid "Duplicated documents"
-msgstr "Дублирани документи"
+#: links/document_links.py:17 links/document_links.py:33
+msgid "Change type"
+msgstr "Промяна на типа"
 
-#: links/duplicated_document_links.py:24 queues.py:66
-msgid "Duplicated document scan"
-msgstr "Дублирано сканиране на документи"
+#: links/document_links.py:22 views/document_views.py:68
+msgid "All documents"
+msgstr "Всички документи"
 
-#: links/favorite_links.py:12 views/favorite_document_views.py:37
+#: links/document_links.py:25 views/recently_accessed_document_views.py:29
+msgid "Recently accessed"
+msgstr "Наскоро достъпени"
+
+#: links/document_links.py:29 views/recently_created_document_views.py:27
+msgid "Recently created"
+msgstr "Новосъздадени"
+
+#: links/document_links.py:50
+msgid "Edit properties"
+msgstr "Редактиране на свойства"
+
+#: links/document_type_links.py:23 views/document_type_views.py:93
+msgid "Create document type"
+msgstr "Създаване на тип документ"
+
+#: links/document_type_links.py:34
+msgid "Deletion policies"
+msgstr "Политики за изтриване"
+
+#: links/document_type_links.py:45
+msgid "Add quick label to document type"
+msgstr "Добавете бърз етикет към типа документ"
+
+#: links/document_type_links.py:65 models/document_type_models.py:210
+msgid "Quick labels"
+msgstr "Бързи етикети"
+
+#: links/document_type_links.py:70
+msgid "Filename generation"
+msgstr "Генериране на име на файл"
+
+#: links/document_version_links.py:29
+msgid "Make active"
+msgstr "Направете активна"
+
+#: links/document_version_links.py:34
+msgid "Create document version"
+msgstr "Създайте версия на документа"
+
+#: links/document_version_links.py:51
+msgid "Export"
+msgstr "Експортиране"
+
+#: links/document_version_links.py:59 links/document_version_links.py:81
+msgid "Versions"
+msgstr "Версии"
+
+#: links/document_version_page_links.py:56
+msgid "Remap pages"
+msgstr "Презапис на страници"
+
+#: links/document_version_page_links.py:61
+msgid "Reset pages"
+msgstr "Нулиране на страниците"
+
+#: links/document_version_page_links.py:102
+#: models/document_version_models.py:64
+#: models/document_version_page_models.py:52 search.py:118
+msgid "Document version"
+msgstr "Версия на документа"
+
+#: links/document_version_page_links.py:108
+#: models/document_version_page_models.py:75
+#: models/document_version_page_models.py:402
+msgid "Document version pages"
+msgstr "Страници на версията на документа"
+
+#: links/favorite_links.py:13 views/favorite_document_views.py:36
 msgid "Favorites"
 msgstr "Любими"
 
-#: links/favorite_links.py:18 links/favorite_links.py:28
+#: links/favorite_links.py:18 links/favorite_links.py:27
 msgid "Add to favorites"
-msgstr "Добави към любими"
+msgstr "Добави към предпочитани"
 
-#: links/favorite_links.py:24 links/favorite_links.py:33
+#: links/favorite_links.py:23 links/favorite_links.py:31
 msgid "Remove from favorites"
-msgstr "Премахни от любими"
+msgstr "Премахни от предпочитани"
 
-#: links/trashed_document_links.py:23 links/trashed_document_links.py:38
+#: links/trashed_document_links.py:24 links/trashed_document_links.py:37
 msgid "Move to trash"
 msgstr "Преместване в кошчето"
 
-#: links/trashed_document_links.py:28
+#: links/trashed_document_links.py:27
 msgid "Trash can"
 msgstr "Кошче за боклук"
 
-#: links/trashed_document_links.py:33 links/trashed_document_links.py:48
+#: links/trashed_document_links.py:32 links/trashed_document_links.py:44
 msgid "Restore"
 msgstr "Възстанови"
 
-#: links/trashed_document_links.py:51 permissions.py:51
+#: links/trashed_document_links.py:49 permissions.py:107
 msgid "Empty trash"
 msgstr "Изпразни кошчето"
 
-#: literals.py:32
+#: literals.py:13
 msgid "Default"
 msgstr "По подразбиране"
 
-#: literals.py:43
+#: literals.py:83
+msgid "Replace. Create a new version and use the new file pages."
+msgstr "Сменете. Създайте нова версия и използвайте новите файлови страници."
+
+#: literals.py:84
+msgid "Append. Create a new version and append the new file pages."
+msgstr "Добавете. Създайте нова версия и добавете новите файлови страници."
+
+#: literals.py:85
+msgid "Keep. Do not create a new version and keep the current version pages."
+msgstr ""
+"Запазете. Не създавайте нова версия и запазете страниците с текущата версия."
+
+#: literals.py:94
+msgid "January"
+msgstr "Януари"
+
+#: literals.py:94
+msgid "February"
+msgstr "Февруари"
+
+#: literals.py:94
+msgid "March"
+msgstr "Март"
+
+#: literals.py:94
+msgid "April"
+msgstr "Април"
+
+#: literals.py:94
+msgid "May"
+msgstr "Май"
+
+#: literals.py:95
+msgid "June"
+msgstr "Юни"
+
+#: literals.py:95
+msgid "July"
+msgstr "Юли"
+
+#: literals.py:95
+msgid "August"
+msgstr "Август"
+
+#: literals.py:95
+msgid "September"
+msgstr "Септември"
+
+#: literals.py:95
+msgid "October"
+msgstr "Октомври"
+
+#: literals.py:96
+msgid "November"
+msgstr "Ноември"
+
+#: literals.py:96
+msgid "December"
+msgstr "Декември"
+
+#: literals.py:102
 msgid "All pages"
 msgstr "Всички страници"
 
-#: models/document_models.py:39
+#: models/document_file_models.py:80
+msgid "The server date and time when the document file was processed."
+msgstr "Дата и час на сървъра, когато файлът на документа е бил обработен."
+
+#: models/document_file_models.py:81 models/document_version_models.py:49
+msgid "Timestamp"
+msgstr "Времева марка"
+
+#: models/document_file_models.py:85
+msgid "An optional short text describing the document file."
+msgstr "Незадължителен кратък текст, описващ файла на документа."
+
+#: models/document_file_models.py:86 models/document_version_models.py:54
+msgid "Comment"
+msgstr "Коментар"
+
+#: models/document_file_models.py:91
+msgid "File"
+msgstr "Файл"
+
+#: models/document_file_models.py:94
+msgid "Filename"
+msgstr "Име на файл"
+
+#: models/document_file_models.py:98
 msgid ""
-"UUID of a document, universally Unique ID. An unique identifier generated "
-"for each document."
-msgstr "UUID на документ, универсално уникален идентификационен номер. Уникален идентификатор, генериран за всеки документ."
+"The document file's file mimetype. MIME types are a standard way to describe"
+" the format of a file, in this case the file format of the document. Some "
+"examples: \"text/plain\" or \"image/jpeg\". "
+msgstr ""
+"Mimetype на файла на документа. MIME типовете са стандартен начин за "
+"описване на формата на файл, в този случай файловия формат на документа. "
+"Някои примери: &quot;text / plain&quot; или &quot;image / jpeg&quot;."
 
-#: models/document_models.py:49
-msgid "The name of the document."
-msgstr "Име на документа."
+#: models/document_file_models.py:106
+msgid ""
+"The document file file encoding. binary 7-bit, binary 8-bit, text, base64, "
+"etc."
+msgstr ""
+"Кодиране на файла на документа. двоичен 7-битов, двоичен 8-битов, текст, "
+"base64 и др."
 
-#: models/document_models.py:49 models/document_page_models.py:256
-#: models/document_type_models.py:32 models/document_type_models.py:149
-#: search.py:40 search.py:66
+#: models/document_file_models.py:121 storages.py:27
+msgid "Document files"
+msgstr "Файлове на документи"
+
+#: models/document_file_models.py:321 models/document_file_page_models.py:277
+#: models/document_models.py:70 models/document_models.py:290
+#: models/document_models.py:295 models/document_type_models.py:41
+#: models/document_type_models.py:202 models/document_version_models.py:219
+#: models/document_version_page_models.py:351
 msgid "Label"
 msgstr "Етикет"
 
-#: models/document_models.py:53
+#: models/document_file_page_models.py:53
+#: models/document_file_page_models.py:316 search.py:79
+msgid "Document file page"
+msgstr "Страница на файл с документи"
+
+#: models/document_file_page_models.py:271
+#, python-format
+msgid "%(document_file)s - page %(page_num)d of %(total_pages)d"
+msgstr "%(document_file)s - страница %(page_num)d на %(total_pages)d"
+
+#: models/document_models.py:55
+msgid ""
+"UUID of a document, universally Unique ID. An unique identifier generated "
+"for each document."
+msgstr ""
+"UUID на документ, универсално уникален идентификационен номер. Уникален "
+"идентификатор, генериран за всеки документ."
+
+#: models/document_models.py:60
+msgid "The document type of the document."
+msgstr "Тип на документа."
+
+#: models/document_models.py:67
+msgid ""
+"A short text identifying the document. By default, will be set to the "
+"filename of the first file uploaded to the document."
+msgstr ""
+"Кратък текст, идентифициращ документа. По подразбиране ще бъде зададено "
+"името на първия файл, качен в документа."
+
+#: models/document_models.py:74
 msgid "An optional short text describing a document."
 msgstr "Незадължителен кратък текст, описващ документ."
 
-#: models/document_models.py:54 search.py:41 search.py:69
+#: models/document_models.py:75
 msgid "Description"
 msgstr "Описание"
 
-#: models/document_models.py:58
+#: models/document_models.py:79
 msgid ""
-"The server date and time when the document was finally processed and added "
-"to the system."
-msgstr "Дата и час на сървъра, когато документът е окончателно обработен и добавен към системата."
+"The server date and time when the document was finally processed and created"
+" in the system."
+msgstr ""
+"Дата и час на сървъра, когато документът е бил окончателно обработен и "
+"създаден в системата."
 
-#: models/document_models.py:60 models/misc_models.py:41
-msgid "Added"
-msgstr "Добавен"
+#: models/document_models.py:81
+msgid "Created"
+msgstr "Създаден"
 
-#: models/document_models.py:64
-msgid "The dominant language in the document."
-msgstr "Преобладаващият език в документа."
+#: models/document_models.py:85
+msgid "The primary language in the document."
+msgstr "Основният език в документа."
 
-#: models/document_models.py:69
+#: models/document_models.py:90
 msgid "Whether or not this document is in the trash."
 msgstr "Дали този документ е в кошчето или не."
 
-#: models/document_models.py:70
+#: models/document_models.py:91
 msgid "In trash?"
 msgstr "В кошчето ли е?"
 
-#: models/document_models.py:74
+#: models/document_models.py:95
 msgid "The server date and time when the document was moved to the trash."
 msgstr "Дата и час на сървъра, когато документът е преместен в кошчето."
 
-#: models/document_models.py:76
+#: models/document_models.py:97
 msgid "Date and time trashed"
 msgstr "Дата и час на изхвърляне в кошчето"
 
-#: models/document_models.py:80
+#: models/document_models.py:101
 msgid ""
 "A document stub is a document with an entry on the database but no file "
 "uploaded. This could be an interrupted upload or a deferred upload via the "
 "API."
-msgstr "Кочан на документ е документ със запис в базата данни, но не е качен файл. Това може да бъде прекъснато качване или отложено качване чрез API."
+msgstr ""
+"Кочан на документ е документ със запис в базата данни, но не е качен файл. "
+"Това може да бъде прекъснато качване или отложено качване чрез API."
 
-#: models/document_models.py:83
+#: models/document_models.py:104
 msgid "Is stub?"
 msgstr "Кочан ли е?"
 
-#: models/document_models.py:96
+#: models/document_models.py:288 models/document_models.py:293
 #, python-format
 msgid "Document stub, id: %d"
 msgstr "Кочан на документ, №: %d"
 
-#: models/document_page_models.py:42 models/document_version_models.py:109
-#: models/document_version_models.py:110
-msgid "Document version"
-msgstr "Версия на документа"
-
-#: models/document_page_models.py:44 models/document_type_models.py:151
-msgid "Enabled"
-msgstr "Активиран"
-
-#: models/document_page_models.py:47
-msgid "Page number"
-msgstr "Номер на страница"
-
-#: models/document_page_models.py:55 models/document_page_models.py:281
-msgid "Document page"
-msgstr "Страница на документа"
-
-#: models/document_page_models.py:56 models/document_page_models.py:282
-msgid "Document pages"
-msgstr "Страници на документа"
-
-#: models/document_page_models.py:250
-#, python-format
-msgid "Page %(page_num)d out of %(total_pages)d of %(document)s"
-msgstr "Страница %(page_num)d от общо %(total_pages)d страници от %(document)s документи."
-
-#: models/document_type_models.py:31
+#: models/document_type_models.py:40
 msgid "The name of the document type."
 msgstr "Име на типа документ."
 
-#: models/document_type_models.py:36
+#: models/document_type_models.py:45
 msgid ""
 "Amount of time after which documents of this type will be moved to the "
 "trash."
-msgstr "Време, след което документи от този тип ще бъдат преместени в кошчето."
+msgstr ""
+"Време, след което документи от този тип ще бъдат преместени в кошчето."
 
-#: models/document_type_models.py:38
+#: models/document_type_models.py:47
 msgid "Trash time period"
 msgstr "Период до изхвърляне"
 
-#: models/document_type_models.py:42
+#: models/document_type_models.py:51
 msgid "Trash time unit"
 msgstr "Единица време за периода до изхвърляне"
 
-#: models/document_type_models.py:46
+#: models/document_type_models.py:55
 msgid ""
 "Amount of time after which documents of this type in the trash will be "
 "deleted."
 msgstr "Време, след което документи от този тип в кошчето ще бъдат изтрити."
 
-#: models/document_type_models.py:48
+#: models/document_type_models.py:57
 msgid "Delete time period"
 msgstr "Изтриване на период от време"
 
-#: models/document_type_models.py:53
+#: models/document_type_models.py:62
 msgid "Delete time unit"
 msgstr "Изтриване на единица време"
 
-#: models/document_type_models.py:61
+#: models/document_type_models.py:66
+msgid ""
+"The class responsible for producing the actual filename used to store the "
+"uploaded documents."
+msgstr ""
+"Класът, отговорен за създаването на действителното име на файл, използвано "
+"за съхранение на качените документи."
+
+#: models/document_type_models.py:68
+msgid "Filename generator backend"
+msgstr "Бекенд на генератора на имена на файлове"
+
+#: models/document_type_models.py:72
+msgid "The arguments for the filename generator backend as a YAML dictionary."
+msgstr ""
+"Аргументите за бекенда на генератора на имена на файлове като YAML речник."
+
+#: models/document_type_models.py:75
+msgid "Filename generator backend arguments"
+msgstr "Аргументи на бекенда на генератора на имена на файлове"
+
+#: models/document_type_models.py:84
 msgid "Documents types"
 msgstr "Типове документи"
 
-#: models/document_type_models.py:156
+#: models/document_type_models.py:204
+msgid "Enabled"
+msgstr "Активиран"
+
+#: models/document_type_models.py:209
 msgid "Quick label"
-msgstr "Бърз етикет"
+msgstr "Кратък етикет"
 
-#: models/document_version_models.py:71
-msgid "The server date and time when the document version was processed."
-msgstr "Дата и час на сървъра, когато е обработена версията на документа."
+#: models/document_version_models.py:48
+msgid "The server date and time when the document version was created."
+msgstr "Дата и час на сървъра, когато е създадена версията на документа."
 
-#: models/document_version_models.py:72
-msgid "Timestamp"
-msgstr "Времева марка"
-
-#: models/document_version_models.py:76
+#: models/document_version_models.py:53
 msgid "An optional short text describing the document version."
 msgstr "Незадължителен кратък текст, описващ версията на документа."
 
-#: models/document_version_models.py:77
-msgid "Comment"
-msgstr "Коментар"
+#: models/document_version_models.py:58
+msgid "Determines the active version of the document."
+msgstr "Определя активната версия на документа."
 
-#: models/document_version_models.py:83
-msgid "File"
-msgstr "Файл"
+#: models/document_version_models.py:59
+msgid "Active"
+msgstr "Активен"
 
-#: models/document_version_models.py:87
+#: models/document_version_models.py:65
+msgid "Document versions"
+msgstr "Версии на документа"
+
+#: models/document_version_models.py:136
+msgid "Document version export to PDF"
+msgstr "Експорт на версия на документа в PDF"
+
+#: models/document_version_models.py:167
+msgid "Document version exported."
+msgstr "Експортирана версия на документа."
+
+#: models/document_version_models.py:169
+#, python-format
 msgid ""
-"The document version's file mimetype. MIME types are a standard way to "
-"describe the format of a file, in this case the file format of the document."
-" Some examples: \"text/plain\" or \"image/jpeg\". "
-msgstr "Mime тип на файла на версията на документа Типовете MIME са стандартен начин да се опише форматът на файл, в този случай форматът на файла на документа. Някои примери: „текст/обикновена“ или „изображение/jpeg“."
+"Document version \"%(document_version)s\" has been exported and is available"
+" for download using the link: %(download_url)s or from the downloads area "
+"(%(download_list_url)s)."
+msgstr ""
+"Версията на документа &quot;%(document_version)s&quot; е експортирана и е "
+"достъпна за изтегляне чрез връзката: %(download_url)s или от областта за "
+"изтегляне (%(download_list_url)s)."
 
-#: models/document_version_models.py:91 search.py:38 search.py:63
-msgid "MIME type"
-msgstr "MIME тип"
+#: models/document_version_page_models.py:56
+msgid "Unique integer number for the page. Pages are ordered by this number."
+msgstr ""
+"Уникално цяло число за страницата. Страниците са подредени по този номер."
 
-#: models/document_version_models.py:95
-msgid ""
-"The document version file encoding. binary 7-bit, binary 8-bit, text, "
-"base64, etc."
-msgstr "Кодиране на файла на версията на документа. двоичен 7-битов, двоичен 8-битов, текст, base64 и т.н."
+#: models/document_version_page_models.py:61
+msgid "Content type for the source object of the page."
+msgstr "Тип съдържание за изходния обект на страницата."
 
-#: models/document_version_models.py:97
-msgid "Encoding"
-msgstr "Кодиране"
+#: models/document_version_page_models.py:65
+msgid "ID for the source object of the page."
+msgstr "Идентификатор за изходния обект на страницата."
 
-#: models/misc_models.py:47
-msgid "Duplicated document"
-msgstr "Дублиран документ"
+#: models/document_version_page_models.py:74
+#: models/document_version_page_models.py:401 search.py:142
+msgid "Document version page"
+msgstr "Страница с версия на документа"
 
-#: models/misc_models.py:61 models/misc_models.py:90
+#: models/document_version_page_models.py:345
+#, python-format
+msgid "%(document_version)s page %(page_number)d of %(total_pages)d"
+msgstr "%(document_version)s страница %(page_number)d на %(total_pages)d"
+
+#: models/favorite_document_models.py:24
+#: models/recently_accessed_document_models.py:23
 msgid "User"
 msgstr "Потребител"
 
-#: models/misc_models.py:71
+#: models/favorite_document_models.py:31
+msgid "Date and time added"
+msgstr "Добавени дата и час"
+
+#: models/favorite_document_models.py:38
 msgid "Favorite document"
-msgstr "Любим документ"
+msgstr "Предпочитан документ"
 
-#: models/misc_models.py:72
+#: models/favorite_document_models.py:39
 msgid "Favorite documents"
-msgstr "Любими документи"
+msgstr "Предпочитани документи"
 
-#: models/misc_models.py:97
+#: models/recently_accessed_document_models.py:30
 msgid "Accessed"
 msgstr "Ползван"
 
-#: models/misc_models.py:104
+#: models/recently_accessed_document_models.py:37
 msgid "Recent document"
-msgstr "Скорошен документ"
+msgstr "Последен документ"
 
-#: models/misc_models.py:105
+#: models/recently_accessed_document_models.py:38
 msgid "Recent documents"
 msgstr "Последни документи"
 
@@ -647,96 +939,132 @@ msgid "Create documents"
 msgstr "Създаване на документи"
 
 #: permissions.py:13
-msgid "Delete documents"
-msgstr "Изтриване на документи"
-
-#: permissions.py:16
-msgid "Trash documents"
-msgstr "Изхвърли документи"
-
-#: permissions.py:19 views/document_views.py:205
-msgid "Download documents"
-msgstr "Изтегляне на документи"
-
-#: permissions.py:22
 msgid "Edit documents"
 msgstr "Редактиране на документи"
 
-#: permissions.py:25
-msgid "Create new document versions"
-msgstr "Създаване на нова версия на документа"
-
-#: permissions.py:28
+#: permissions.py:16
 msgid "Edit document properties"
 msgstr "Редактиране на свойства на документа"
 
-#: permissions.py:31
-msgid "Print documents"
-msgstr "Печат на документи"
-
-#: permissions.py:34
-msgid "Restore trashed document"
-msgstr "Възстановяване на изхвърлени документи"
-
-#: permissions.py:37
+#: permissions.py:19
 msgid "Execute document modifying tools"
-msgstr "Изпълнение на изменение на документа"
+msgstr "Работа с инструменти за изменение на документа"
 
-#: permissions.py:40
-msgid "Revert documents to a previous version"
-msgstr "Връщане на документите към предишна версия"
-
-#: permissions.py:44
-msgid "View documents' versions list"
-msgstr "Преглед на списъка с версии на документи"
-
-#: permissions.py:48
+#: permissions.py:22
 msgid "View documents"
 msgstr "Преглед на документи"
 
-#: permissions.py:59
+#: permissions.py:28
+msgid "Delete document files"
+msgstr "Изтриване на файлове с документи"
+
+#: permissions.py:31
+msgid "Edit document files"
+msgstr "Редактиране на файлове с документи"
+
+#: permissions.py:34
+msgid "Download document files"
+msgstr "Изтегляне на файлове с документи"
+
+#: permissions.py:37
+msgid "Create new document files"
+msgstr "Създаване на нови файлове с документи"
+
+#: permissions.py:40
+msgid "Print document files"
+msgstr "Отпечатване на файлове с документи"
+
+#: permissions.py:43
+msgid "Execute document file modifying tools"
+msgstr "Работа с инструменти за променяне на файл с документи"
+
+#: permissions.py:47
+msgid "View document files"
+msgstr "Преглед на файлове с документи"
+
+#: permissions.py:54
+msgid "Create document versions"
+msgstr "Създаване на версии на документа"
+
+#: permissions.py:58
+msgid "Delete document versions"
+msgstr "Изтриване на версии на документа"
+
+#: permissions.py:62
+msgid "Edit document versions"
+msgstr "Редактиране на версии на документа"
+
+#: permissions.py:66
+msgid "Export document versions"
+msgstr "Експортиране на версии на документа"
+
+#: permissions.py:70
+msgid "Print document versions"
+msgstr "Печат на версии на документа"
+
+#: permissions.py:73
+msgid "View document versions"
+msgstr "Преглед на версии на документа"
+
+#: permissions.py:83
 msgid "Create document types"
 msgstr "Създаване на тип документ"
 
-#: permissions.py:62
+#: permissions.py:86
 msgid "Delete document types"
 msgstr "Изтриване на типове документи"
 
-#: permissions.py:65
+#: permissions.py:89
 msgid "Edit document types"
 msgstr "Редактиране на типове документи"
 
-#: permissions.py:68
+#: permissions.py:92
 msgid "View document types"
 msgstr "Преглед на типовете документи"
 
-#: queues.py:17
-msgid "Converter"
-msgstr "Конвертор"
+#: permissions.py:98
+msgid "Restore trashed document"
+msgstr "Възстановяване на изхвърлени документи"
 
-#: queues.py:20
+#: permissions.py:101
+msgid "Delete trashed documents"
+msgstr "Изтриване на документи от кошчето"
+
+#: permissions.py:104
+msgid "Trash documents"
+msgstr "Изхвърли документи"
+
+#: queues.py:15
 msgid "Documents periodic"
 msgstr "Периодика на документите"
 
-#: queues.py:23
+#: queues.py:19
 msgid "Uploads"
 msgstr "Качвания"
 
+#: queues.py:27
+msgid "Generate document file page image"
+msgstr "Генериране на изображение на страница на файл с документ"
+
 #: queues.py:31
-msgid "Generate document page image"
-msgstr "Генериране на изображение на страницата на документа"
+msgid "Generate document version page image"
+msgstr "Генериране на изображение на страница с версия на документа"
 
 #: queues.py:36
+msgid "Empty the trash can"
+msgstr "Изпразнете кошчето"
+
+#: queues.py:40
 msgid "Delete a document"
 msgstr "Изтриване на документ"
 
-#: queues.py:40
-msgid "Clean empty duplicate lists"
-msgstr "Изчистване на празни дублиращи се списъци"
+#: queues.py:44
+msgid "Reset the page list of a document version"
+msgstr "Нулирайте списъка със страници на версия на документа"
 
-#: queues.py:45
-msgid "Check document type delete periods"
-msgstr "Проверете периодите на изтриване на типа документ"
+#: queues.py:48
+msgid "Export a document version"
+msgstr "Експортирайте версия на документ"
 
 #: queues.py:53
 msgid "Check document type trash periods"
@@ -746,678 +1074,1073 @@ msgstr "Проверете периодите на изхвърляне на т�
 msgid "Delete document stubs"
 msgstr "Изтрийте кочаните на документи"
 
-#: queues.py:71
+#: queues.py:65
+msgid "Check document type delete periods"
+msgstr "Проверете периодите на изтриване на типа документ"
+
+#: queues.py:74
 msgid "Update document page count"
 msgstr "Актуализиране на броя на страниците на документа"
 
-#: queues.py:75
-msgid "Upload new document version"
-msgstr "Качете нова версия на документа"
+#: queues.py:78
+msgid "Upload new document file"
+msgstr "Качете нов файл с документ"
 
-#: queues.py:79
-msgid "Scan document duplicates"
-msgstr "Дублирания на сканове на документи"
+#: search.py:31 search.py:63 search.py:90 search.py:130 search.py:154
+msgid "Document type label"
+msgstr "Етикет на типа документ"
 
-#: settings.py:26
+#: search.py:66 search.py:93 search.py:133 search.py:160
+msgid "Document label"
+msgstr "Етикет на документа"
+
+#: search.py:69 search.py:97 search.py:136 search.py:164
+msgid "Document description"
+msgstr "Описание на документа"
+
+#: search.py:100
+msgid "Document file checksum"
+msgstr "Контролна сума на файл с документи"
+
+#: search.py:103
+msgid "Document file MIME type"
+msgstr "MIME тип на файл с документ"
+
+#: search.py:157
+msgid "Document version comment"
+msgstr "Коментар към версията на документа"
+
+#: serializers/document_file_serializers.py:38
+msgid "Binary content for the new file."
+msgstr "Двоично съдържание за новия файл."
+
+#: serializers/document_serializers.py:23
+msgid "Document type ID for the new document."
+msgstr "Идентификатор на типа на документа за новия документ."
+
+#: serializers/document_version_serializers.py:72
+msgid "Content type ID of the source object for the page."
+msgstr ""
+"Идентификатор за типа на съдържанието на изходния обект за страницата."
+
+#: serializers/favorite_document_serializers.py:18
+msgid "Document ID for the new favorite document."
+msgstr "Идентификатор на документа за новия предпочитан документ."
+
+#: settings.py:54
 msgid ""
-"The threshold at which the DOCUMENT_CACHE_STORAGE_BACKEND will start "
-"deleting the oldest document image cache files. Specify the size in bytes."
-msgstr "Прагът, при който DOCUMENT_CACHE_STORAGE_BACKEND ще започне да изтрива най-старите файлове за кеш на изображение на документ. Посочете размера в байтове."
+"The threshold at which the DOCUMENTS_FILE_PAGE_IMAGE_CACHE_STORAGE_BACKEND "
+"will start deleting the oldest document file page image cache files. Specify"
+" the size in bytes."
+msgstr ""
+"Прагът, при който DOCUMENTS_FILE_PAGE_IMAGE_CACHE_STORAGE_BACKEND ще започне"
+" да изтрива най-старите файлове с кеш на изображения на страница на "
+"документ. Посочете размера в байтове."
 
-#: settings.py:34
+#: settings.py:62
 msgid ""
-"Path to the Storage subclass to use when storing the cached document image "
-"files."
-msgstr "Път към подклас Storage, който да се използва при съхранение на кешираните файлове с изображения на документи."
+"Time in seconds that the browser should cache the supplied document file "
+"page images. The default of 31559626 seconds correspond to 1 year."
+msgstr ""
+"Време в секунди, през което браузърът трябва да кешира предоставените "
+"изображения на страници на файл с документи. По подразбиране 31559626 "
+"секунди съответстват на 1 година."
 
-#: settings.py:42
-msgid "Arguments to pass to the DOCUMENT_CACHE_STORAGE_BACKEND."
-msgstr "Аргументи за подаване към DOCUMENT_CACHE_STORAGE_BACKEND."
+#: settings.py:70
+msgid "Path to the Storage subclass to use when storing document files."
+msgstr ""
+"Път към подклас Storage, който да се използва при съхранение на файлове с "
+"документи."
 
-#: settings.py:48
+#: settings.py:77
+msgid "Arguments to pass to the DOCUMENT_FILE_STORAGE_BACKEND."
+msgstr "Аргументи за предаване към DOCUMENT_FILE_STORAGE_BACKEND."
+
+#: settings.py:83
 msgid ""
-"Disables the first cache tier which stores high resolution, non transformed "
-"versions of documents's pages."
-msgstr "Деактивира първия слой на кеша, който съхранява нетрансформирани версии на страниците на документи с висока разделителна способност."
+"Path to the Storage subclass to use when storing the cached document file "
+"page image files."
+msgstr ""
+"Път към подкласа Storage, който да се използва при съхраняване на кешираните"
+" файлове с изображения на страницата на файла на документа."
 
-#: settings.py:55
+#: settings.py:91
 msgid ""
-"Disables the second cache tier which stores medium to low resolution, "
-"transformed (rotated, zoomed, etc) versions of documents' pages."
-msgstr "Деактивира втория кеш слой, който съхранява средни до ниски разделителни способности, трансформирани (завъртяни, увеличени и т.н.) версии на страниците на документи."
+"Arguments to pass to the DOCUMENTS_FILE_PAGE_IMAGE_CACHE_STORAGE_BACKEND."
+msgstr ""
+"Аргументи за предаване към DOCUMENTS_FILE_PAGE_IMAGE_CACHE_STORAGE_BACKEND."
 
-#: settings.py:69
+#: settings.py:97
 msgid "Maximum number of favorite documents to remember per user."
-msgstr "Максимален брой любими документи за запомняне на потребител."
+msgstr "Максимален брой предпочитани документи за запомняне на потребител."
 
-#: settings.py:75
-msgid ""
-"Detect the orientation of each of the document's pages and create a "
-"corresponding rotation transformation to display it rightside up. This is an"
-" experimental feature and it is disabled by default."
-msgstr "Открийте ориентацията на всяка от страниците на документа и създайте съответна ротационна трансформация, за да я покажете с дясната страна отгоре. Това е експериментална функция и е деактивирана по подразбиране."
-
-#: settings.py:84
+#: settings.py:103
 msgid ""
 "Size of blocks to use when calculating the document file's checksum. A value"
 " of 0 disables the block calculation and the entire file will be loaded into"
 " memory."
-msgstr "Размер на блоковете, които да се използват при изчисляване на контролната сума на файла на документа. Стойност 0 деактивира изчислението на блока и целият файл ще бъде зареден в паметта."
+msgstr ""
+"Размер на блоковете, които да се използват при изчисляване на контролната "
+"сума на файла на документа. Стойност 0 деактивира изчислението на блока и "
+"целият файл ще бъде зареден в паметта."
 
-#: settings.py:91
+#: settings.py:110
 msgid "Default documents language (in ISO639-3 format)."
 msgstr "Език на документи по подразбиране (във формат ISO639-3)."
 
-#: settings.py:95
+#: settings.py:114
 msgid "List of supported document languages. In ISO639-3 format."
 msgstr "Списък на поддържаните езици на документи. Във формат ISO639-3"
 
-#: settings.py:100
+#: settings.py:120
 msgid ""
-"Time in seconds that the browser should cache the supplied document images. "
-"The default of 31559626 seconds corresponde to 1 year."
-msgstr "Време за секунди за което браузърът трябва да кешира предоставените изображения на документи. По подразбиране 31559626 секунди съответства на 1 година."
+"The threshold at which the DOCUMENT_VERSION_PAGE_IMAGE_CACHE_STORAGE_BACKEND"
+" will start deleting the oldest document version page image cache versions. "
+"Specify the size in bytes."
+msgstr ""
+"Прагът, при който DOCUMENT_VERSION_PAGE_IMAGE_CACHE_STORAGE_BACKEND ще "
+"започне да изтрива най-старите версии на кешираните изображения на "
+"страницата на документа. Посочете размера в байтове."
 
-#: settings.py:119
+#: settings.py:128
 msgid ""
-"Maximum number of recently accessed (created, edited, viewed) documents to "
-"remember per user."
-msgstr "Максимален брой наскоро ползвани (създадени, редактирани, прегледани) документи, които да се запомнят на потребител."
+"Time in seconds that the browser should cache the supplied document version "
+"page images. The default of 31559626 seconds correspond to 1 year."
+msgstr ""
+"Време в секунди, през което браузърът трябва да кешира предоставените "
+"изображения на страницата с версия на документа. По подразбиране 31559626 "
+"секунди съответстват на 1 година."
 
-#: settings.py:126
-msgid "Maximum number of recently created documents to show."
-msgstr "Максимален брой наскоро създадени документи за показване."
-
-#: settings.py:132
-msgid "Amount in degrees to rotate a document page per user interaction."
-msgstr "Градуси на завъртане на страница от документ, при потребителско действие"
-
-#: settings.py:138
-msgid "Path to the Storage subclass to use when storing document files."
-msgstr "Път към подклас Storage, който да се използва при съхранение на файлове с документи."
+#: settings.py:137
+msgid ""
+"Path to the Storage subclass to use when storing the cached document version"
+" page image versions."
+msgstr ""
+"Път към подкласа Storage, който да се използва при съхранение на кешираните "
+"версии на изображението на страницата на версията на документа."
 
 #: settings.py:145
-msgid "Arguments to pass to the DOCUMENT_STORAGE_BACKEND."
-msgstr "Аргументи за подаване към DOCUMENT_STORAGE_BACKEND."
-
-#: settings.py:149
-msgid "Height in pixels of the document thumbnail image."
-msgstr "Височина в пиксели на миниатюрното изображение на документа."
-
-#: settings.py:160
 msgid ""
-"Maximum amount in percent (%) to allow user to zoom in a document page "
-"interactively."
-msgstr "Максимален процент (%) допустим за интерактивно увеличаване страницата от потребителя"
+"Arguments to pass to the DOCUMENTS_VERSION_PAGE_IMAGE_CACHE_STORAGE_BACKEND."
+msgstr ""
+"Аргументи за предаване към "
+"DOCUMENTS_VERSION_PAGE_IMAGE_CACHE_STORAGE_BACKEND."
 
 #: settings.py:167
 msgid ""
-"Minimum amount in percent (%) to allow user to zoom out a document page "
-"interactively."
-msgstr "Минимален процент (%) допустим за интерактивно смаляване страницата от потребителя"
+"Maximum number of recently accessed documents (created, edited, viewed) to "
+"remember per user."
+msgstr ""
+"Максимален брой наскоро достъпни документи (създадени, редактирани, "
+"прегледани) за запомняне на потребител."
 
 #: settings.py:174
+msgid "Maximum number of recently created documents to show."
+msgstr "Максимален брой наскоро създадени документи за показване."
+
+#: settings.py:180
+msgid "Amount in degrees to rotate a document page per user interaction."
+msgstr ""
+"Градуси на завъртане на страница от документ, при потребителско действие"
+
+#: settings.py:186
+msgid ""
+"Time after which a document stub will be considered invalid and deleted."
+msgstr ""
+"Време, след което кочана на документа ще бъде считан за невалиден и изтрит."
+
+#: settings.py:194
+msgid ""
+"Amount of time in seconds, a failed document file page image task will wait "
+"before retrying."
+msgstr ""
+"Време в секунди, за което неуспешна задача за изображение на страница на "
+"файл с документ ще изчака, преди да опита отново."
+
+#: settings.py:202
+msgid ""
+"Amount of time in seconds, a failed document version page image task will "
+"wait before retrying."
+msgstr ""
+"Време в секунди, за което неуспешна задача за изображение на страница с "
+"версия на документа ще изчака, преди да опита отново."
+
+#: settings.py:209
+msgid "Height in pixels of the document thumbnail image."
+msgstr "Височина в пиксели на миниатюрното изображение на документа."
+
+#: settings.py:228
+msgid ""
+"Maximum amount in percent (%) to allow user to zoom in a document page "
+"interactively."
+msgstr ""
+"Максимален процент (%) допустим за интерактивно увеличаване страницата от "
+"потребителя"
+
+#: settings.py:235
+msgid ""
+"Minimum amount in percent (%) to allow user to zoom out a document page "
+"interactively."
+msgstr ""
+"Минимален процент (%) допустим за интерактивно смаляване страницата от "
+"потребителя"
+
+#: settings.py:242
 msgid "Amount in percent zoom in or out a document page per user interaction."
-msgstr "Процент приближаване или отдалечаване на страницата на документа, приложен за потребителя"
+msgstr ""
+"Процент приближаване или отдалечаване на страницата на документа, приложен "
+"за потребителя"
 
-#: statistics.py:17
-msgid "January"
-msgstr "Януари"
-
-#: statistics.py:17
-msgid "February"
-msgstr "Февруари"
-
-#: statistics.py:17
-msgid "March"
-msgstr "Март"
-
-#: statistics.py:17
-msgid "April"
-msgstr "Април"
-
-#: statistics.py:17
-msgid "May"
-msgstr "Май"
-
-#: statistics.py:18
-msgid "June"
-msgstr "Юни"
-
-#: statistics.py:18
-msgid "July"
-msgstr "Юли"
-
-#: statistics.py:18
-msgid "August"
-msgstr "Август"
-
-#: statistics.py:18
-msgid "September"
-msgstr "Септември"
-
-#: statistics.py:18
-msgid "October"
-msgstr "Октомври"
-
-#: statistics.py:19
-msgid "November"
-msgstr "Ноември"
-
-#: statistics.py:19
-msgid "December"
-msgstr "Декември"
-
-#: statistics.py:240
+#: statistics.py:234
 msgid "New documents per month"
 msgstr "Нови документи на месец"
 
-#: statistics.py:247
-msgid "New document versions per month"
-msgstr "Нови версии на документи на месец"
+#: statistics.py:241
+msgid "New document files per month"
+msgstr "Нови файлове с документи на месец"
 
-#: statistics.py:254
+#: statistics.py:248
 msgid "New document pages per month"
 msgstr "Нови страници на документи на месец"
 
-#: statistics.py:261
+#: statistics.py:255
 msgid "Total documents at each month"
 msgstr "Общо документи на всеки месец"
 
-#: statistics.py:268
-msgid "Total document versions at each month"
-msgstr "Общо версии на документи на всеки месец"
+#: statistics.py:262
+msgid "Total document files at each month"
+msgstr "Общо файлове с документи за всеки месец"
 
-#: statistics.py:275
+#: statistics.py:269
 msgid "Total document pages at each month"
 msgstr "Общо страници от документи на всеки месец"
 
-#: templates/documents/document_print.html:12
+#: storages.py:21
+msgid ""
+"Unable to initialize the document file storage. Check the settings {} and {}"
+" for formatting errors."
+msgstr ""
+"Не може да се инициализира хранилището на файла с документи. Проверете "
+"настройките {} и {} за грешки при форматирането."
+
+#: storages.py:35
+msgid ""
+"Unable to initialize the document file image storage. Check the settings {} "
+"and {} for formatting errors."
+msgstr ""
+"Не може да се инициализира съхранението на изображението на файла на "
+"документа. Проверете настройките {} и {} за грешки при форматирането."
+
+#: storages.py:41
+msgid "Document file page images"
+msgstr "Изображения на страници на файл с документи"
+
+#: storages.py:49
+msgid ""
+"Unable to initialize the document version image storage. Check the settings "
+"{} and {} for formatting errors."
+msgstr ""
+"Не може да се инициализира хранилището на изображението на версията на "
+"документа. Проверете настройките {} и {} за грешки при форматирането."
+
+#: storages.py:55
+msgid "Document version page images"
+msgstr "Изображения на страницата с версия на документа"
+
+#: templates/documents/document_print.html:13
 msgid "Document page image preview"
 msgstr "Визуализация на изображението на страницата на документа"
 
-#: templates/documents/forms/widgets/document_page_carousel.html:16
+#: templates/documents/errors/no_valid_version.html:5
+msgid "No valid or active version"
+msgstr "Няма валидна или активна версия"
+
+#: templates/documents/errors/no_version_pages.html:5
+msgid "No version pages"
+msgstr "Няма страници с версии"
+
+#: templates/documents/forms/widgets/page_carousel.html:16
 #, python-format
 msgid ""
 "\n"
 "                    Page %(page_number)s of %(total_pages)s\n"
 "                "
-msgstr "\n                    Страница %(page_number)s от %(total_pages)s\n                "
+msgstr ""
+"\n"
+"                    Страница %(page_number)s от %(total_pages)s\n"
+"                "
 
-#: templates/documents/forms/widgets/document_page_carousel.html:22
+#: templates/documents/forms/widgets/page_carousel.html:22
 msgid "No pages to display"
 msgstr "Няма страници за показване"
 
-#: templates/documents/forms/widgets/document_page_image.html:13
+#: templates/documents/forms/widgets/page_image.html:15
 msgid "Document image"
 msgstr "Документно изображение"
 
-#: utils.py:26
+#: utils.py:20
 #, python-format
 msgid "Unknown language \"%s\""
 msgstr "Неизвестен език &quot;%s&quot;"
 
-#: views/document_page_views.py:57
-msgid ""
-"This could mean that the document is of a format that is not supported, that"
-" it is corrupted or that the upload process was interrupted. Use the "
-"document page recalculation action to attempt to introspect the page count "
-"again."
-msgstr "Това може да означава, че документът е във формат, който не се поддържа, че е повреден или че процесът на качване е прекъснат. Използвайте действието за преизчисляване на страниците на документ, за да се опитате отново да прегледате броя на страниците."
-
-#: views/document_page_views.py:62
-msgid "No document pages available"
-msgstr "Няма налични страници от документ"
-
-#: views/document_page_views.py:64
+#: views/document_file_page_views.py:51
 #, python-format
-msgid "Pages for document: %s"
-msgstr "Страници за документ: %s"
+msgid "%(count)d document file queued for page count recalculation."
+msgstr ""
+"%(count)d файл с документи на опашка за преизчисляване на броя страници."
 
-#: views/document_page_views.py:142
+#: views/document_file_page_views.py:54
+#, python-format
+msgid "%(count)d document files queued for page count recalculation."
+msgstr ""
+"%(count)d файлове с документи, поставени на опашка за преизчисляване на броя"
+" страници."
+
+#: views/document_file_page_views.py:62
+msgid "Recalculate the page count of the selected document file?"
+msgid_plural "Recalculate the page count of the selected document files?"
+msgstr[0] "Да се преизчисли броят на страниците на избрания файл с документ?"
+msgstr[1] ""
+"Да се преизчисли ли броят на страниците на избраните файлове с документи?"
+
+#: views/document_file_page_views.py:73
+#, python-format
+msgid "Recalculate the page count of the document file: %s?"
+msgstr "Да се преизчисли ли броя на страниците на файла на документа: %s?"
+
+#: views/document_file_page_views.py:100
+msgid ""
+"This could mean that the document file is of a format that is not supported,"
+" that it is corrupted or that the upload process was interrupted. Use the "
+"document file page recalculation action to attempt to introspect the page "
+"count again."
+msgstr ""
+"Това може да означава, че файлът с документ е във формат, който не се "
+"поддържа, че е повреден или че процесът на качване е прекъснат. Използвайте "
+"действието за преизчисляване на страницата на файла на документа, за да се "
+"опитате да проверите отново броя на страниците."
+
+#: views/document_file_page_views.py:106
+msgid "No document file pages available"
+msgstr "Няма налични страници с файлове с документи"
+
+#: views/document_file_page_views.py:108
+#, python-format
+msgid "Pages of document file: %s"
+msgstr "Страници на файл с документи: %s"
+
+#: views/document_file_page_views.py:182
+#: views/document_version_page_views.py:335
 msgid "There are no more pages in this document"
 msgstr "Няма повече страници в този документ"
 
-#: views/document_page_views.py:160
+#: views/document_file_page_views.py:198
+#: views/document_version_page_views.py:351
 msgid "You are already at the first page of this document"
 msgstr "Вече сте на първа страница на този документ"
 
-#: views/document_page_views.py:180
+#: views/document_file_page_views.py:218
+#: views/document_version_page_views.py:371
 #, python-format
 msgid "Image of: %s"
 msgstr "Изображение на: %s"
 
-#: views/document_page_views.py:280
-msgid "Disable the selected document page?"
-msgid_plural "Disable the selected document pages?"
-msgstr[0] "Деактивиране на избраната страница с документи?"
-msgstr[1] "Деактивиране на избраните страници с документи?"
+#: views/document_file_views.py:46
+#, python-format
+msgid "Error deleting document file \"%(instance)s\"; %(exception)s"
+msgstr "Грешка при изтриване на файл с документ „%(instance)s“; %(exception)s"
 
-#: views/document_page_views.py:310
-msgid "Enable the selected document page?"
-msgid_plural "Enable the selected document pages?"
-msgstr[0] "Да се активира ли избраната страница с документи?"
-msgstr[1] "Да се активират ли избраните страници с документи?"
+#: views/document_file_views.py:52
+#, python-format
+msgid "Document file \"%(object)s\" deleted successfully."
+msgstr "Файлът на документа &quot;%(object)s&quot; беше изтрит успешно."
 
-#: views/document_type_views.py:52
+#: views/document_file_views.py:55
+#, python-format
+msgid "%(count)d document file deleted successfully."
+msgstr "%(count)d файл с документи е изтрит успешно."
+
+#: views/document_file_views.py:58
+#, python-format
+msgid "%(count)d document files deleted successfully."
+msgstr "%(count)d файлове с документи бяха изтрити успешно."
+
+#: views/document_file_views.py:60
+#, python-format
+msgid "Delete document file: %(object)s."
+msgstr "Изтрийте файла на документа: %(object)s."
+
+#: views/document_file_views.py:61
+#, python-format
+msgid "Delete the %(count)d selected document file."
+msgstr "Изтрийте файла с %(count)d избран документ."
+
+#: views/document_file_views.py:62
+#, python-format
+msgid "Delete the %(count)d selected document files."
+msgstr "Изтрийте %(count)d избрани файлове с документи."
+
+#: views/document_file_views.py:67
+msgid ""
+"All document files pages from this document file and the document version "
+"pages linked to them will be deleted too."
+msgstr ""
+"Всички страници от този файл с документи и страниците на версията на "
+"документа, свързани с тях, също ще бъдат изтрити."
+
+#: views/document_file_views.py:117
+#, python-format
+msgid "Edit document file: %s"
+msgstr "Редактиране на файл с документ: %s"
+
+#: views/document_file_views.py:156
+msgid ""
+"File are the actual files that were uploaded for each document. Their "
+"contents needs to be mapped to a version before it can be used."
+msgstr ""
+"Файл са действителните файлове, които са качени за всеки документ. "
+"Съдържанието им трябва да бъде прехвърлено във версия, преди да може да се "
+"използва."
+
+#: views/document_file_views.py:160
+msgid "No files available"
+msgstr "Няма налични файлове"
+
+#: views/document_file_views.py:163
+#, python-format
+msgid "Files of document: %s"
+msgstr "Файлове на документа: %s"
+
+#: views/document_file_views.py:192
+#, python-format
+msgid "Preview of document file: %s"
+msgstr "Преглед на файл с документ: %s"
+
+#: views/document_file_views.py:237
+#, python-format
+msgid "Properties of document file: %s"
+msgstr "Свойства на файл с документи: %s"
+
+#: views/document_file_views.py:246
+#, python-format
+msgid "Transformation clear request processed for %(count)d document file."
+msgstr "Заявка за изчистване преобразуването на %(count)dфайл с документи."
+
+#: views/document_file_views.py:249
+#, python-format
+msgid "Transformation clear request processed for %(count)d document files."
+msgstr "Заявка за изчистване преобразуването на %(count)dфайлове с документи."
+
+#: views/document_file_views.py:255
+msgid "Clear all the page transformations for the selected document file?"
+msgid_plural ""
+"Clear all the page transformations for the selected document files?"
+msgstr[0] ""
+"Да се изчистят ли всички трансформации на страници за избрания файл на "
+"документа?"
+msgstr[1] ""
+"Да се изчистят ли всички преобразувания на страници за избраните файлове на "
+"документи?"
+
+#: views/document_file_views.py:266
+#, python-format
+msgid "Clear all the page transformations for the document file: %s?"
+msgstr ""
+"Изчистване на всички трансформации на страници за файла на документа: %s?"
+
+#: views/document_file_views.py:283
+#, python-format
+msgid ""
+"Error deleting the page transformations for document file: "
+"%(document_file)s; %(error)s."
+msgstr ""
+"Грешка при изтриването на трансформациите на страници за файл на документ: "
+"%(document_file)s; %(error)s."
+
+#: views/document_file_views.py:319
+#, python-format
+msgid ""
+"Error cloning the page transformations for document file: %(document_file)s;"
+" %(error)s."
+msgstr ""
+"Грешка при клонирането на трансформациите на страницата за файл на документ:"
+" %(document_file)s; %(error)s."
+
+#: views/document_file_views.py:328 views/document_version_views.py:360
+msgid "Transformations cloned successfully."
+msgstr "Трансформациите клонирани успешно."
+
+#: views/document_file_views.py:342 views/document_version_views.py:374
+#: views/misc_views.py:41
+msgid "Submit"
+msgstr "Подаване"
+
+#: views/document_file_views.py:344
+#, python-format
+msgid "Clone page transformations of document file: %s"
+msgstr "Клониране на трансформации на страница на файл с документи: %s"
+
+#: views/document_type_views.py:53
 #, python-format
 msgid "Documents of type: %s"
 msgstr "Документи от тип: %s"
 
-#: views/document_type_views.py:71
+#: views/document_type_views.py:72
 msgid ""
 "Document types are the most basic units of configuration. Everything in the "
 "system will depend on them. Define a document type for each type of physical"
 " document you intend to upload. Example document types: invoice, receipt, "
 "manual, prescription, balance sheet."
-msgstr "Типовете документи са най-основните единици за конфигурация. Всичко в системата зависи от тях. Определете типа документ за всеки тип физически документ, който възнамерявате да качите. Примерни типове документи: фактура, разписка, наръчник, рецепта, баланс."
+msgstr ""
+"Типовете документи са най-основните единици за конфигурация. Всичко в "
+"системата зависи от тях. Определете типа документ за всеки тип физически "
+"документ, който възнамерявате да качите. Примерни типове документи: фактура,"
+" разписка, наръчник, рецепта, баланс."
 
-#: views/document_type_views.py:77
+#: views/document_type_views.py:78
 msgid "No document types available"
 msgstr "Няма налични типове документи"
 
-#: views/document_type_views.py:106
+#: views/document_type_views.py:112
 msgid "All documents of this type will be deleted too."
 msgstr "Всички документи от този тип също ще бъдат изтрити."
 
-#: views/document_type_views.py:108
+#: views/document_type_views.py:114
 #, python-format
 msgid "Delete the document type: %s?"
 msgstr "Изтриване на тип документ: %s?"
 
-#: views/document_type_views.py:125
-#, python-format
-msgid "Deletion policies for document type: %s"
-msgstr "Политики за изтриване за тип документ: %s"
-
-#: views/document_type_views.py:144
+#: views/document_type_views.py:130
 #, python-format
 msgid "Edit document type: %s"
 msgstr "Редактиране на тип документ: %s"
 
-#: views/document_type_views.py:167
+#: views/document_type_views.py:153
+#, python-format
+msgid "Deletion policies for document type: %s"
+msgstr "Политики за изтриване за тип документ: %s"
+
+#: views/document_type_views.py:176
 #, python-format
 msgid "Create quick label for document type: %s"
-msgstr "Създайте бърз етикет за типа документ: %s"
+msgstr "Създайте кратък етикет за типа документ: %s"
 
-#: views/document_type_views.py:186
+#: views/document_type_views.py:195
 #, python-format
 msgid ""
 "Delete the quick label: %(label)s, from document type \"%(document_type)s\"?"
-msgstr "Да се изтрие ли бързият етикет: %(label)s, от тип документ &quot;%(document_type)s&quot;?"
+msgstr ""
+"Да се изтрие ли краткият етикет: %(label)s, от тип документ "
+"&quot;%(document_type)s&quot;?"
 
-#: views/document_type_views.py:215
+#: views/document_type_views.py:223
 #, python-format
 msgid "Edit quick label \"%(filename)s\" from document type \"%(document_type)s\""
-msgstr "Редактиране на бърз етикет „%(filename)s“ от документ тип „%(document_type)s“"
+msgstr ""
+"Редактиране на кратък етикет „%(filename)s“ от документ тип "
+"„%(document_type)s“"
 
-#: views/document_type_views.py:253
+#: views/document_type_views.py:261
 msgid ""
 "Quick labels are predetermined filenames that allow the quick renaming of "
 "documents as they are uploaded by selecting them from a list. Quick labels "
 "can also be used after the documents have been uploaded."
-msgstr "Бързите етикети са предварително определени имена на файлове, които позволяват бързото преименуване на документите при тяхното качване, като се избират от списък. Бързите етикети могат да се използват и след качването на документите."
+msgstr ""
+"Кратките етикети са предварително определени имена на файлове, които "
+"позволяват бързото преименуване на документите при тяхното качване, като се "
+"избират от списък. Кратките етикети могат да се използват и след качването "
+"на документите."
 
-#: views/document_type_views.py:259
+#: views/document_type_views.py:267
 msgid "There are no quick labels for this document type"
-msgstr "Няма бързи етикети за този тип документи"
+msgstr "Няма кратки етикети за този тип документи"
 
-#: views/document_type_views.py:262
+#: views/document_type_views.py:270
 #, python-format
 msgid "Quick labels for document type: %s"
-msgstr "Бързи етикети за типа документ: %s"
+msgstr "Кратки етикети за типа документ: %s"
 
-#: views/document_version_views.py:45
-msgid "Download document version"
-msgstr "Изтеглете версията на документа"
+#: views/document_type_views.py:291
+#, python-format
+msgid "Filename generation setup for document type: %s"
+msgstr "Настройка на генериране на име на файл за тип документ: %s"
 
-#: views/document_version_views.py:83
+#: views/document_version_page_views.py:63
+msgid ""
+"The page number of this page will be skipped. If you want to achieve "
+"sequential page numbering, use the page remap action instead."
+msgstr ""
+"Номерът на тази страница ще бъде пропуснат. Ако искате да постигнете "
+"последователно номериране на страници, вместо това използвайте действието за"
+" повторно преобразуване на страницата."
+
+#: views/document_version_page_views.py:68
+#, python-format
+msgid "Delete document version page %s ?"
+msgstr "Да се изтрие ли версията на документа %s?"
+
+#: views/document_version_page_views.py:103
+msgid ""
+"Document version pages are links to actual content pages. Create them using "
+"the page remap actions or the page reset action."
+msgstr ""
+"Страниците на версията на документа са връзки към страници с действително "
+"съдържание. Създайте ги с помощта на действията за пренасочване на "
+"страницата или действието за нулиране на страницата."
+
+#: views/document_version_page_views.py:107
+msgid "No document version pages available"
+msgstr "Няма налични страници с версия на документа"
+
+#: views/document_version_page_views.py:109
+#, python-format
+msgid "Pages of document version: %s"
+msgstr "Страници на версия на документа: %s"
+
+#: views/document_version_page_views.py:149
+msgid "None"
+msgstr "Няма"
+
+#: views/document_version_page_views.py:174
+msgid "There are no sources available to remap for this document version."
+msgstr "Няма налични източници за пренасочване за тази версия на документа."
+
+#: views/document_version_page_views.py:177
+msgid "No page sources available"
+msgstr "Няма налични източници на страници"
+
+#: views/document_version_page_views.py:180
+#, python-format
+msgid "Remap pages of document version: %s"
+msgstr "Пренасочване страници на версия на документа: %s"
+
+#: views/document_version_page_views.py:231
+#, python-format
+msgid "%(count)d document version queued for page list reset."
+msgstr ""
+"%(count)d версия на документа на опашката за нулиране на списъка със "
+"страници."
+
+#: views/document_version_page_views.py:234
+#, python-format
+msgid "%(count)d document versions queued for page list reset."
+msgstr ""
+"%(count)d версии на документа на опашката за нулиране на списъка със "
+"страници."
+
+#: views/document_version_page_views.py:242
+msgid "The page list will match that of the latest document file."
+msgstr ""
+"Списъкът със страници ще съвпада с този на най-новия файл с документи."
+
+#: views/document_version_page_views.py:245
+msgid "Reset the page list of the selected document version?"
+msgid_plural "Reset the page list of the selected document versions?"
+msgstr[0] "Нулиране на списъка със страници на избраната версия на документа?"
+msgstr[1] "Нулиране на списъка със страници на избраните версии на документа?"
+
+#: views/document_version_page_views.py:256
+#, python-format
+msgid "Reset the page list of document version: %s?"
+msgstr "Нулиране на списъка със страници на версия на документа: %s?"
+
+#: views/document_version_views.py:56
+#, python-format
+msgid "Make the document version \"%s\" the active version?"
+msgstr "Да стане ли версията на документа &quot;%s&quot; активна версия?"
+
+#: views/document_version_views.py:64
+msgid "Successfully changed the active document version."
+msgstr "Успешно променена активна версия на документа."
+
+#: views/document_version_views.py:79
+#, python-format
+msgid "Create a document version for document: %s"
+msgstr "Създаване версия за документ: %s"
+
+#: views/document_version_views.py:98
+#, python-format
+msgid "Document version \"%(object)s\" deleted successfully."
+msgstr "Версията на документа &quot;%(object)s&quot; беше изтрита успешно."
+
+#: views/document_version_views.py:101
+#, python-format
+msgid "%(count)d document version deleted successfully."
+msgstr "%(count)d версия на документа е изтрита успешно."
+
+#: views/document_version_views.py:104
+#, python-format
+msgid "%(count)d document versions deleted successfully."
+msgstr "%(count)d версии на документа бяха изтрити успешно."
+
+#: views/document_version_views.py:106
+#, python-format
+msgid "Delete document version \"%(object)s\"."
+msgstr "Изтрийте версия на документа &quot;%(object)s&quot;."
+
+#: views/document_version_views.py:107
+#, python-format
+msgid "Delete %(count)d document version."
+msgstr "Изтрийте %(count)d версия на документа."
+
+#: views/document_version_views.py:108
+#, python-format
+msgid "Delete %(count)d document versions."
+msgstr "Изтрийте %(count)d версии на документа."
+
+#: views/document_version_views.py:132
+#, python-format
+msgid "Edit document version: %s"
+msgstr "Редактиране на версия на документа: %s"
+
+#: views/document_version_views.py:153
+#, python-format
+msgid "Document version \"%(object)s\" export successfully queued."
+msgstr ""
+"Експортирането на версията на документа „%(object)s“ бе успешно поставено на"
+" опашка."
+
+#: views/document_version_views.py:156
+#, python-format
+msgid "%(count)d document version export successfully queued."
+msgstr ""
+"%(count)d експортиране на версия на документа бе поставено успешно на "
+"опашка."
+
+#: views/document_version_views.py:159
+#, python-format
+msgid "%(count)d document versions exports successfully queued."
+msgstr ""
+"%(count)d експортирания на версии на документа беше поставено успешно на "
+"опашка."
+
+#: views/document_version_views.py:161
+#, python-format
+msgid "Export document version \"%(object)s\"."
+msgstr "Експортирайте версия на документа &quot;%(object)s&quot;."
+
+#: views/document_version_views.py:162
+#, python-format
+msgid "Export %(count)d document version."
+msgstr "Експортирайте %(count)d версия на документа."
+
+#: views/document_version_views.py:163
+#, python-format
+msgid "Export %(count)d document versions."
+msgstr "Експортирайте %(count)d версии на документа."
+
+#: views/document_version_views.py:168
+msgid ""
+"The process will be performed in the background. The exported file will be "
+"available in the downloads area."
+msgstr ""
+"Процесът ще се извърши във фонов режим. Експортираният файл ще бъде достъпен"
+" в областта за изтегляне."
+
+#: views/document_version_views.py:210
+msgid ""
+"Versions are views that can display document file pages as they are, remap "
+"or merge them into different layouts."
+msgstr ""
+"Версиите са изгледи, които могат да показват страници на файлове с документи"
+" такива, каквито са, да ги пренастроят или обединят в различни оформления."
+
+#: views/document_version_views.py:213
+msgid "No versions available"
+msgstr "Няма налични версии"
+
+#: views/document_version_views.py:216
 #, python-format
 msgid "Versions of document: %s"
 msgstr "Версии на документа: %s"
 
-#: views/document_version_views.py:98
-msgid "All later version after this one will be deleted too."
-msgstr "Всички версии, следващи тази, ще бъдат изтрити."
-
-#: views/document_version_views.py:101
-msgid "Revert to this version?"
-msgstr "Да се върнете ли към тази версия?"
-
-#: views/document_version_views.py:112
-msgid "Document version reverted successfully"
-msgstr "Документът е върнат успешно към предна версия"
-
-#: views/document_version_views.py:117
-#, python-format
-msgid "Error reverting document version; %s"
-msgstr "Грешка при връщане на версията на документа; %s"
-
-#: views/document_version_views.py:144
+#: views/document_version_views.py:245
 #, python-format
 msgid "Preview of document version: %s"
 msgstr "Визуализация на версията на документа: %s"
 
-#: views/document_views.py:71
+#: views/document_version_views.py:278
+#, python-format
+msgid "Transformation clear request processed for %(count)d document version."
+msgstr ""
+"Обработена заявка за изчистване на преобразуване за версия на документ "
+"%(count)d."
+
+#: views/document_version_views.py:281
+#, python-format
+msgid ""
+"Transformation clear request processed for %(count)d document versions."
+msgstr ""
+"Обработена заявка за изчистване на преобразуване, за версии на документ "
+"%(count)d."
+
+#: views/document_version_views.py:287
+msgid "Clear all the page transformations for the selected document version?"
+msgid_plural ""
+"Clear all the page transformations for the selected document version?"
+msgstr[0] ""
+"Да изчистите ли всички преобразувания на страници за избраната версия на "
+"документа?"
+msgstr[1] ""
+"Да изчистите ли всички преобразувания на страници за избраната версия на "
+"документа?"
+
+#: views/document_version_views.py:298
+#, python-format
+msgid "Clear all the page transformations for the document version: %s?"
+msgstr ""
+"Да изчистите ли  всички преобразувания на страници за версията на документа:"
+" %s?"
+
+#: views/document_version_views.py:315
+#, python-format
+msgid ""
+"Error deleting the page transformations for document version: "
+"%(document_version)s; %(error)s."
+msgstr ""
+"Грешка при изтриването на трансформациите на страници за версия на "
+"документа: %(document_version)s; %(error)s."
+
+#: views/document_version_views.py:351
+#, python-format
+msgid ""
+"Error cloning the page transformations for document version: "
+"%(document_version)s; %(error)s."
+msgstr ""
+"Грешка при клонирането на трансформациите на страницата за версия на "
+"документа: %(document_version)s; %(error)s."
+
+#: views/document_version_views.py:376
+#, python-format
+msgid "Clone page transformations of document version: %s"
+msgstr "Клониране на трансформации на страница на версия на документа: %s"
+
+#: views/document_views.py:41
 #, python-format
 msgid "Error retrieving document list: %(exception)s."
 msgstr "Грешка при извличането на списъка с документи: %(exception)s."
 
-#: views/document_views.py:92
+#: views/document_views.py:63
 msgid ""
 "This could mean that no documents have been uploaded or that your user "
 "account has not been granted the view permission for any document or "
 "document type."
-msgstr "Това може да означава, че не са качени документи или че потребителският ви акаунт не е получил разрешение за преглед за всеки документ или тип документ."
+msgstr ""
+"Това може да означава, че не са качени документи или че потребителският ви "
+"акаунт не е получил разрешение за преглед за всеки документ или тип "
+"документ."
 
-#: views/document_views.py:96
+#: views/document_views.py:67
 msgid "No documents available"
 msgstr "Няма налични документи"
 
-#: views/document_views.py:109
+#: views/document_views.py:82
 #, python-format
 msgid "Document type change request performed on %(count)d document"
 msgstr "Заявка за промяна на типа документ, извършена на %(count)d документ "
 
-#: views/document_views.py:112
+#: views/document_views.py:85
 #, python-format
 msgid "Document type change request performed on %(count)d documents"
 msgstr "Заявка за промяна на типа документ, извършена за %(count)d документи"
 
-#: views/document_views.py:119
+#: views/document_views.py:92
 msgid "Change"
 msgstr "Промяна"
 
-#: views/document_views.py:121
+#: views/document_views.py:94
 msgid "Change the type of the selected document"
 msgid_plural "Change the type of the selected documents"
 msgstr[0] "Променете типа на избрания документ"
 msgstr[1] "Променете типа на избраните документи"
 
-#: views/document_views.py:132
+#: views/document_views.py:105
 #, python-format
 msgid "Change the type of the document: %s"
 msgstr "Променете типа на документа: %s"
 
-#: views/document_views.py:153
+#: views/document_views.py:127
 #, python-format
 msgid "Document type for \"%s\" changed successfully."
 msgstr "Типът на документа за &quot;%s&quot; е променен успешно."
 
-#: views/document_views.py:203
-msgid "Download"
-msgstr "Сваляне"
-
-#: views/document_views.py:295
-#, python-format
-msgid "Edit properties of document: %s"
-msgstr "Редактиране на свойствата на документа: %s"
-
-#: views/document_views.py:331
+#: views/document_views.py:152
 #, python-format
 msgid "Preview of document: %s"
 msgstr "Визуализация на документа: %s"
 
-#: views/document_views.py:349
+#: views/document_views.py:170
 #, python-format
-msgid "Properties for document: %s"
+msgid "Edit properties of document: %s"
+msgstr "Редактиране на свойствата на документ: %s"
+
+#: views/document_views.py:201
+#, python-format
+msgid "Properties of document: %s"
 msgstr "Свойства на документа: %s"
 
-#: views/document_views.py:357
-#, python-format
-msgid "%(count)d document queued for page count recalculation"
-msgstr "%(count)d документ на опашка за преизчисляване на броя на страниците"
-
-#: views/document_views.py:360
-#, python-format
-msgid "%(count)d documents queued for page count recalculation"
-msgstr "%(count)d документи на опашка за преизчисляване на броя на страниците"
-
-#: views/document_views.py:368
-msgid "Recalculate the page count of the selected document?"
-msgid_plural "Recalculate the page count of the selected documents?"
-msgstr[0] "Да преизчислите броя на страниците на избрания документ?"
-msgstr[1] "Преизчисляване на броя на страниците на избраните документи?"
-
-#: views/document_views.py:379
-#, python-format
-msgid "Recalculate the page count of the document: %s?"
-msgstr "Преизчисляване броя на страниците на документа: %s?"
-
-#: views/document_views.py:395
-#, python-format
-msgid ""
-"Document \"%(document)s\" is empty. Upload at least one document version "
-"before attempting to detect the page count."
-msgstr "Документът &quot;%(document)s&quot; е празен. Качете поне една версия на документа, преди да се опитате да откриете броя на страниците."
-
-#: views/document_views.py:408
-#, python-format
-msgid "Transformation clear request processed for %(count)d document"
-msgstr "Заявка за изчистване на трансформация, обработена за %(count)d документ"
-
-#: views/document_views.py:411
-#, python-format
-msgid "Transformation clear request processed for %(count)d documents"
-msgstr "Заявка за изчистване на трансформация, обработена за %(count)d документи"
-
-#: views/document_views.py:419
-msgid "Clear all the page transformations for the selected document?"
-msgid_plural "Clear all the page transformations for the selected document?"
-msgstr[0] "Да се изчистят ли всички трансформации на страницата за избрания документ?"
-msgstr[1] "Да се изчистят ли всички трансформации на страницата за избрания документ?"
-
-#: views/document_views.py:430
-#, python-format
-msgid "Clear all the page transformations for the document: %s?"
-msgstr "Да се изчистят ли всички трансформации на страници за документа: %s?"
-
-#: views/document_views.py:445
-#, python-format
-msgid ""
-"Error deleting the page transformations for document: %(document)s; "
-"%(error)s."
-msgstr "Грешка при изтриването на трансформация на страница на документ %(document)s, %(error)s."
-
-#: views/document_views.py:477
-#, python-format
-msgid ""
-"Error cloning the page transformations for document: %(document)s; "
-"%(error)s."
-msgstr "Грешка при клониране на трансформациите на страниците за документ: %(document)s; %(error)s."
-
-#: views/document_views.py:485
-msgid "Transformations cloned successfully."
-msgstr "Трансформациите клонирани успешно."
-
-#: views/document_views.py:501 views/document_views.py:574
-msgid "Submit"
-msgstr "Подаване"
-
-#: views/document_views.py:503
-#, python-format
-msgid "Clone page transformations for document: %s"
-msgstr "Клониране на трансформации на страница за документ: %s"
-
-#: views/document_views.py:577
-#, python-format
-msgid "Print: %s"
-msgstr "Печат: %s"
-
-#: views/document_views.py:602
-msgid ""
-"This view will list the latest documents viewed or manipulated in any way by"
-" this user account."
-msgstr "Този изглед ще изброява най-новите документи, гледани или манипулирани по някакъв начин от този потребителски акаунт."
-
-#: views/document_views.py:606
-msgid "There are no recently accessed document"
-msgstr "Няма наскоро работени документи"
-
-#: views/document_views.py:628
-msgid "This view will list the latest documents uploaded in the system."
-msgstr "Този изглед ще изброява последните документи, качени в системата."
-
-#: views/document_views.py:632
-msgid "There are no recently added document"
-msgstr "Няма наскоро добавен документ"
-
-#: views/duplicated_document_views.py:36
-msgid "Only exact copies of this document will be shown in the this list."
-msgstr "В този списък ще бъдат показани само точни копия на този документ."
-
-#: views/duplicated_document_views.py:40
-msgid "There are no duplicates for this document"
-msgstr "Няма дубликати за този документ"
-
-#: views/duplicated_document_views.py:44
-#, python-format
-msgid "Duplicates for document: %s"
-msgstr "Дубликати за документ: %s"
-
-#: views/duplicated_document_views.py:69
-msgid ""
-"Duplicates are documents that are composed of the exact same file, down to "
-"the last byte. Files that have the same text or OCR but are not identical or"
-" were saved using a different file format will not appear as duplicates."
-msgstr "Дублиращи са документи, които са съставени от същия файл, до последния байт. Файлове, които имат един и същ текст или OCR, но не са идентични или са запазени с различен файлов формат, няма да се появят като дубликати."
-
-#: views/duplicated_document_views.py:76
-msgid "There are no duplicated documents"
-msgstr "Няма дублирани документи"
-
-#: views/duplicated_document_views.py:86
-msgid "Scan for duplicated documents?"
-msgstr "Да сканирате ли за дублирани документи?"
-
-#: views/duplicated_document_views.py:93
-msgid "Duplicated document scan queued successfully."
-msgstr "Дублираните сканове на документи са поставени на опашка успешно."
-
-#: views/favorite_document_views.py:33
+#: views/favorite_document_views.py:32
 #, python-format
 msgid ""
 "Favorited documents will be listed in this view. Up to %(count)d documents "
 "can be favorited per user. "
-msgstr "Любимите документи ще бъдат изброени в този изглед. До %(count)d документи могат да бъдат предпочитани на потребител."
+msgstr ""
+"Предпочитаните документи ще бъдат изброени в този изглед. До %(count)d "
+"документи могат да бъдат предпочитани на потребител."
 
-#: views/favorite_document_views.py:36
+#: views/favorite_document_views.py:35
 msgid "There are no favorited documents."
 msgstr "Няма избрани документи."
 
 #: views/favorite_document_views.py:47
 #, python-format
 msgid "%(count)d document added to favorites."
-msgstr "%(count)d документ е добавен към любими."
+msgstr "%(count)d документ е добавен към предпочитани."
 
 #: views/favorite_document_views.py:50
 #, python-format
 msgid "%(count)d documents added to favorites."
-msgstr "%(count)d документи добавени към любими."
+msgstr "%(count)d документи добавени към предпочитани."
 
-#: views/favorite_document_views.py:57
+#: views/favorite_document_views.py:55
 msgid "Add"
-msgstr "Добави"
+msgstr "Добавете"
 
-#: views/favorite_document_views.py:60
-msgid "Add the selected document to favorites"
-msgid_plural "Add the selected documents to favorites"
-msgstr[0] "Добавете избрания документ към любими"
-msgstr[1] "Добавете избраните документи към любими"
+#: views/favorite_document_views.py:58
+msgid "Add the selected document to favorites?"
+msgid_plural "Add the selected documents to favorites?"
+msgstr[0] "Да добавите избрания документ към любими?"
+msgstr[1] "Да добавите ли избраните документи към предпочитани?"
 
-#: views/favorite_document_views.py:73
+#: views/favorite_document_views.py:76
 #, python-format
 msgid "Document \"%(instance)s\" is not in favorites."
-msgstr "Документът &quot;%(instance)s&quot; не е в любими."
+msgstr "Документът &quot;%(instance)s&quot; не е в предпочитани."
 
-#: views/favorite_document_views.py:77
+#: views/favorite_document_views.py:81
 #, python-format
 msgid "%(count)d document removed from favorites."
-msgstr " %(count)d документ е премахнат от любимите."
+msgstr " %(count)d документ е премахнат от предпочитаните."
 
-#: views/favorite_document_views.py:80
+#: views/favorite_document_views.py:84
 #, python-format
 msgid "%(count)d documents removed from favorites."
-msgstr "%(count)d документи премахнати от любими."
+msgstr "%(count)d документи премахнати от предпочитаните."
 
-#: views/favorite_document_views.py:87
+#: views/favorite_document_views.py:89
 msgid "Remove"
 msgstr "Премахнете"
 
-#: views/favorite_document_views.py:90
-msgid "Remove the selected document from favorites"
-msgid_plural "Remove the selected documents from favorites"
-msgstr[0] "Премахнете избрания документ от любимите"
-msgstr[1] "Премахнете избраните документи от любими"
+#: views/favorite_document_views.py:92
+msgid "Remove the selected document from favorites?"
+msgid_plural "Remove the selected documents from favorites?"
+msgstr[0] "Да се премахне ли избрания документ от любимите?"
+msgstr[1] "Да се премахнат ли избраните документи от предпочитаните?"
 
-#: views/trashed_document_views.py:39
+#: views/misc_views.py:44
+#, python-format
+msgid "Print: %s"
+msgstr "Печат: %s"
+
+#: views/recently_accessed_document_views.py:23
+msgid ""
+"This view will list the latest documents viewed or manipulated in any way by"
+" this user account."
+msgstr ""
+"Този изглед ще изброява най-новите документи, гледани или манипулирани по "
+"някакъв начин от този потребителски акаунт."
+
+#: views/recently_accessed_document_views.py:27
+msgid "There are no recently accessed documents"
+msgstr "Няма наскоро достъпени документи"
+
+#: views/recently_created_document_views.py:21
+msgid "This view will list the latest documents created in the system."
+msgstr ""
+"В този изглед ще бъдат изброени най-новите документи, създадени в системата."
+
+#: views/recently_created_document_views.py:25
+msgid "There are no recently created documents"
+msgstr "Няма наскоро създадени документи"
+
+#: views/trashed_document_views.py:37
 #, python-format
 msgid "%(count)d document moved to the trash."
 msgstr " %(count)d документ бе преместен в кошчето."
 
-#: views/trashed_document_views.py:42
+#: views/trashed_document_views.py:40
 #, python-format
 msgid "%(count)d documents moved to the trash."
 msgstr "%(count)d документи бяха преместени в кошчето."
 
-#: views/trashed_document_views.py:50
+#: views/trashed_document_views.py:46
 msgid "Move the selected document to the trash?"
 msgid_plural "Move the selected documents to the trash?"
 msgstr[0] "Преместване на избрания документ в кошчето?"
-msgstr[1] "Преместване на избраните документи в кошчето?"
+msgstr[1] "Да преместите ли избраните документи в кошчето?"
 
-#: views/trashed_document_views.py:64
+#: views/trashed_document_views.py:76
 msgid "Empty trash?"
 msgstr "Да изпразня ли кошчето?"
 
-#: views/trashed_document_views.py:78
-msgid "Trash emptied successfully"
-msgstr "Кошчето беше изпразнено успешно"
+#: views/trashed_document_views.py:84
+msgid "The trash emptying task has been queued."
+msgstr "Задачата за изпразване на боклука е на опашка."
 
-#: views/trashed_document_views.py:87
+#: views/trashed_document_views.py:94
 #, python-format
-msgid "%(count)d trashed document deleted."
-msgstr "%(count)d изхвърлен документ е изтрит."
+msgid "%(count)d trashed document submitted for deletion."
+msgstr "%(count)d бракуван документ, предназначен за изтриване."
 
-#: views/trashed_document_views.py:90
+#: views/trashed_document_views.py:97
 #, python-format
-msgid "%(count)d trashed documents deleted."
-msgstr "%(count)d изхвърлени документи са изтрити."
+msgid "%(count)d trashed documents submitted for deletion."
+msgstr "%(count)d бракувани документи предназначени за изтриване."
 
-#: views/trashed_document_views.py:98
+#: views/trashed_document_views.py:103
 msgid "Delete the selected trashed document?"
 msgid_plural "Delete the selected trashed documents?"
-msgstr[0] "Да се изтрие ли избраният изтрит документ?"
-msgstr[1] "Да се изтрият ли избраните изхвърлени документи?"
+msgstr[0] "Да се изтрие ли избраният документ в кошчето?"
+msgstr[1] "Да се изтрият ли избраните документи в кошчето?"
 
-#: views/trashed_document_views.py:129
+#: views/trashed_document_views.py:137
 msgid ""
 "To avoid loss of data, documents are not deleted instantly. First, they are "
 "placed in the trash can. From here they can be then finally deleted or "
 "restored."
-msgstr "За да се избегне загуба на данни, документите не се изтриват моментално. Първо, те се поставят в кошчето. Оттук те могат да бъдат окончателно изтрити или възстановени."
+msgstr ""
+"За да се избегне загуба на данни, документите не се изтриват моментално. "
+"Първо, те се поставят в кошчето. Оттук те могат да бъдат окончателно изтрити"
+" или възстановени."
 
-#: views/trashed_document_views.py:134
+#: views/trashed_document_views.py:142
 msgid "There are no documents in the trash can"
 msgstr "В кошчето няма документи"
 
-#: views/trashed_document_views.py:147
+#: views/trashed_document_views.py:155
 #, python-format
 msgid "%(count)d trashed document restored."
 msgstr "%(count)d изхвърлен документ е възстановен."
 
-#: views/trashed_document_views.py:150
+#: views/trashed_document_views.py:158
 #, python-format
 msgid "%(count)d trashed documents restored."
 msgstr "%(count)d изхвърлени документи са възстановени."
 
-#: views/trashed_document_views.py:158
+#: views/trashed_document_views.py:164
 msgid "Restore the selected trashed document?"
 msgid_plural "Restore the selected trashed documents?"
-msgstr[0] "Възстановяване на избрания изтрит документ?"
-msgstr[1] "Да се възстановят ли избраните изхвърлени документи?"
+msgstr[0] "Възстановяване на избрания документ в кошчето?"
+msgstr[1] "Да се възстановят ли избраните документи в кошчето?"
 
-#: widgets.py:81 widgets.py:85
-#, python-format
-msgid "Pages: %d"
-msgstr "Страници: %d"
+#: workflow_actions.py:13
+msgid "New document type for the workflow document."
+msgstr "Нов тип документ за документа в работния поток."
+
+#: workflow_actions.py:18
+msgid "Change document type"
+msgstr "Променете типа на документа"
+
+#: workflow_actions.py:37
+msgid "Send document to trash"
+msgstr "Изпращане на документ в кошчето"

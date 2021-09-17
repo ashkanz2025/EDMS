@@ -1,10 +1,7 @@
-from __future__ import unicode_literals
-
 from django.db import models, migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('documents', '0027_auto_20150824_0702'),
     ]
@@ -15,13 +12,14 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     'id', models.AutoField(
-                        verbose_name='ID', serialize=False, auto_created=True,
-                        primary_key=True
+                        auto_created=True, primary_key=True, serialize=False,
+                        verbose_name='ID'
                     )
                 ),
                 (
                     'document', models.ForeignKey(
-                        verbose_name='Document', to='documents.Document'
+                        on_delete=models.CASCADE, to='documents.Document',
+                        verbose_name='Document'
                     )
                 ),
             ],

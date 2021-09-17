@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -22,6 +20,7 @@ class APIObjectEventListView(generics.ListAPIView):
     """
     get: Return a list of events for the specified object.
     """
+    ordering_fields = ('id', 'timestamp')
     serializer_class = EventSerializer
 
     def get_object(self):
@@ -45,7 +44,7 @@ class APIObjectEventListView(generics.ListAPIView):
             user=self.request.user
         )
 
-        return any_stream(obj)
+        return any_stream(obj=obj)
 
 
 class APIEventTypeNamespaceDetailView(generics.RetrieveAPIView):
@@ -118,6 +117,7 @@ class APIEventListView(generics.ListAPIView):
     get: Returns a list of all the available events.
     """
     mayan_view_permissions = {'GET': (permission_events_view,)}
+    ordering_fields = ('id', 'timestamp')
     queryset = Action.objects.all()
     serializer_class = EventSerializer
 
@@ -133,6 +133,7 @@ class APINotificationListView(generics.ListAPIView):
     """
     get: Return a list of notifications for the current user.
     """
+    ordering_fields = ('action__timestamp', 'id', 'read')
     serializer_class = NotificationSerializer
 
     def get_queryset(self):

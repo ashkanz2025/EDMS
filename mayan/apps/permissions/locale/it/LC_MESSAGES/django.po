@@ -3,138 +3,149 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Giovanni Tricarico <gtricarico92@gmail.com>, 2016
-# Marco Camplese <marco.camplese.mc@gmail.com>, 2017
-# Pierpaolo Baldan <pierpaolo.baldan@gmail.com>, 2011-2012
+# Translators:
+# Roberto Rosario, 2021
+# Marco Camplese <marco.camplese.mc@gmail.com>, 2021
+# Giovanni Tricarico <gtricarico92@gmail.com>, 2021
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Mayan EDMS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-16 05:51-0400\n"
-"PO-Revision-Date: 2019-12-13 05:15+0000\n"
-"Last-Translator: Roberto Rosario\n"
-"Language-Team: Italian (http://www.transifex.com/rosarior/mayan-edms/language/it/)\n"
+"POT-Creation-Date: 2021-08-05 04:46+0000\n"
+"PO-Revision-Date: 2021-04-11 06:28+0000\n"
+"Last-Translator: Giovanni Tricarico <gtricarico92@gmail.com>, 2021\n"
+"Language-Team: Italian (https://www.transifex.com/rosarior/teams/13584/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps.py:47 events.py:8 models.py:36 models.py:106 permissions.py:7
+#: apps.py:43 events.py:6 models.py:37 models.py:157 permissions.py:5
 msgid "Permissions"
 msgstr "Permessi"
+
+#: apps.py:98 models.py:75
+msgid "Group count"
+msgstr "Conteggio del gruppo"
 
 #: classes.py:86
 msgid "Insufficient permissions."
 msgstr "Permessi insufficienti"
 
-#: dashboard_widgets.py:15
+#: dashboard_widgets.py:13
 msgid "Total roles"
-msgstr ""
+msgstr "Ruoli totali"
 
-#: events.py:12
+#: events.py:10
 msgid "Role created"
-msgstr ""
+msgstr "Ruolo creato"
 
-#: events.py:15
+#: events.py:13
 msgid "Role edited"
-msgstr ""
+msgstr "Ruolo modificato"
 
-#: links.py:16 links.py:40 models.py:117 views.py:171
+#: links.py:17 links.py:37 models.py:48 views.py:171
 msgid "Roles"
 msgstr "Ruoli "
 
-#: links.py:23 views.py:53
+#: links.py:23 views.py:51
 msgid "Create new role"
 msgstr "Crea nuovo ruolo "
 
-#: links.py:29
+#: links.py:28
 msgid "Delete"
-msgstr "Cancella "
+msgstr "Cancella"
 
-#: links.py:34
+#: links.py:32
 msgid "Edit"
-msgstr "Modifica "
+msgstr "Modifica"
 
-#: links.py:45 models.py:109
+#: links.py:41 models.py:40
 msgid "Groups"
 msgstr "Gruppi"
 
-#: links.py:52
+#: links.py:47
 msgid "Role permissions"
 msgstr "Autorizzazioni ruolo "
 
-#: models.py:27
-msgid "Namespace"
-msgstr "Namespace"
-
-#: models.py:28
-msgid "Name"
-msgstr "Nome "
-
-#: models.py:35
-msgid "Permission"
-msgstr "Autorizzazione "
-
-#: models.py:101
+#: models.py:32
 msgid "A short text describing the role."
-msgstr ""
+msgstr "Un breve testo che descrive il ruolo."
 
-#: models.py:102 search.py:16
+#: models.py:33 search.py:14
 msgid "Label"
-msgstr "Etichetta "
+msgstr "Etichetta"
 
-#: models.py:116
+#: models.py:47
 msgid "Role"
 msgstr "Ruolo"
 
-#: permissions.py:10
+#: models.py:83
+msgid "Permission count"
+msgstr "Conteggio delle autorizzazioni"
+
+#: models.py:148
+msgid "Namespace"
+msgstr "Namespace"
+
+#: models.py:149
+msgid "Name"
+msgstr "Nome "
+
+#: models.py:156
+msgid "Permission"
+msgstr "Autorizzazione "
+
+#: permissions.py:8
 msgid "Create roles"
 msgstr "Crea ruoli"
 
-#: permissions.py:13
+#: permissions.py:11
 msgid "Delete roles"
 msgstr "Cancella i ruoli"
 
-#: permissions.py:16
+#: permissions.py:14
 msgid "Edit roles"
 msgstr "Modifica i ruoli"
 
-#: permissions.py:19
+#: permissions.py:17
 msgid "View roles"
 msgstr "Vedi i ruoli"
 
-#: search.py:20
+#: search.py:18
 msgid "Group name"
+msgstr "Nome del gruppo"
+
+#: serializers.py:31
+msgid "Primary key of the group to add to the role."
 msgstr ""
 
-#: serializers.py:46
-msgid ""
-"Comma separated list of groups primary keys to add to, or replace in this "
-"role."
-msgstr "Lista separata da virgole di ID gruppi da aggiungere o sostituire in questo ruolo"
+#: serializers.py:39
+msgid "Primary key of the group to remove from the role."
+msgstr ""
 
-#: serializers.py:53
-msgid "Comma separated list of permission primary keys to grant to this role."
-msgstr "Lista separata da virgole di ID permessi da assegnare a questo ruolo"
+#: serializers.py:47
+msgid "Primary key of the permission to add to the role."
+msgstr ""
 
-#: serializers.py:90
-#, python-format
-msgid "No such permission: %s"
-msgstr "Nessun permesso: %s"
+#: serializers.py:54
+msgid "Primary key of the permission to remove from the role."
+msgstr ""
 
-#: views.py:32
+#: views.py:30
 msgid "Available roles"
-msgstr ""
+msgstr "Ruoli disponibili"
 
-#: views.py:33
+#: views.py:31
 msgid "Group roles"
-msgstr ""
+msgstr "Ruoli di gruppo"
 
-#: views.py:42
+#: views.py:40
 #, python-format
 msgid "Roles of group: %s"
-msgstr ""
+msgstr "Ruoli del gruppo: %s"
 
 #: views.py:82
 msgid "Available groups"
@@ -154,6 +165,8 @@ msgid ""
 "Add groups to be part of a role. They will inherit the role's permissions "
 "and access controls."
 msgstr ""
+"Aggiungi gruppi per far parte di un ruolo. Erediteranno le autorizzazioni "
+"del ruolo e i controlli di accesso."
 
 #: views.py:107
 msgid "Available permissions"
@@ -167,6 +180,8 @@ msgstr "Autorizzazioni concesse  "
 msgid ""
 "Permissions granted here will apply to the entire system and all objects."
 msgstr ""
+"Le autorizzazioni concesse qui verranno applicate all'intero sistema ea "
+"tutti gli oggetti."
 
 #: views.py:146
 #, python-format
@@ -180,7 +195,12 @@ msgid ""
 "controls lists. Access controls list are permissions granted to a role for "
 "specific objects which its group members inherit."
 msgstr ""
+"I ruoli sono unità di autorizzazione. Contengono gruppi di utenti che "
+"ereditano le autorizzazioni del ruolo per l'intero sistema. I ruoli possono "
+"anche far parte degli elenchi dei controlli di accesso. Gli elenchi di "
+"controlli di accesso sono autorizzazioni concesse a un ruolo per oggetti "
+"specifici ereditati dai membri del gruppo."
 
 #: views.py:170
 msgid "There are no roles"
-msgstr ""
+msgstr "Non ci sono ruoli"

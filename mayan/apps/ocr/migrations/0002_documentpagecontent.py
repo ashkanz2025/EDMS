@@ -1,10 +1,7 @@
-from __future__ import unicode_literals
-
 from django.db import models, migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('documents', '0005_auto_20150617_0358'),
         ('ocr', '0001_initial'),
@@ -27,9 +24,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     'document_page', models.OneToOneField(
-                        related_name='ocr_content',
-                        verbose_name='Document page',
-                        to='documents.DocumentPage'
+                        on_delete=models.CASCADE, related_name='ocr_content',
+                        to='documents.DocumentPage',
+                        verbose_name='Document page'
                     )
                 ),
             ],

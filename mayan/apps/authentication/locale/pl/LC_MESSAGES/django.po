@@ -3,84 +3,151 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Marcin Lozynski <mlozynski@wp.pl>, 2019
-# Tomasz Szymanowicz <alakdae@gmail.com>, 2019
-# Wojciech Warczakowski <w.warczakowski@gmail.com>, 2016
-# Wojciech Warczakowski <w.warczakowski@gmail.com>, 2016-2017
+# Translators:
+# Roberto Rosario, 2021
+# Wojciech Warczakowski <w.warczakowski@gmail.com>, 2021
+# Tomasz Szymanowicz <alakdae@gmail.com>, 2021
+# kicior kicior <kiciorek+github@gmail.com>, 2021
+# Marcin Lozynski <mlozynski@wp.pl>, 2021
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Mayan EDMS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-16 05:47-0400\n"
-"PO-Revision-Date: 2019-09-23 09:50+0000\n"
-"Last-Translator: Tomasz Szymanowicz <alakdae@gmail.com>\n"
-"Language-Team: Polish (http://www.transifex.com/rosarior/mayan-edms/language/pl/)\n"
+"POT-Creation-Date: 2021-08-05 04:46+0000\n"
+"PO-Revision-Date: 2021-04-11 06:17+0000\n"
+"Last-Translator: Marcin Lozynski <mlozynski@wp.pl>, 2021\n"
+"Language-Team: Polish (https://www.transifex.com/rosarior/teams/13584/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pl\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: apps.py:25 settings.py:9
+#: apps.py:35 events.py:6 permissions.py:6 settings.py:10
 msgid "Authentication"
 msgstr "Uwierzytelnianie"
 
-#: forms.py:17
+#: events.py:10
+msgid "User impersonation ended"
+msgstr "Zakończono podszywanie się pod użytkownika"
+
+#: events.py:13
+msgid "User impersonation started"
+msgstr "Rozpoczęto podszywanie się pod użytkownika"
+
+#: events.py:16
+msgid "User logged in"
+msgstr "Użytkownik zalogowany"
+
+#: events.py:19
+msgid "User logged out"
+msgstr "Użytkownik wylogowany"
+
+#: forms.py:20
 msgid "Email"
 msgstr "Email"
 
-#: forms.py:20
+#: forms.py:23
 msgid "Password"
 msgstr "Hasło"
 
-#: forms.py:22 forms.py:73
+#: forms.py:25 forms.py:105
 msgid "Remember me"
 msgstr "Zapamiętaj mnie"
 
-#: forms.py:25
+#: forms.py:28
 msgid ""
 "Please enter a correct email and password. Note that the password field is "
 "case-sensitive."
 msgstr "Podaj poprawny email i hasło. Wielkość liter hasła ma znaczenie."
 
-#: forms.py:27
+#: forms.py:30
 msgid "This account is inactive."
 msgstr "To konto jest nieaktywne."
 
-#: links.py:22
+#: forms.py:79
+msgid "Permanent"
+msgstr "Stały"
+
+#: forms.py:80
+msgid "If selected, disables ending impersonation."
+msgstr "Jeśli ta opcja jest wybrana, wyłącza zakończenie podszywania."
+
+#: forms.py:91
+msgid "User"
+msgstr "Użytkownik"
+
+#: links.py:24
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: links.py:27
+#: links.py:29
 msgid "Change password"
 msgstr "Zmień hasło"
 
-#: links.py:32 links.py:39
+#: links.py:34 views.py:250
+msgid "Impersonate user"
+msgstr "Podszyj się pod użytkownika"
+
+#: links.py:39
+msgid "Impersonate"
+msgstr ""
+
+#: links.py:44 links.py:48
 msgid "Set password"
 msgstr "Ustaw hasło"
 
-#: settings.py:13
+#: permissions.py:10
+msgid "Impersonate users"
+msgstr "Podszywaj się pod użytkowników"
+
+#: settings.py:15
 msgid ""
 "Controls the mechanism used to authenticated user. Options are: username, "
 "email"
-msgstr "Kontroluje mechanizm uwierzytelniania użytkownika. Opcje: nazwa użytkownika, email"
+msgstr ""
+"Kontroluje mechanizm uwierzytelniania użytkownika. Opcje: nazwa użytkownika,"
+" email"
 
-#: settings.py:20
+#: settings.py:22
 msgid ""
 "Maximum time a user clicking the \"Remember me\" checkbox will remain logged"
 " in. Value is time in seconds."
-msgstr "Maksymalny czas jaki może minąć aby użytkownik zaznaczył pole \"Zapamiętaj mnie\". Wartość podawana w sekundach."
+msgstr ""
+"Maksymalny czas jaki może minąć aby użytkownik zaznaczył pole \"Zapamiętaj "
+"mnie\". Wartość podawana w sekundach."
 
-#: templates/authentication/login.html:11
+#: settings.py:29
+msgid ""
+"Remove the \"Forgot your password?\" link on the login form used to trigger "
+"the password reset."
+msgstr ""
+"Usuń z formularza logowania link do \"Zapomniałeś hasło?\" używany do "
+"resetowania hasła."
+
+#: templates/authentication/app/viewport.html:11
+#, python-format
+msgid ""
+"\n"
+"                Impersonating user \"%(user)s\".\n"
+"            "
+msgstr ""
+
+#: templates/authentication/app/viewport.html:14
+msgid "Click here when finished"
+msgstr "Kliknij tutaj po zakończeniu"
+
+#: templates/authentication/login.html:10
 msgid "Login"
 msgstr "Logowanie"
 
-#: templates/authentication/login.html:26
-#: templates/authentication/login.html:34
+#: templates/authentication/login.html:21
+#: templates/authentication/login.html:30
 msgid "Sign in"
 msgstr "Zaloguj"
 
-#: templates/authentication/login.html:39
+#: templates/authentication/login.html:37
 msgid "Forgot your password?"
 msgstr "Zapomniałeś hasło?"
 
@@ -95,14 +162,15 @@ msgstr "Reset hasła"
 
 #: templates/authentication/password_reset_complete.html:15
 msgid "Password reset complete! Click the link below to login."
-msgstr "Reset hasła wykonano pomyślnie! Kliknij na link poniżej i zaloguj się."
+msgstr ""
+"Reset hasła wykonano pomyślnie! Kliknij na link poniżej i zaloguj się."
 
 #: templates/authentication/password_reset_complete.html:17
 msgid "Login page"
 msgstr "Strona logowania"
 
 #: templates/authentication/password_reset_confirm.html:29
-#: templates/authentication/password_reset_form.html:29 views.py:154
+#: templates/authentication/password_reset_form.html:29 views.py:177
 msgid "Submit"
 msgstr "Wykonaj"
 
@@ -110,53 +178,52 @@ msgstr "Wykonaj"
 msgid "Password reset email sent!"
 msgstr "Wiadomość z nowym hasłem została wysłana!"
 
-#: views.py:74
+#: views.py:86
 msgid "Your password has been successfully changed."
 msgstr "Twoje hasło zostało pomyślnie zmienione."
 
-#: views.py:81
+#: views.py:93
 msgid "Current user password change"
 msgstr "Zmiana hasła użytkownika"
 
-#: views.py:89
+#: views.py:101
 msgid "Changing the password is not allowed for this account."
 msgstr "Dla tego konta zmiana hasła jest zabroniona."
 
-#: views.py:145
+#: views.py:168
 #, python-format
 msgid "Password change request performed on %(count)d user"
 msgstr "Zmieniono hasło dla %(count)d użytkownika"
 
-#: views.py:147
+#: views.py:170
 #, python-format
 msgid "Password change request performed on %(count)d users"
 msgstr "Zmieniono hasła dla %(count)d użytkowników"
 
-#: views.py:156
+#: views.py:179
 msgid "Change user password"
 msgid_plural "Change users passwords"
-msgstr[0] "Zmień hasło użytkownika"
-msgstr[1] "Zmień hasła użytkowników"
-msgstr[2] "Zmień hasła użytkowników"
-msgstr[3] "Zmień hasła użytkowników"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: views.py:166
+#: views.py:189
 #, python-format
 msgid "Change password for user: %s"
 msgstr "Zmień hasło użytkownika: %s"
 
-#: views.py:186
-msgid ""
-"Super user and staff user password reseting is not allowed, use the admin "
-"interface for these cases."
-msgstr "Super user oraz staff user reset nie jest możliwa , należy użyć interfejsu administratora w takich przypadkach."
-
-#: views.py:196
+#: views.py:210
 #, python-format
 msgid "Successful password reset for user: %s."
 msgstr "Hasło użytkownika %s zostało pomyślnie zresetowane."
 
-#: views.py:202
+#: views.py:216
 #, python-format
 msgid "Error reseting password for user \"%(user)s\": %(error)s"
 msgstr "Błąd podczas resetowania hasło użytkownika \" %(user)s \": %(error)s "
+
+#: views.py:278
+#, python-format
+msgid "Impersonate user: %s"
+msgstr ""

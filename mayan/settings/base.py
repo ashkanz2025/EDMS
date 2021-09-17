@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import os
 import sys
 
@@ -23,7 +21,7 @@ if 'revertsettings' in sys.argv:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(MEDIA_ROOT, 'db.sqlite3'),  # NOQA: F821
+            'NAME': os.path.join(MEDIA_ROOT, 'db.sqlite3')  # NOQA: F821
         }
     }
 else:
@@ -34,8 +32,9 @@ environment_secret_key = os.environ.get('MAYAN_SECRET_KEY')
 if environment_secret_key:
     SECRET_KEY = environment_secret_key
 else:
+    SECRET_KEY_PATH = os.path.join(MEDIA_ROOT, SYSTEM_DIR, SECRET_KEY_FILENAME)
     try:
-        with open(os.path.join(MEDIA_ROOT, SYSTEM_DIR, SECRET_KEY_FILENAME)) as file_object:  # NOQA: F821
+        with open(file=SECRET_KEY_PATH) as file_object:  # NOQA: F821
             SECRET_KEY = file_object.read().strip()
     except IOError:
         SECRET_KEY = DEFAULT_SECRET_KEY
@@ -49,7 +48,6 @@ INSTALLED_APPS = (
     'mayan.apps.appearance',
     # Django
     'django.contrib.admin',
-    'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.messages',
@@ -74,6 +72,12 @@ INSTALLED_APPS = (
     'stronghold',
     'widget_tweaks',
     # Base apps
+    # Moved to the top to ensure Mayan app logging is initialized and
+    # available as soon as possible.
+    'mayan.apps.logging',
+    # Task manager goes to the top to ensure all queues are created before any
+    # other app tries to use them.
+    'mayan.apps.task_manager',
     'mayan.apps.acls',
     'mayan.apps.authentication',
     'mayan.apps.autoadmin',
@@ -85,17 +89,24 @@ INSTALLED_APPS = (
     'mayan.apps.dynamic_search',
     'mayan.apps.events',
     'mayan.apps.file_caching',
+    'mayan.apps.locales',
     'mayan.apps.lock_manager',
+    'mayan.apps.messaging',
     'mayan.apps.mimetype',
     'mayan.apps.navigation',
+    'mayan.apps.organizations',
     'mayan.apps.permissions',
     'mayan.apps.platform',
+    'mayan.apps.quotas',
     'mayan.apps.rest_api',
     'mayan.apps.smart_settings',
-    'mayan.apps.task_manager',
+    'mayan.apps.storage',
     'mayan.apps.templating',
+    'mayan.apps.testing',
     'mayan.apps.user_management',
+    'mayan.apps.views',
     # Project apps
+    'mayan.apps.announcements',
     'mayan.apps.motd',
     # Document apps
     'mayan.apps.cabinets',
@@ -106,6 +117,7 @@ INSTALLED_APPS = (
     'mayan.apps.document_signatures',
     'mayan.apps.document_states',
     'mayan.apps.documents',
+    'mayan.apps.duplicates',
     'mayan.apps.file_metadata',
     'mayan.apps.linking',
     'mayan.apps.mailer',
@@ -115,15 +127,14 @@ INSTALLED_APPS = (
     'mayan.apps.ocr',
     'mayan.apps.redactions',
     'mayan.apps.sources',
-    'mayan.apps.storage',
     'mayan.apps.tags',
     'mayan.apps.web_links',
     # Placed after rest_api to allow template overriding
-    'drf_yasg',
+    'drf_yasg'
 )
 
 MIDDLEWARE = (
-    'mayan.apps.common.middleware.error_logging.ErrorLoggingMiddleware',
+    'mayan.apps.logging.middleware.error_logging.ErrorLoggingMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -131,12 +142,13 @@ MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'mayan.apps.authentication.middleware.impersonate.ImpersonateMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'mayan.apps.common.middleware.timezone.TimezoneMiddleware',
+    'mayan.apps.locales.middleware.timezone.TimezoneMiddleware',
     'stronghold.middleware.LoginRequiredMiddleware',
-    'mayan.apps.common.middleware.ajax_redirect.AjaxRedirect',
+    'mayan.apps.common.middleware.ajax_redirect.AjaxRedirect'
 )
 
 ROOT_URLCONF = 'mayan.urls'
@@ -151,14 +163,14 @@ TEMPLATES = [
                 'django.template.context_processors.i18n',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                'django.contrib.messages.context_processors.messages'
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
                 'django.template.loaders.app_directories.Loader'
             ]
-        },
-    },
+        }
+    }
 ]
 
 WSGI_APPLICATION = 'mayan.wsgi.application'
@@ -168,17 +180,17 @@ WSGI_APPLICATION = 'mayan.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'
+    }
 ]
 
 # Internationalization
@@ -226,7 +238,7 @@ LANGUAGES = (
     ('sl', _('Slovenian')),
     ('tr', _('Turkish')),
     ('vi', _('Vietnamese')),
-    ('zh', _('Chinese')),
+    ('zh-hans', _('Chinese (Simplified)'))
 )
 
 SITE_ID = 1
@@ -237,12 +249,12 @@ STATIC_ROOT = os.environ.get(
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'mayan.apps.views.finders.MayanAppDirectoriesFinder'
 )
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-TEST_RUNNER = 'mayan.apps.common.tests.runner.MayanTestRunner'
+TEST_RUNNER = 'mayan.apps.testing.runner.MayanTestRunner'
 
 # ---------- Django REST framework -----------
 
@@ -250,17 +262,16 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.BasicAuthentication'
     ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
+    'DEFAULT_PAGINATION_CLASS': 'mayan.apps.rest_api.pagination.MayanPageNumberPagination'
 }
 
 # --------- Pagination --------
 
 PAGINATION_SETTINGS = {
     'PAGE_RANGE_DISPLAYED': 5,
-    'MARGIN_PAGES_DISPLAYED': 2,
+    'MARGIN_PAGES_DISPLAYED': 2
 }
 
 # ----------- Celery ----------
@@ -272,7 +283,8 @@ CELERY_DISABLE_RATE_LIMITS = True
 CELERY_ENABLE_UTC = True
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_ALWAYS_EAGER = False
-CELERY_TASK_CREATE_MISSING_QUEUES = False
+CELERY_TASK_CREATE_MISSING_QUEUES = True
+CELERY_TASK_DEFAULT_QUEUE = 'celery'
 CELERY_TASK_EAGER_PROPAGATES = True
 CELERY_TASK_QUEUES = []
 CELERY_TASK_ROUTES = {}
@@ -290,19 +302,21 @@ TIMEZONE_SESSION_KEY = 'django_timezone'
 
 # ----- Stronghold -------
 
-STRONGHOLD_PUBLIC_URLS = (r'^/docs/.+$',)
+STRONGHOLD_PUBLIC_URLS = (r'^/favicon\.ico$',)
 
 # ----- Swagger --------
 
 SWAGGER_SETTINGS = {
     'DEFAULT_INFO': 'rest_api.schemas.openapi_info',
     'DEFAULT_MODEL_DEPTH': 1,
-    'DOC_EXPANSION': 'None',
+    'DOC_EXPANSION': 'None'
 }
 
 # ----- AJAX REDIRECT -----
 
 AJAX_REDIRECT_CODE = 278
+
+# ------ End -----
 
 BASE_INSTALLED_APPS = INSTALLED_APPS
 
@@ -338,6 +352,6 @@ if not DATABASES:
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': os.path.join(MEDIA_ROOT, 'db.sqlite3'),  # NOQA: F821
+                'NAME': os.path.join(MEDIA_ROOT, 'db.sqlite3')  # NOQA: F821
             }
         }

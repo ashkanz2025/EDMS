@@ -3,114 +3,241 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Mehdi Amani <MehdiAmani@toorintan.com>, 2017
+# Translators:
+# Roberto Rosario, 2021
+# Mehdi Amani <MehdiAmani@toorintan.com>, 2021
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Mayan EDMS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-16 05:46-0400\n"
-"PO-Revision-Date: 2019-12-22 05:04+0000\n"
-"Last-Translator: Roberto Rosario\n"
-"Language-Team: Persian (http://www.transifex.com/rosarior/mayan-edms/language/fa/)\n"
+"POT-Creation-Date: 2021-08-05 04:46+0000\n"
+"PO-Revision-Date: 2021-04-11 06:13+0000\n"
+"Last-Translator: Mehdi Amani <MehdiAmani@toorintan.com>, 2021\n"
+"Language-Team: Persian (https://www.transifex.com/rosarior/teams/13584/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fa\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: apps.py:11 settings.py:9
+#: apps.py:56 events.py:5 permissions.py:5 settings.py:7
 msgid "Appearance"
 msgstr "ظاهر"
 
-#: dependencies.py:10
+#: dependencies.py:8
 msgid "Lato font"
 msgstr ""
 
-#: dependencies.py:14
+#: dependencies.py:12
 msgid "Bootstrap"
 msgstr "راه انداز خودکار"
 
-#: dependencies.py:18
+#: dependencies.py:16
 msgid "Bootswatch"
 msgstr ""
 
-#: dependencies.py:32
+#: dependencies.py:30
 msgid "Fancybox"
 msgstr ""
 
-#: dependencies.py:36
+#: dependencies.py:34
 msgid "FontAwesome"
 msgstr ""
 
-#: dependencies.py:40
+#: dependencies.py:38
 msgid "jQuery"
 msgstr ""
 
-#: dependencies.py:43
+#: dependencies.py:41
 msgid "JQuery Form"
 msgstr ""
 
-#: dependencies.py:47
+#: dependencies.py:45
 msgid "jQuery Lazy Load"
 msgstr ""
 
-#: dependencies.py:51
+#: dependencies.py:49
 msgid "JQuery Match Height"
 msgstr ""
 
-#: dependencies.py:55
+#: dependencies.py:53
 msgid "Select 2"
 msgstr ""
 
-#: dependencies.py:59
+#: dependencies.py:57
 msgid "Toastr"
 msgstr ""
 
-#: dependencies.py:62
+#: dependencies.py:60
 msgid "URI.js"
 msgstr ""
 
-#: settings.py:14
+#: events.py:8
+msgid "Theme created"
+msgstr ""
+
+#: events.py:11
+msgid "Theme edited"
+msgstr ""
+
+#: links.py:16
+msgid "Theme settings"
+msgstr ""
+
+#: links.py:21
+msgid "Edit theme settings"
+msgstr ""
+
+#: links.py:27 views.py:47
+msgid "Create new theme"
+msgstr ""
+
+#: links.py:32
+msgid "Delete"
+msgstr "حذف"
+
+#: links.py:36
+msgid "Edit"
+msgstr "ویرایش"
+
+#: links.py:40 links.py:45 models.py:29 views.py:111
+msgid "Themes"
+msgstr ""
+
+#: models.py:16
+msgid "A short text describing the theme."
+msgstr ""
+
+#: models.py:17
+msgid "Label"
+msgstr "برچسب"
+
+#: models.py:21
+msgid ""
+"The CSS stylesheet to change the appearance of the different user interface "
+"elements."
+msgstr ""
+
+#: models.py:23
+msgid "Stylesheet"
+msgstr ""
+
+#: models.py:28 models.py:63
+msgid "Theme"
+msgstr ""
+
+#: models.py:59
+msgid "User"
+msgstr "کاربر"
+
+#: models.py:67
+msgid "User theme setting"
+msgstr ""
+
+#: models.py:68
+msgid "User theme settings"
+msgstr ""
+
+#: permissions.py:8
+msgid "Create new themes"
+msgstr ""
+
+#: permissions.py:11
+msgid "Delete themes"
+msgstr ""
+
+#: permissions.py:14
+msgid "Edit themes"
+msgstr ""
+
+#: permissions.py:17
+msgid "View existing themes"
+msgstr ""
+
+#: settings.py:12
 msgid "Maximum number of characters that will be displayed as the view title."
 msgstr ""
 
-#: settings.py:21
+#: settings.py:19
 msgid ""
 "Position where the system message will be displayed. Options are: top-left, "
 "top-center, top-right, bottom-left, bottom-center, bottom-right."
 msgstr ""
 
-#: templates/403.html:5 templates/403.html:9
-msgid "Insufficient permissions"
-msgstr "مجوز ناکافی"
+#: templates/403.html:5 templates/403.html:30
+msgid "Insufficient permission"
+msgstr ""
 
-#: templates/403.html:11
+#: templates/403.html:32
 msgid "You don't have enough permissions for this operation."
 msgstr "مجوزهای لازم برای انجام این عملیات را ندارید."
 
-#: templates/404.html:5 templates/404.html:9
+#: templates/404.html:5 templates/404.html:30
 msgid "Page not found"
 msgstr "صفحه پیدا نشد."
 
-#: templates/404.html:11
-msgid "Sorry, but the requested page could not be found."
-msgstr "متاسفانه صفحه درخواستی پیدا نشد."
+#: templates/404.html:32
+msgid "The requested page could not be found."
+msgstr ""
 
-#: templates/500.html:5 templates/500.html:9 templates/appearance/root.html:55
+#: templates/404.html:40
+msgid "Possible reasons"
+msgstr ""
+
+#: templates/404.html:44
+msgid "The location of the item is incorrect."
+msgstr ""
+
+#: templates/404.html:45
+msgid "The location is correct, but the item no longer exists."
+msgstr ""
+
+#: templates/404.html:46
+msgid ""
+"The location is be correct, but your account does not have the required "
+"permission to access it."
+msgstr ""
+
+#: templates/500.html:5 templates/500.html:30
+#: templates/appearance/root.html:58
 msgid "Server error"
 msgstr "خطای سرور"
 
-#: templates/500.html:11
-msgid ""
-"There's been an error. It's been reported to the site administrators via "
-"e-mail and should be fixed shortly. Thanks for your patience."
-msgstr "یک خطا وجود دارد از طریق پست الکترونیکی به مدیران سایت گزارش شده است و باید به زودی تنظیم شود. از صبر و شکیبایی شما متشکریم"
+#: templates/500.html:32
+msgid "There's been an unexpected error."
+msgstr ""
+
+#: templates/500.html:40
+msgid "What to do next?"
+msgstr ""
+
+#: templates/500.html:44
+msgid "Refresh the page."
+msgstr ""
+
+#: templates/500.html:45
+msgid "Wait a bit. The system might be overloaded."
+msgstr ""
+
+#: templates/500.html:46
+msgid "Contact your system administrator."
+msgstr ""
+
+#: templates/500.html:47
+msgid "Check the logs for messages with the tags \"ERROR\", \"CRITICAL\" or \"FATAL\"."
+msgstr ""
+
+#: templates/500.html:48
+#, python-format
+msgid "Open a ticket using the <a href=\"%(issue_url)s\">issue tracker</a>."
+msgstr ""
 
 #: templates/appearance/about.html:10
 msgid "About"
 msgstr "درباره"
 
-#: templates/appearance/about.html:77
+#: templates/appearance/about.html:73
 #, python-format
 msgid ""
 "\n"
@@ -118,20 +245,20 @@ msgid ""
 "                "
 msgstr ""
 
-#: templates/appearance/about.html:82
+#: templates/appearance/about.html:78
 msgid "Version"
 msgstr "نسخه"
 
-#: templates/appearance/about.html:84
+#: templates/appearance/about.html:80
 #, python-format
 msgid "Build number: %(build_number)s"
 msgstr "شماره ساخت: %(build_number)s"
 
-#: templates/appearance/about.html:97
+#: templates/appearance/about.html:93
 msgid "Released under the license:"
 msgstr ""
 
-#: templates/appearance/about.html:103
+#: templates/appearance/about.html:99
 #, python-format
 msgid ""
 "\n"
@@ -139,38 +266,23 @@ msgid ""
 "            "
 msgstr ""
 
-#: templates/appearance/about.html:109
+#: templates/appearance/about.html:105
 #, python-format
 msgid ""
 "\n"
-"                It takes great effort to make %(project_title)s as feature-rich as it is. We need all the help we can get!\n"
+"                It takes great effort to make %(project_title)s as feature-rich as it is.\n"
 "            "
 msgstr ""
 
-#: templates/appearance/about.html:115
+#: templates/appearance/about.html:111
 #, python-format
 msgid ""
 "\n"
-"                If you use %(project_title)s please <a class=\"new_window\" href=\"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3PXN336XFXQNN\">consider making a donation %(icon_social_paypal)s</a>\n"
+"                If you use %(project_title)s please <a class=\"new_window\" href=\"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3PXN336XFXQNN\">make a donation %(icon_social_paypal)s</a>\n"
 "            "
 msgstr ""
 
-#: templates/appearance/about.html:121
-#, python-format
-msgid ""
-"\n"
-"                You can also <a class=\"new_window\" href=\"https://www.paypal.com/paypalme2/RobertoRosario\">donate directly to the creator and lead developer.  %(icon_social_paypal)s</a>\n"
-"            "
-msgstr ""
-
-#: templates/appearance/about.html:127
-msgid ""
-"\n"
-"                Besides donations you can also support the project by <a class=\"new_window\" href=\"https://sellfy.com/p/um2fkx/\">purchasing a copy of the book \"Exploring Mayan EDMS\" by Roberto Rosario</a>.\n"
-"            "
-msgstr ""
-
-#: templates/appearance/about.html:133
+#: templates/appearance/about.html:117
 #, python-format
 msgid ""
 "\n"
@@ -178,15 +290,15 @@ msgid ""
 "            "
 msgstr ""
 
-#: templates/appearance/about.html:139
+#: templates/appearance/about.html:123
 #, python-format
 msgid ""
 "\n"
-"                For questions check the <a class=\"new_window\" href=\"https://docs.mayan-edms.com\">Documentation %(icon_documentation)s</a> or the <a class=\"new_window\" href=\"https://wiki.mayan-edms.com\">Wiki %(icon_wiki)s</a>.\n"
+"                For questions check the <a class=\"new_window\" href=\"https://docs.mayan-edms.com\">Documentation %(icon_documentation)s</a>.\n"
 "            "
 msgstr ""
 
-#: templates/appearance/about.html:145
+#: templates/appearance/about.html:129
 #, python-format
 msgid ""
 "\n"
@@ -194,39 +306,17 @@ msgid ""
 "            "
 msgstr ""
 
-#: templates/appearance/about.html:150
+#: templates/appearance/about.html:134
 #, python-format
 msgid ""
 "\n"
 "                Spread the word. Talk to your friends and colleagues about how awesome %(project_title)s is!\n"
-"                Follow us on <a class=\"new_window\" href=\"https://twitter.com/mayanedms\">Twitter %(icon_social_twitter)s</a>, <a class=\"new_window\" href=\"https://www.facebook.com/MayanEDMS/\">Facebook %(icon_social_facebook)s</a>, or <a class=\"new_window\" href=\"https://www.instagram.com/mayan_edms/\">Instagram %(icon_social_instagram)s</a>\n"
 "            "
 msgstr ""
 
-#: templates/appearance/base.html:35 templates/appearance/base.html:59
-msgid "Warning"
-msgstr ""
-
-#: templates/appearance/base.html:49
-msgid "Click here to fix this."
-msgstr ""
-
-#: templates/appearance/base.html:59
-msgid ""
-"Settings updated, restart your installation and refresh your browser for "
-"changes to take effect."
-msgstr ""
-
-#: templates/appearance/base.html:72
-#: templates/appearance/generic_list_items_subtemplate.html:66
-msgid "Actions"
-msgstr "عملیات"
-
-#: templates/appearance/base.html:74
-#: templates/appearance/generic_list_items_subtemplate.html:68
-#: templates/appearance/list_toolbar.html:67
-msgid "Toggle Dropdown"
-msgstr "تغییر وضعیت dropdown"
+#: templates/appearance/base.html:71
+msgid "Object"
+msgstr "شیئ"
 
 #: templates/appearance/calculate_form_title.html:10
 msgid "Open main menu"
@@ -238,11 +328,11 @@ msgstr ""
 
 #: templates/appearance/generic_confirm.html:38
 msgid "Yes"
-msgstr "بلی"
+msgstr "بله"
 
 #: templates/appearance/generic_confirm.html:48
 msgid "No"
-msgstr "خیر"
+msgstr "نه"
 
 #: templates/appearance/generic_form_instance.html:51
 #: templates/appearance/generic_form_instance.html:57
@@ -268,9 +358,13 @@ msgstr "ارسال"
 msgid "Cancel"
 msgstr "لغو"
 
-#: templates/appearance/generic_list_subtemplate.html:28
+#: templates/appearance/generic_list_subtemplate.html:29
 msgid "Identifier"
 msgstr "مشخصه Identifier"
+
+#: templates/appearance/generic_list_subtemplate.html:133
+msgid "Facets"
+msgstr ""
 
 #: templates/appearance/home.html:10
 msgid "Dashboard"
@@ -282,23 +376,31 @@ msgstr "شروع کردن"
 
 #: templates/appearance/home.html:29
 msgid "Before you can fully use Mayan EDMS you need the following:"
-msgstr "قبل از اینکه بتوانید به طور کامل از EDMS مایان استفاده کنید، به موارد زیر نیاز دارید:"
+msgstr ""
+"قبل از اینکه بتوانید به طور کامل از EDMS مایان استفاده کنید، به موارد زیر "
+"نیاز دارید:"
 
-#: templates/appearance/list_header.html:11
+#: templates/appearance/list_header.html:12
 #, python-format
 msgid ""
 "Total (%(start)s - %(end)s out of %(total)s) (Page %(page_number)s of "
 "%(total_pages)s)"
-msgstr "مجموع (%(start)s - %(end)s از %(total)s) (صفحه %(page_number)s از %(total_pages)s)"
+msgstr ""
+"مجموع (%(start)s - %(end)s از %(total)s) (صفحه %(page_number)s از "
+"%(total_pages)s)"
 
-#: templates/appearance/list_header.html:13
-#: templates/appearance/list_header.html:16
+#: templates/appearance/list_header.html:14
+#: templates/appearance/list_header.html:17
 #, python-format
 msgid "Total: %(total)s"
 msgstr "مجموع: %(total)s"
 
-#: templates/appearance/list_toolbar.html:16
+#: templates/appearance/list_toolbar.html:13
 msgid "Select/Deselect all"
+msgstr ""
+
+#: templates/appearance/list_toolbar.html:17
+msgid "Toggle list display mode"
 msgstr ""
 
 #: templates/appearance/list_toolbar.html:60
@@ -310,6 +412,10 @@ msgstr ""
 msgid "Bulk actions"
 msgstr ""
 
+#: templates/appearance/list_toolbar.html:67
+msgid "Toggle Dropdown"
+msgstr "تغییر وضعیت dropdown"
+
 #: templates/appearance/menu_topbar.html:11
 msgid "Toggle navigation"
 msgstr "تغییر ناوبری"
@@ -318,18 +424,45 @@ msgstr "تغییر ناوبری"
 msgid "No results"
 msgstr "بی جواب و یا بی جواب"
 
-#: templates/appearance/root.html:60
+#: templates/appearance/root.html:63
 msgid "Close"
 msgstr ""
 
-#: templates/appearance/root.html:68
+#: templates/appearance/root.html:73
 msgid "Server communication error"
 msgstr ""
 
-#: templates/appearance/root.html:70
+#: templates/appearance/root.html:75
 msgid "Check you network connection and try again in a few moments."
 msgstr ""
 
-#: templatetags/appearance_tags.py:17
+#: templatetags/appearance_tags.py:63
 msgid "None"
-msgstr "هیچکدام."
+msgstr "هیچ یک"
+
+#: views.py:29
+msgid "Current user theme settings details"
+msgstr ""
+
+#: views.py:35
+msgid "Edit current user theme settings details"
+msgstr ""
+
+#: views.py:69
+#, python-format
+msgid "Delete theme: %s"
+msgstr ""
+
+#: views.py:85
+#, python-format
+msgid "Edit theme: %s"
+msgstr ""
+
+#: views.py:105
+msgid ""
+"Themes allow changing the visual appearance without requiring code changes."
+msgstr ""
+
+#: views.py:109
+msgid "There are no themes"
+msgstr ""

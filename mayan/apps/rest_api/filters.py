@@ -1,15 +1,10 @@
-from __future__ import absolute_import, unicode_literals
-
-from rest_framework.filters import BaseFilterBackend
+from rest_framework.filters import BaseFilterBackend, OrderingFilter
 
 from mayan.apps.acls.models import AccessControlList
 
 
 class MayanObjectPermissionsFilter(BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
-        # TODO: fix variable name to make it clear it should be a single
-        # permission
-
         required_permissions = getattr(
             view, 'mayan_object_permissions', {}
         ).get(request.method, None)
@@ -21,3 +16,10 @@ class MayanObjectPermissionsFilter(BaseFilterBackend):
             )
         else:
             return queryset
+
+
+class MayanSortingFilter(OrderingFilter):
+    ordering_param = '_ordering'
+
+    def get_default_valid_fields(self, queryset, view, context={}):
+        return ()

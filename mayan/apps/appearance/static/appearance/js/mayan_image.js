@@ -8,7 +8,7 @@ class MayanImage {
 
     static intialize (options) {
         this.options = options || {};
-        this.options.templateInvalidDocument = this.options.templateInvalidDocument || '<span>Error loading document image</span>';
+        this.options.templateInvalidImage = this.options.templateInvalidImage || '<span>Error loading image</span>';
 
         $().fancybox({
             afterShow: function (instance, current) {
@@ -43,19 +43,19 @@ class MayanImage {
         });
 
         $('.lazy-load').one('load', function() {
-            $(this).hide();
-            $(this).show();
-            $(this).siblings('.spinner-container').remove();
-            $(this).removeClass('lazy-load pull-left');
+            const $this = $(this);
+
+            $this.siblings('.spinner-container').remove();
+            $this.removeClass('lazy-load pull-left');
             clearTimeout(MayanImage.timer);
             MayanImage.timer = setTimeout(MayanImage.timerFunction, 250);
         });
 
         $('.lazy-load-carousel').one('load', function() {
-            $(this).hide();
-            $(this).show();
-            $(this).siblings('.spinner-container').remove();
-            $(this).removeClass('lazy-load-carousel pull-left');
+            const $this = $(this);
+
+            $this.siblings('.spinner-container').remove();
+            $this.removeClass('lazy-load-carousel pull-left');
         });
     }
 
@@ -64,12 +64,12 @@ class MayanImage {
     }
 
     load () {
-        var self = this;
-        var container = this.element.parent().parent().parent();
-        var dataURL = this.element.attr('data-url');
+        const self = this;
+        const container = this.element.parent().parent().parent();
+        const dataURL = this.element.attr('data-url');
 
         if (dataURL === '') {
-            container.html(MayanImage.options.templateInvalidDocument);
+            container.html(MayanImage.options.templateInvalidImage);
         } else {
             this.element.attr('src', dataURL);
             setTimeout(function () {
@@ -82,7 +82,7 @@ class MayanImage {
                         this.src = dataURL;
                     } else {
                         container.html(
-                            MayanImage.options.templateInvalidDocument
+                            MayanImage.options.templateInvalidImage
                         );
                     }
                 });
@@ -94,4 +94,3 @@ class MayanImage {
 MayanImage.timer = setTimeout(null);
 
 $.fn.matchHeight._maintainScroll = true;
-

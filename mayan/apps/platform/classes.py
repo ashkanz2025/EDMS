@@ -1,22 +1,29 @@
-from __future__ import absolute_import, unicode_literals
-
 import os
+from pathlib import Path
 
+from django.conf import settings
 from django.template import loader
 from django.template.base import Template
 from django.template.context import Context
-from django.utils.encoding import force_text, python_2_unicode_compatible
+from django.utils.encoding import force_text
 from django.utils.html import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 from mayan.apps.common.serialization import yaml_dump, yaml_load
 from mayan.apps.task_manager.classes import Worker
-from mayan.apps.task_manager.settings import (
-    setting_celery_broker_url, setting_celery_result_backend
+from mayan.settings.literals import (
+    DEFAULT_DATABASE_NAME, DEFAULT_DATABASE_PASSWORD, DEFAULT_DATABASE_USER,
+    DEFAULT_DIRECTORY_INSTALLATION, DEFAULT_USER_SETTINGS_FOLDER,
+    DOCKER_DIND_IMAGE_VERSION, DOCKER_LINUX_IMAGE_VERSION,
+    DOCKER_MYSQL_IMAGE_VERSION, DOCKER_POSTGRES_IMAGE_VERSION,
+    GUNICORN_JITTER, GUNICORN_LIMIT_REQUEST_LINE, GUNICORN_MAX_REQUESTS,
+    GUNICORN_TIMEOUT, GUNICORN_WORKER_CLASS, GUNICORN_WORKERS
 )
 
+from .utils import load_env_file
 
-class Variable(object):
+
+class Variable:
     def __init__(self, name, default, environment_name):
         self.name = name
         self.default = default
@@ -42,8 +49,7 @@ class YAMLVariable(Variable):
         ).replace('...\n', '').replace('\n', '')
 
 
-@python_2_unicode_compatible
-class PlatformTemplate(object):
+class PlatformTemplate:
     _registry = {}
     context = {}
     context_defaults = {}
@@ -67,7 +73,7 @@ class PlatformTemplate(object):
         cls._registry[klass.name] = klass
 
     def __str__(self):
-        return force_text(self.get_label())
+        return force_text(s=self.get_label())
 
     def get_context(self):
         return self.context
@@ -124,68 +130,157 @@ class PlatformTemplate(object):
             )
 
 
+class PlatformTemplateDockerEntrypoint(PlatformTemplate):
+    label = _('Template for entrypoint.sh file inside a Docker image.')
+    name = 'docker_entrypoint'
+
+    def get_context(self):
+        context = load_env_file()
+        context.update({'workers': Worker.all()})
+        return context
+
+
+class PlatformTemplateDockerfile(PlatformTemplate):
+    label = _('Template that generates a Dockerfile file.')
+    name = 'dockerfile'
+
+    def __init__(self):
+        self.variables = (
+            Variable(
+                name='DOCKER_LINUX_IMAGE_VERSION',
+                default=DOCKER_LINUX_IMAGE_VERSION,
+                environment_name='MAYAN_DOCKER_LINUX_IMAGE_VERSION'
+            ),
+        )
+
+
+class PlatformTemplateDockerSupervisord(PlatformTemplate):
+    label = _('Template for Supervisord inside a Docker image.')
+    name = 'docker_supervisord'
+
+    def get_context(self):
+        return {
+            'autorestart': 'false',
+            'shell_path': '/bin/sh',
+            'stderr_logfile': '/dev/fd/2',
+            'stderr_logfile_maxbytes': '0',
+            'stdout_logfile': '/dev/fd/1',
+            'stdout_logfile_maxbytes': '0',
+            'workers': Worker.all()
+        }
+
+
+class PlatformTemplateGitLabCI(PlatformTemplate):
+    label = _('Template that generates a GitLab CI config file.')
+    name = 'gitlab-ci'
+
+    def __init__(self):
+        self.variables = (
+            Variable(
+                name='DEFAULT_DATABASE_NAME',
+                default=DEFAULT_DATABASE_NAME,
+                environment_name='MAYAN_DEFAULT_DATABASE_NAME'
+            ),
+            Variable(
+                name='DEFAULT_DATABASE_PASSWORD',
+                default=DEFAULT_DATABASE_PASSWORD,
+                environment_name='MAYAN_DEFAULT_DATABASE_PASSWORD'
+            ),
+            Variable(
+                name='DEFAULT_DATABASE_USER',
+                default=DEFAULT_DATABASE_USER,
+                environment_name='MAYAN_DEFAULT_DATABASE_USER'
+            ),
+            Variable(
+                name='DOCKER_DIND_IMAGE_VERSION',
+                default=DOCKER_DIND_IMAGE_VERSION,
+                environment_name='MAYAN_DOCKER_DIND_IMAGE_VERSION'
+            ),
+            Variable(
+                name='DOCKER_LINUX_IMAGE_VERSION',
+                default=DOCKER_LINUX_IMAGE_VERSION,
+                environment_name='MAYAN_DOCKER_LINUX_IMAGE_VERSION'
+            ),
+            Variable(
+                name='DOCKER_MYSQL_IMAGE_VERSION',
+                default=DOCKER_MYSQL_IMAGE_VERSION,
+                environment_name='MAYAN_DOCKER_MYSQL_IMAGE_VERSION'
+            ),
+            Variable(
+                name='DOCKER_POSTGRES_IMAGE_VERSION',
+                default=DOCKER_POSTGRES_IMAGE_VERSION,
+                environment_name='MAYAN_DOCKER_POSTGRES_IMAGE_VERSION'
+            ),
+        )
+
+
 class PlatformTemplateSupervisord(PlatformTemplate):
     label = _('Template for Supervisord.')
     name = 'supervisord'
-    settings = (
-        setting_celery_broker_url, setting_celery_result_backend
-    )
-    variables = (
-        Variable(
-            name='GUNICORN_WORKERS', default=2,
-            environment_name='MAYAN_GUNICORN_WORKERS'
-        ),
-        Variable(
-            name='GUNICORN_TIMEOUT', default=120,
-            environment_name='MAYAN_GUNICORN_TIMEOUT'
-        ),
-        Variable(
-            name='INSTALLATION_PATH', default='/opt/mayan-edms',
-            environment_name='MAYAN_INSTALLATION_PATH'
-        ),
-        YAMLVariable(
-            name='ALLOWED_HOSTS',
-            default=['*'],
-            environment_name='MAYAN_ALLOWED_HOSTS'
-        ),
-        YAMLVariable(
-            name='CELERY_BROKER_URL',
-            default='redis://127.0.0.1:6379/0',
-            environment_name='MAYAN_CELERY_BROKER_URL'
-        ),
-        YAMLVariable(
-            name='CELERY_RESULT_BACKEND',
-            default='redis://127.0.0.1:6379/1',
-            environment_name='MAYAN_CELERY_RESULT_BACKEND'
-        ),
-        YAMLVariable(
-            name='DATABASES',
-            default={
-                'default': {
-                    'ENGINE': 'django.db.backends.postgresql',
-                    'NAME': 'mayan', 'PASSWORD': 'mayanuserpass',
-                    'USER': 'mayan', 'HOST': '127.0.0.1'
-                }
-            },
-            environment_name='MAYAN_DATABASES'
-        ),
-        YAMLVariable
-        (
-            name='MEDIA_ROOT', default='/opt/mayan-edms/media',
-            environment_name='MAYAN_MEDIA_ROOT'
-        ),
-    )
+
+    def __init__(self):
+        self.variables = (
+            Variable(
+                name='GUNICORN_JITTER',
+                default=GUNICORN_JITTER,
+                environment_name='MAYAN_GUNICORN_JITTER'
+            ),
+            Variable(
+                name='GUNICORN_LIMIT_REQUEST_LINE',
+                default=GUNICORN_LIMIT_REQUEST_LINE,
+                environment_name='MAYAN_GUNICORN_GUNICORN_LIMIT_REQUEST_LINE'
+            ),
+            Variable(
+                name='GUNICORN_MAX_REQUESTS',
+                default=GUNICORN_MAX_REQUESTS,
+                environment_name='MAYAN_GUNICORN_MAX_REQUESTS'
+            ),
+            Variable(
+                name='GUNICORN_TIMEOUT',
+                default=GUNICORN_TIMEOUT,
+                environment_name='MAYAN_GUNICORN_TIMEOUT'
+            ),
+            Variable(
+                name='GUNICORN_WORKER_CLASS',
+                default=GUNICORN_WORKER_CLASS,
+                environment_name='MAYAN_GUNICORN_WORKER_CLASS'
+            ),
+            Variable(
+                name='GUNICORN_WORKERS',
+                default=GUNICORN_WORKERS,
+                environment_name='MAYAN_GUNICORN_WORKERS'
+            ),
+            Variable(
+                name='GUNICORN_TIMEOUT',
+                default=GUNICORN_TIMEOUT,
+                environment_name='MAYAN_GUNICORN_TIMEOUT'
+            ),
+            Variable(
+                name='INSTALLATION_PATH', default=DEFAULT_DIRECTORY_INSTALLATION,
+                environment_name='MAYAN_INSTALLATION_PATH'
+            ),
+            Variable(
+                name='USER_SETTINGS_FOLDER',
+                default=DEFAULT_USER_SETTINGS_FOLDER,
+                environment_name='MAYAN_USER_SETTINGS_FOLDER'
+            ),
+            YAMLVariable(
+                name='MEDIA_ROOT', default=settings.MEDIA_ROOT,
+                environment_name='MAYAN_MEDIA_ROOT'
+            ),
+        )
 
     def get_context(self):
-        return {'workers': Worker.all()}
+        *_, user_settings_folder, media_root = self.variables
 
-
-class PlatformTemplateSupervisordDocker(PlatformTemplate):
-    label = _('Template for Supervisord inside a Docker image.')
-    name = 'supervisord_docker'
-
-    def get_context(self):
-        return {'workers': Worker.all()}
+        return {
+            'autorestart': 'true',
+            'shell_path': '/bin/sh',
+            'user_settings_folder': Path(
+                media_root.get_value()
+            ) / user_settings_folder.get_value(),
+            'workers': Worker.all(),
+        }
 
 
 class PlatformTemplateWorkerQueues(PlatformTemplate):
@@ -201,7 +296,10 @@ class PlatformTemplateWorkerQueues(PlatformTemplate):
 
     def get_context(self):
         worker_name = self.get_variables_context().get('WORKER_NAME')
-        queues = Worker.get(name=worker_name).queues
+        try:
+            queues = Worker.get(name=worker_name).queues
+        except KeyError:
+            raise KeyError('Worker name "{}" not found.'.format(worker_name))
 
         return {
             'queues': queues, 'queue_names': sorted(
@@ -210,6 +308,9 @@ class PlatformTemplateWorkerQueues(PlatformTemplate):
         }
 
 
+PlatformTemplate.register(klass=PlatformTemplateDockerEntrypoint)
+PlatformTemplate.register(klass=PlatformTemplateDockerfile)
+PlatformTemplate.register(klass=PlatformTemplateDockerSupervisord)
+PlatformTemplate.register(klass=PlatformTemplateGitLabCI)
 PlatformTemplate.register(klass=PlatformTemplateSupervisord)
-PlatformTemplate.register(klass=PlatformTemplateSupervisordDocker)
 PlatformTemplate.register(klass=PlatformTemplateWorkerQueues)

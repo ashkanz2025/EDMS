@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
 export DEBIAN_FRONTEND=noninteractive
-TEST_ARGUMENT=${@:-"--mayan-apps"}
+TEST_ARGUMENT=${@:-"--mayan-apps --no-exclude"}
 
 apt-get update
 apt-get install -y --no-install-recommends gcc python3-dev tesseract-ocr-deu
