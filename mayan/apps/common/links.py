@@ -61,7 +61,7 @@ link_store = Link(
     url='https://teespring.com/stores/mayan-edms'
 )
 link_support = Link(
-    icon_class=icon_support, tags='new_window', text=_('Support'),
+    icon_class=icon_support, tags='new_window', text=_('Get support'),
     url='http://www.mayan-edms.com/support/'
 )
 link_tools = Link(
