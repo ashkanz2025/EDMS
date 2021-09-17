@@ -81,7 +81,7 @@ link_source_code = Link(
 )
 link_support = Link(
     icon_class=icon_support, tags='new_window', text=_('Support'),
-    url='http://www.mayan-edms.com/providers/'
+    url='http://www.mayan-edms.com/support/'
 )
 link_tools = Link(
     icon_class=icon_tools, text=_('Tools'), view='common:tools_list'
