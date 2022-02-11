@@ -136,7 +136,7 @@ class PopplerParser(Parser):
             command.append('-f')
             command.append(str(page_number))
             command.append('-l')
-            command.append(str(page_number))https://gitlab.com/mayan-edms/mayan-edms/-/issues/957
+            command.append(str(page_number))
             command.append(temporary_file_object.name)
             command.append('-')
 
