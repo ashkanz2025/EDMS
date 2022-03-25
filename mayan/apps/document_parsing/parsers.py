@@ -7,6 +7,7 @@ from django.apps import apps
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 
+from mayan.apps.converter.literals import CONVERTER_OFFICE_FILE_MIMETYPES
 from mayan.apps.storage.utils import NamedTemporaryFile
 
 from .exceptions import ParserError
@@ -162,6 +163,6 @@ class PopplerParser(Parser):
 
 
 Parser.register(
-    mimetypes=('application/pdf',),
+    mimetypes=CONVERTER_OFFICE_FILE_MIMETYPES,
     parser_classes=(PopplerParser,)
 )
