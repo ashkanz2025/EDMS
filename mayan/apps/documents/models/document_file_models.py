@@ -307,9 +307,13 @@ class DocumentFile(
                                 fsrc=pdf_file_object, fdst=file_object
                             )
 
-                        return self.cache_partition.get_file(filename=cache_filename).open()
+                        with self.cache_partition.get_file(filename=cache_filename).open() as cache_file_object:
+                            tmp_file_object = cache_file_object
+                        return tmp_file_object.open()
             except InvalidOfficeFormat:
-                return self.open()
+                with self.open() as cache_file_object:
+                    tmp_file_object = cache_file_object
+                return tmp_file_object.open()
             except Exception as exception:
                 logger.error(
                     'Error creating intermediate file "%s"; %s.',
@@ -326,7 +330,9 @@ class DocumentFile(
                 raise exception
         else:
             logger.debug('Intermediate file found.')
-            return cache_file.open()
+            with cache_file.open() as cache_file_object:
+                tmp_file_object = cache_file_object
+            return tmp_file_object.open()
 
     def get_label(self):
         return self.filename
