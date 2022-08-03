@@ -7,6 +7,7 @@ from django.apps import apps
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 
+from mayan.apps.mimetype.api import get_mimetype
 from mayan.apps.storage.utils import NamedTemporaryFile
 
 from .exceptions import ParserError
@@ -23,31 +24,33 @@ class Parser:
 
     @classmethod
     def parse_document_file_page(cls, document_file_page):
-        for parser_class in cls._registry.get(document_file_page.document_file.mimetype, ()):
-            try:
-                parser = parser_class()
-                parser.process_document_file_page(document_file_page)
-            except ParserError:
-                # If parser raises error, try next parser in the list
-                pass
-            else:
-                # If parser was successfull there is no need to try
-                # others in the list for this mimetype
-                return
+        with document_file_page.document_file.get_intermediate_file() as file_object:
+            for parser_class in cls._registry.get(get_mimetype(file_object=file_object, mimetype_only=True)[0], ()):
+                try:
+                   parser = parser_class()
+                   parser.process_document_file_page(document_file_page)
+                except ParserError:
+                    # If parser raises error, try next parser in the list
+                    pass
+                else:
+                    # If parser was successfull there is no need to try
+                    # others in the list for this mimetype
+                    return
 
     @classmethod
     def parse_document_file(cls, document_file):
-        for parser_class in cls._registry.get(document_file.mimetype, ()):
-            try:
-                parser = parser_class()
-                parser.process_document_file(document_file)
-            except ParserError:
-                # If parser raises error, try next parser in the list
-                pass
-            else:
-                # If parser was successfull there is no need to try
-                # others in the list for this mimetype
-                return
+        with document_file.get_intermediate_file() as file_object:
+            for parser_class in cls._registry.get(get_mimetype(file_object=file_object, mimetype_only=True)[0], ()):
+                try:
+                    parser = parser_class()
+                    parser.process_document_file(document_file)
+                except ParserError:
+                    # If parser raises error, try next parser in the list
+                    pass
+                else:
+                    # If parser was successfull there is no need to try
+                    # others in the list for this mimetype
+                    return
 
     @classmethod
     def register(cls, mimetypes, parser_classes):
