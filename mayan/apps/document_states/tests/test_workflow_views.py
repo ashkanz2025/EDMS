@@ -10,7 +10,7 @@ from ..models import Workflow
 from ..permissions import (
     permission_workflow_template_create, permission_workflow_template_delete,
     permission_workflow_template_edit, permission_workflow_template_view,
-    permission_workflow_tools
+    permission_workflow_launch
 )
 
 from .literals import TEST_WORKFLOW_TEMPLATE_LABEL
@@ -336,7 +336,7 @@ class DocumentWorkflowTemplateViewTestCase(
         self._create_test_document_stub()
 
         self.grant_access(
-            obj=self._test_document, permission=permission_workflow_tools
+            obj=self._test_document, permission=permission_workflow_launch
         )
 
         workflow_instance_count = self._test_document.workflows.count()
@@ -358,7 +358,7 @@ class DocumentWorkflowTemplateViewTestCase(
 
         self.grant_access(
             obj=self._test_workflow_template,
-            permission=permission_workflow_tools
+            permission=permission_workflow_launch
         )
 
         workflow_instance_count = self._test_document.workflows.count()
@@ -379,11 +379,11 @@ class DocumentWorkflowTemplateViewTestCase(
         self._create_test_document_stub()
 
         self.grant_access(
-            obj=self._test_document, permission=permission_workflow_tools
+            obj=self._test_document, permission=permission_workflow_launch
         )
         self.grant_access(
             obj=self._test_workflow_template,
-            permission=permission_workflow_tools
+            permission=permission_workflow_launch
         )
 
         workflow_instance_count = self._test_document.workflows.count()
@@ -411,11 +411,11 @@ class DocumentWorkflowTemplateViewTestCase(
         self._create_test_document_stub()
 
         self.grant_access(
-            obj=self._test_document, permission=permission_workflow_tools
+            obj=self._test_document, permission=permission_workflow_launch
         )
         self.grant_access(
             obj=self._test_workflow_template,
-            permission=permission_workflow_tools
+            permission=permission_workflow_launch
         )
 
         workflow_instance_count = self._test_document.workflows.count()
@@ -988,7 +988,7 @@ class WorkflowTemplateDocumentViewTestCase(
     def test_workflows_launch_view_with_permission(self):
         self.grant_access(
             obj=self._test_workflow_template,
-            permission=permission_workflow_tools
+            permission=permission_workflow_launch
         )
 
         workflow_instance_count = self._test_document.workflows.count()
@@ -1016,7 +1016,7 @@ class WorkflowTemplateDocumentViewTestCase(
     def test_trashed_document_workflows_launch_view_with_permission(self):
         self.grant_access(
             obj=self._test_workflow_template,
-            permission=permission_workflow_tools
+            permission=permission_workflow_launch
         )
 
         workflow_instance_count = self._test_document.workflows.count()
@@ -1066,7 +1066,7 @@ class WorkflowToolViewTestCase(
         self.assertEqual(events.count(), 0)
 
     def test_tool_launch_workflows_view_with_permission(self):
-        self.grant_permission(permission=permission_workflow_tools)
+        self.grant_permission(permission=permission_workflow_launch)
 
         workflow_instance_count = self._test_document.workflows.count()
 
@@ -1091,7 +1091,7 @@ class WorkflowToolViewTestCase(
         self.assertEqual(events[0].verb, event_workflow_instance_created.id)
 
     def test_trashed_document_tool_launch_workflows_view_with_permission(self):
-        self.grant_permission(permission=permission_workflow_tools)
+        self.grant_permission(permission=permission_workflow_launch)
 
         workflow_instance_count = self._test_document.workflows.count()
 

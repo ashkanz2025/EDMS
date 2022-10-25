@@ -11,7 +11,7 @@ from mayan.apps.rest_api.relations import (
 from mayan.apps.user_management.serializers import UserSerializer
 
 from ..models import WorkflowInstance, WorkflowInstanceLogEntry
-from ..permissions import permission_workflow_tools
+from ..permissions import permission_workflow_launch
 
 from .workflow_template_serializers import WorkflowTemplateSerializer
 from .workflow_template_state_serializers import WorkflowTemplateStateSerializer
@@ -22,7 +22,7 @@ class WorkflowInstanceLaunchSerializer(serializers.Serializer):
     workflow_template_id = FilteredPrimaryKeyRelatedField(
         help_text=_(
             'Primary key of the workflow template to launch.'
-        ), source_permission=permission_workflow_tools
+        ), source_permission=permission_workflow_launch
     )
 
     def get_workflow_template_id_queryset(self):

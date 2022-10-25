@@ -24,6 +24,6 @@ permission_workflow_template_view = namespace.add_permission(
 permission_workflow_instance_transition = namespace.add_permission(
     name='workflow_transition', label=_('Transition workflow instances')
 )
-permission_workflow_tools = namespace.add_permission(
-    name='workflow_tools', label=_('Execute workflow tools')
+permission_workflow_launch = namespace.add_permission(
+    name='workflow_tools', label=_('Launch new workflows')
 )

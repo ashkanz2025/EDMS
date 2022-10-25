@@ -73,7 +73,7 @@ from .links import (
 )
 from .permissions import (
     permission_workflow_template_delete, permission_workflow_template_edit,
-    permission_workflow_tools, permission_workflow_instance_transition,
+    permission_workflow_launch, permission_workflow_instance_transition,
     permission_workflow_template_view
 )
 
@@ -225,13 +225,13 @@ class DocumentStatesApp(MayanAppConfig):
             model=Document, permissions=(
                 permission_workflow_instance_transition,
                 permission_workflow_template_view,
-                permission_workflow_tools
+                permission_workflow_launch
             )
         )
         ModelPermission.register(
             model=Workflow, permissions=(
                 permission_error_log_entry_view, permission_workflow_template_delete,
-                permission_workflow_template_edit, permission_workflow_tools,
+                permission_workflow_template_edit, permission_workflow_launch,
                 permission_workflow_instance_transition,
                 permission_workflow_template_view
             )

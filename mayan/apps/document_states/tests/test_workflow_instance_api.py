@@ -10,7 +10,7 @@ from ..events import (
 )
 from ..permissions import (
     permission_workflow_instance_transition,
-    permission_workflow_template_view, permission_workflow_tools
+    permission_workflow_template_view, permission_workflow_launch
 )
 
 from .literals import TEST_WORKFLOW_INSTANCE_LOG_ENTRY_EXTRA_DATA
@@ -560,7 +560,7 @@ class WorkflowInstanceLaunchAPIViewTestCase(
 
     def test_workflow_instance_api_view_with_document_access(self):
         self.grant_access(
-            obj=self._test_document, permission=permission_workflow_tools
+            obj=self._test_document, permission=permission_workflow_launch
         )
 
         test_document_workflow_instance_count = self._test_document.workflows.count()
@@ -588,7 +588,7 @@ class WorkflowInstanceLaunchAPIViewTestCase(
     def test_workflow_instance_api_view_with_workflow_template_access(self):
         self.grant_access(
             obj=self._test_workflow_template,
-            permission=permission_workflow_tools
+            permission=permission_workflow_launch
         )
 
         test_document_workflow_instance_count = self._test_document.workflows.count()
@@ -615,11 +615,11 @@ class WorkflowInstanceLaunchAPIViewTestCase(
 
     def test_workflow_instance_api_view_with_full_access(self):
         self.grant_access(
-            obj=self._test_document, permission=permission_workflow_tools
+            obj=self._test_document, permission=permission_workflow_launch
         )
         self.grant_access(
             obj=self._test_workflow_template,
-            permission=permission_workflow_tools
+            permission=permission_workflow_launch
         )
 
         test_document_workflow_instance_count = self._test_document.workflows.count()
