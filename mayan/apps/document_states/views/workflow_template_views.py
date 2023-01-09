@@ -29,7 +29,7 @@ from ..links import link_workflow_template_create
 from ..models import Workflow
 from ..permissions import (
     permission_workflow_template_create, permission_workflow_template_delete,
-    permission_workflow_template_edit, permission_workflow_tools,
+    permission_workflow_template_edit, permission_workflow_launch,
     permission_workflow_template_view
 )
 from ..tasks import (
@@ -84,7 +84,7 @@ class DocumentWorkflowTemplatesLaunchView(MultipleObjectFormActionView):
         '%(exception)s'
     )
     form_class = WorkflowMultipleSelectionForm
-    object_permission = permission_workflow_tools
+    object_permission = permission_workflow_launch
     pk_url_kwarg = 'document_id'
     source_queryset = Document.valid.all()
     success_message_single = _(
@@ -121,7 +121,7 @@ class DocumentWorkflowTemplatesLaunchView(MultipleObjectFormActionView):
 
         result = {
             'help_text': _('Workflows to be launched.'),
-            'permission': permission_workflow_tools,
+            'permission': permission_workflow_launch,
             'queryset': workflows_union,
             'user': self.request.user
         }
@@ -130,7 +130,7 @@ class DocumentWorkflowTemplatesLaunchView(MultipleObjectFormActionView):
 
     def object_action(self, form, instance):
         workflow_queryset = AccessControlList.objects.restrict_queryset(
-            permission=permission_workflow_tools,
+            permission=permission_workflow_launch,
             queryset=form.cleaned_data['workflows'], user=self.request.user
         )
 
@@ -242,7 +242,7 @@ class WorkflowTemplateDocumentTypeAddRemoveView(AddRemoveView):
 
 class WorkflowTemplateLaunchView(ExternalObjectViewMixin, ConfirmView):
     external_object_class = Workflow
-    external_object_permission = permission_workflow_tools
+    external_object_permission = permission_workflow_launch
     external_object_pk_url_kwarg = 'workflow_template_id'
     view_icon = icon_workflow_template_launch
 
@@ -316,7 +316,7 @@ class ToolLaunchWorkflows(ConfirmView):
         )
     }
     view_icon = icon_tool_launch_workflows
-    view_permission = permission_workflow_tools
+    view_permission = permission_workflow_launch
 
     def view_action(self):
         task_launch_all_workflows.apply_async(

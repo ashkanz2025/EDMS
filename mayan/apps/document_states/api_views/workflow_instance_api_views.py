@@ -6,7 +6,7 @@ from mayan.apps.rest_api import generics
 
 from ..permissions import (
     permission_workflow_instance_transition,
-    permission_workflow_template_view, permission_workflow_tools
+    permission_workflow_template_view, permission_workflow_launch
 )
 from ..serializers.workflow_instance_serializers import (
     WorkflowInstanceLaunchSerializer, WorkflowInstanceSerializer,
@@ -21,7 +21,7 @@ class APIWorkflowInstanceLaunchActionView(generics.ObjectActionAPIView):
     """
     lookup_url_kwarg = 'document_id'
     mayan_object_permissions = {
-        'POST': (permission_workflow_tools,)
+        'POST': (permission_workflow_launch,)
     }
     serializer_class = WorkflowInstanceLaunchSerializer
     queryset = Document.valid.all()

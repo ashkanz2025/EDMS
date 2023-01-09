@@ -40,7 +40,7 @@ from .icons import (
 )
 from .permissions import (
     permission_workflow_template_create, permission_workflow_template_delete,
-    permission_workflow_template_edit, permission_workflow_tools,
+    permission_workflow_template_edit, permission_workflow_launch,
     permission_workflow_template_view
 )
 
@@ -84,7 +84,7 @@ link_workflow_template_edit = Link(
 link_workflow_template_launch = Link(
     args='resolved_object.pk',
     icon=icon_workflow_template_launch,
-    permissions=(permission_workflow_tools,),
+    permissions=(permission_workflow_launch,),
     text=_('Launch workflow'),
     view='document_states:workflow_template_launch'
 )
@@ -236,7 +236,7 @@ link_document_multiple_workflow_templates_launch = Link(
 link_document_single_workflow_templates_launch = Link(
     args='resolved_object.pk',
     icon=icon_document_workflow_templates_launch,
-    permissions=(permission_workflow_tools,), text=_('Launch workflows'),
+    permissions=(permission_workflow_launch,), text=_('Launch workflows'),
     view='document_states:document_single_workflow_templates_launch'
 )
 link_workflow_template_transition_field_create = Link(
@@ -322,7 +322,7 @@ link_workflow_runtime_proxy_state_list = Link(
 
 link_tool_launch_workflows = Link(
     icon=icon_tool_launch_workflows,
-    permissions=(permission_workflow_tools,),
+    permissions=(permission_workflow_launch,),
     text=_('Launch all workflows'),
     view='document_states:tool_launch_workflows'
 )
