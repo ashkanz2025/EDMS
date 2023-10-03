@@ -18,4 +18,4 @@ fi
 if [ "$#" -gt 0 ]; then
     shift
 fi
-su mayan --command "nice -n ${MAYAN_WORKER_NICE_LEVEL} ${MAYAN_PYTHON_BIN_DIR}celery -A mayan worker --loglevel=${MAYAN_WORKER_LOG_LEVEL} -Ofair --queues=${MAYAN_QUEUE_LIST} ${@}"
+su mayan --command "nice -n ${MAYAN_WORKER_NICE_LEVEL} ${MAYAN_PYTHON_BIN_DIR}celery -A mayan worker --loglevel=${MAYAN_WORKER_LOG_LEVEL} -Ofair --queues=${MAYAN_QUEUE_LIST} ${*}"
